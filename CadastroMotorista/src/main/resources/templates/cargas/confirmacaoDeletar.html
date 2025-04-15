@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Confirmar Deleção</title>
+</head>
+<body>
+<h1>Tem certeza que deseja excluir esta carga?</h1>
+<form th:action="@{/cargas/deletar/{id}(id=${carga.id})}" method="get">
+    <button type="submit">Sim, excluir</button>
+    <a href="/cargas/listar">Não, voltar</a>
+</form>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Listar Cargas</title>
+</head>
+<body>
+<h1>Listar Cargas</h1>
+
+<!-- Formulário de filtro -->
+<form th:action="@{/cargas/listar}" method="get">
+    <div>
+        <label for="origem">Origem:</label>
+        <input type="text" id="origem" name="origem" th:value="${origem}" />
+    </div>
+    <div>
+        <label for="destino">Destino:</label>
+        <input type="text" id="destino" name="destino" th:value="${destino}" />
+    </div>
+    <div>
+        <label for="produto">Produto:</label>
+        <input type="text" id="produto" name="produto" th:value="${produto}" />
+    </div>
+    <div>
+        <label for="especie">Espécie:</label>
+        <input type="text" id="especie" name="especie" th:value="${especie}" />
+    </div>
+    <div>
+        <button type="submit">Filtrar</button>
+    </div>
+</form>
+
+<a href="/cargas/novo">Nova Carga</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Origem</th>
+        <th>Destino</th>
+        <th>Produto</th>
+        <th>Preço</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="carga : ${cargas}">
+        <td th:text="${carga.id}"></td>
+        <td th:text="${carga.origem}"></td>
+        <td th:text="${carga.destino}"></td>
+        <td th:text="${carga.produto}"></td>
+        <td th:text="${carga.preco}"></td>
+        <td>
+            <a th:href="@{/cargas/editar/{id}(id=${carga.id})}">Editar</a> |
+            <a th:href="@{/cargas/deletar/{id}(id=${carga.id})}" onclick="return confirm('Tem certeza que deseja excluir?');">Deletar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

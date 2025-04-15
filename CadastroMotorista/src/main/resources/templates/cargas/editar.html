@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Editar Carga</title>
+</head>
+<body>
+<h1>Editar Carga</h1>
+<form th:action="@{/cargas/salvar}" th:object="${carga}" method="post">
+    <div>
+        <label for="origem">Origem:</label>
+        <input type="text" id="origem" th:field="*{origem}" required/>
+    </div>
+    <div>
+        <label for="destino">Destino:</label>
+        <input type="text" id="destino" th:field="*{destino}" required/>
+    </div>
+    <div>
+        <label for="produto">Produto:</label>
+        <input type="text" id="produto" th:field="*{produto}" required/>
+    </div>
+    <div>
+        <label for="especie">Espécie:</label>
+        <input type="text" id="especie" th:field="*{especie}" required/>
+    </div>
+    <div>
+        <label for="veiculo">Veículo:</label>
+        <input type="text" id="veiculo" th:field="*{veiculo}" required/>
+    </div>
+    <div>
+        <label for="preco">Preço:</label>
+        <input type="text" id="preco" th:field="*{preco}" required/>
+    </div>
+    <div>
+        <button type="submit">Salvar</button>
+    </div>
+</form>
+<a href="/cargas/listar">Voltar para lista</a>
+</body>
+</html>

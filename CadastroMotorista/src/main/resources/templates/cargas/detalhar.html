@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detalhar Carga</title>
+</head>
+<body>
+<h1>Detalhar Carga</h1>
+
+<div>
+    <p><strong>ID:</strong> <span th:text="${carga.id}"></span></p>
+    <p><strong>Origem:</strong> <span th:text="${carga.origem}"></span></p>
+    <p><strong>Destino:</strong> <span th:text="${carga.destino}"></span></p>
+    <p><strong>Produto:</strong> <span th:text="${carga.produto}"></span></p>
+    <p><strong>Espécie:</strong> <span th:text="${carga.especie}"></span></p>
+    <p><strong>Veículo:</strong> <span th:text="${carga.veiculo}"></span></p>
+    <p><strong>Preço:</strong> <span th:text="${carga.preco}"></span></p>
+</div>
+
+<a href="/cargas/listar">Voltar para lista</a>
+</body>
+</html>
