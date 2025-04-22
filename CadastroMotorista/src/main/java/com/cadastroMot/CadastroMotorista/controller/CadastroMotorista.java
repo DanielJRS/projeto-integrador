@@ -7,5 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
     @RequestMapping("/cadastroMotorista")
 
     public class CadastroMotorista {
+        /*alguma coisa*/
 
     }

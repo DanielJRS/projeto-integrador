@@ -40,7 +40,22 @@ public class CargaService {
     }
 
 
-    public List<Carga> buscarPorFiltro(String origem, String destino, String produto) {
-        return cargaRepository.findByOrigemAndDestinoAndProduto(origem, destino, produto);
+    public List<Carga> buscarPorFiltro(String origem, String destino, String produto, String especie) {
+        if (origem != null && !origem.isEmpty()) {
+            if (destino != null && !destino.isEmpty()) {
+                if (produto != null && !produto.isEmpty()) {
+                    if (especie != null && !especie.isEmpty()) {
+                        return cargaRepository.findByOrigemAndDestinoAndProdutoAndEspecie(origem, destino, produto, especie);
+                    }
+                    return cargaRepository.findByOrigemAndDestinoAndProduto(origem, destino, produto);
+                } else {
+                    return cargaRepository.findByOrigemAndDestino(origem, destino);
+                }
+            } else {
+                return cargaRepository.findByOrigem(origem);
+            }
+        }
+        return cargaRepository.findAll(); // Caso nenhum filtro seja aplicado
     }
+
 }

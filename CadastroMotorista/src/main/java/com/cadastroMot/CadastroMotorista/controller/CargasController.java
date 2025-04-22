@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/cargas")
 public class CargasController {
@@ -17,8 +19,22 @@ public class CargasController {
 
 
     @GetMapping("/listar")
-    public String listarCargas(Model model) {
-        model.addAttribute("cargas", cargaService.listarTodos());
+    public String listarCargas(@RequestParam(required = false) String origem,
+                               @RequestParam(required = false) String destino,
+                               @RequestParam(required = false) String produto,
+                               @RequestParam(required = false) String especie,
+                               Model model) {
+        List<Carga> cargas;
+        if (origem != null || destino != null || produto != null || especie != null) {
+            cargas = cargaService.buscarPorFiltro(origem, destino, produto, especie);
+        } else {
+            cargas = cargaService.listarTodos();
+        }
+        model.addAttribute("cargas", cargas);
+        model.addAttribute("origem", origem);
+        model.addAttribute("destino", destino);
+        model.addAttribute("produto", produto);
+        model.addAttribute("especie", especie);
         return "/cargas/listar";
     }
 
