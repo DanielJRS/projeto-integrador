@@ -17,28 +17,29 @@ import java.io.IOException;
 @Controller
     @RequestMapping("/motoristas")
 
-    public class Motoristas {
+    public class MotoristaController {
 
         private final MotoristaService motoristaService;
 
         @Autowired
-        public Motoristas(MotoristaService motoristaService){
+        public MotoristaController(MotoristaService motoristaService){
             this.motoristaService = motoristaService;
         }
 
         @GetMapping("/")
         public String index (){
+
             return "index";
         };
 
         @GetMapping("/novo")
         public String formulario (Model model) {
             model.addAttribute("motorista", new Motorista());
-            return "formulario-motorista";
+            return "/motoristas/formulario-motorista";
         }
 
     @PostMapping("/salvar")
-    public String salvar(@Valid Motorista motorista, @RequestParam("arquivoFoto") MultipartFile arquivoFoto) throws IOException {
+    public String salvar(Motorista motorista, @RequestParam("arquivoFoto") MultipartFile arquivoFoto) throws IOException {
         if (!arquivoFoto.isEmpty()) {
             motorista.setFoto(arquivoFoto.getBytes());
         }
@@ -50,7 +51,7 @@ import java.io.IOException;
         @GetMapping("/lista")
         public String listar (Model model){
             model.addAttribute("motoristas", motoristaService.listarTodos());
-            return "lista-motorista";
+            return "/motoristas/lista-motorista";
         }
 
         @GetMapping("/motoristas/foto/{id}")
