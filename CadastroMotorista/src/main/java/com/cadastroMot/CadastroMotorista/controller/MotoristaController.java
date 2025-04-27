@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @Controller
-    @RequestMapping("/motoristas")
+    @RequestMapping("/motorista")
 
     public class MotoristaController {
 
@@ -45,7 +45,7 @@ import java.io.IOException;
         }
 
         motoristaService.salvar(motorista);
-        return "redirect:/motoristas/lista";
+        return "redirect:/motorista/lista";
     }
 
         @GetMapping("/lista")
