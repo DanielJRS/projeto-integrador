@@ -26,12 +26,6 @@ import java.io.IOException;
             this.motoristaService = motoristaService;
         }
 
-        @GetMapping("/")
-        public String index (){
-
-            return "index";
-        };
-
         @GetMapping("/novo")
         public String formulario (Model model) {
             model.addAttribute("motorista", new Motorista());

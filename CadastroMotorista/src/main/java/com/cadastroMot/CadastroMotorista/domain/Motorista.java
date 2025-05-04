@@ -26,4 +26,5 @@ public class Motorista {
     private String antt;
     private byte[] foto;
     private String tipoFoto;
+
 }

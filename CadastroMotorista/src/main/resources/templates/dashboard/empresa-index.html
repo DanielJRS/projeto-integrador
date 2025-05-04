@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard Empresas</title>
+    <link rel="stylesheet" th:href="@{../img/css/style.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+<body>
+<!-- Sidebar -->
+<div th:insert="~{dashboard/fragments/sidebar :: sidebar}"></div>
+<div class="main-content">
+    <div th:insert="~{dashboard/fragments/header :: header}"></div>
+
+    <main class="content">
+        <div class="page-title">
+            <h1>Gerenciamento de Empresas</h1>
+            <div class="action-buttons">
+                <a th:href="@{/empresa/novo}" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Cadastrar Nova Empresa
+                </a>
+
+            </div>
+        </div>
+
+        <div class="card stat-card">
+            <div class="icon blue">
+                <i class="fas fa-list"></i>
+            </div>
+            <div class="stat-content">
+                <a th:href="@{/empresa/lista}" style="text-decoration: none;">
+                    <h3>Listar Empresa</h3>
+                </a>
+            </div>
+        </div>
+
+        <div class="card stat-card">
+            <div class="icon green">
+                <i class="fas fa-plus-circle"></i>
+            </div>
+            <div class="stat-content">
+                <a th:href="@{/empresa/novo}" style="text-decoration: none;">
+                    <h3>Cadastrar Empresa</h3>
+                </a>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>
