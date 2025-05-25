@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Transportes - Cadastro de Motorista</title>
+  <script th:src="@{/img/js/motorista/formulario-motorista.js}" defer></script>
+  <link rel="stylesheet" th:href="@{/img/css/motorista/formulario-motorista.css}">
+</head>
+<body>
+<nav class="navbar">
+  <div class="container">
+    <a class="navbar-brand" th:href="@{/login}">
+      <img th:src="@{/img/GlobalTransportes.png}" alt="Global Transportes" class="logo">
+    </a>
+  </div>
+</nav>
+
+<div class="content-container">
+  <div class="page-title">
+    <h2>Cadastro de Motorista - Transportadora</h2>
+    <p>Cadastre novos profissionais</p>
+  </div>
+
+  <div class="form-container">
+    <form th:action="@{/transportadora/salvarMotorista}" th:object="${transportadora}" method="post" enctype="multipart/form-data">
+      <input type="hidden" th:field="*{id}" />
+
+      <!-- Dados de Acesso -->
+      <div class="login-section">
+        <h5>Dados de Acesso ao Sistema</h5>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email" class="form-label">E-mail de acesso:</label>
+            <input type="email" class="form-control" id="email" name="email"
+                   placeholder="motorista@email.com" required />
+            <!--                        <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>-->
+          </div>
+
+          <div class="form-group">
+            <label for="senha" class="form-label">Senha:</label>
+            <div class="password-container">
+              <input type="password" class="form-control" id="senha" name="senha"
+                     placeholder="Mínimo 8 caracteres" required style="padding-right: 40px;" />
+              <button type="button" class="password-toggle" onclick="toggleSenhaVisibility()">
+                <span id="iconSenha">👁️</span>
+              </button>
+            </div>
+            <!--                        <span class="error" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></span>-->
+          </div>
+        </div>
+      </div>
+
+      <!-- Dados Pessoais -->
+      <h5 class="section-header">Dados Pessoais</h5>
+
+      <div class="form-row single">
+        <div class="form-group">
+          <label for="nome" class="form-label">Nome completo:</label>
+          <input type="text" class="form-control" id="nome" th:field="*{nome}"
+                 placeholder="Nome completo do motorista" required />
+          <span class="error" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="cpf" class="form-label">CPF:</label>
+          <input type="text" class="form-control" id="cpf" th:field="*{cpf}"
+                 placeholder="000.000.000-00" required />
+          <span class="error" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="celular" class="form-label">Celular:</label>
+          <input type="text" class="form-control" id="celular" th:field="*{celular}"
+                 placeholder="(00) 00000-0000" />
+          <span class="error" th:if="${#fields.hasErrors('celular')}" th:errors="*{celular}"></span>
+        </div>
+      </div>
+
+      <!-- Endereço -->
+      <h5 class="section-header">Endereço</h5>
+
+      <div class="form-row single">
+        <div class="form-group">
+          <label for="endereco" class="form-label">Endereço completo:</label>
+          <input type="text" class="form-control" id="endereco" th:field="*{endereco}"
+                 placeholder="Rua, número, bairro" />
+          <span class="error" th:if="${#fields.hasErrors('endereco')}" th:errors="*{endereco}"></span>
+        </div>
+      </div>
+
+      <div class="form-row triple">
+        <div class="form-group">
+          <label for="cidade" class="form-label">Cidade:</label>
+          <input type="text" class="form-control" id="cidade" th:field="*{cidade}"
+                 placeholder="Nome da cidade" />
+          <span class="error" th:if="${#fields.hasErrors('cidade')}" th:errors="*{cidade}"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="estado" class="form-label">Estado:</label>
+          <input type="text" class="form-control" id="estado" th:field="*{estado}"
+                 placeholder="Ex: São Paulo" />
+          <span class="error" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="pais" class="form-label">País:</label>
+          <input type="text" class="form-control" id="pais" th:field="*{pais}"
+                 placeholder="Ex: Brasil" value="Brasil" />
+          <span class="error" th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}"></span>
+        </div>
+      </div>
+
+      <!-- Documentação Profissional -->
+      <h5 class="section-header">Documentação Profissional</h5>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="cnh" class="form-label">Número da CNH:</label>
+          <input type="text" class="form-control" id="cnh" th:field="*{cnh}"
+                 placeholder="Digite o número da CNH" required />
+          <span class="error" th:if="${#fields.hasErrors('cnh')}" th:errors="*{cnh}"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="antt" class="form-label">Registro ANTT:</label>
+          <input type="text" class="form-control" id="antt" th:field="*{antt}"
+                 placeholder="Número do registro ANTT" />
+          <span class="error" th:if="${#fields.hasErrors('antt')}" th:errors="*{antt}"></span>
+        </div>
+      </div>
+
+      <!-- Upload de Foto -->
+      <h5 class="section-header">Documentos e Foto</h5>
+
+      <div class="form-row single">
+        <div class="form-group">
+          <label for="foto" class="form-label">Foto do motorista:</label>
+          <div class="file-upload-section">
+            <input type="file" class="form-control" id="foto" name="arquivoFoto" accept="image/*"/>
+            <div class="file-upload-text">
+              Selecione uma foto recente (formatos: JPG, PNG, GIF)
+            </div>
+          </div>
+          <span class="error" th:if="${#fields.hasErrors('foto')}" th:errors="*{foto}"></span>
+        </div>
+      </div>
+
+      <div class="button-container">
+        <a th:href="@{/motorista/listar}" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Cadastrar Motorista</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2025 Global Transportes. Todos os direitos reservados.</p>
+  </div>
+</footer>
+</body>
+</html>
