@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard de Motorista - Global Transportes</title>
+  <script th:src="@{/img/js/motorista/dashboard-motorista.js}" defer></script>
+  <link rel="stylesheet" th:href="@{/img/css/motorista/dashboard-motorista.css}">
+</head>
+<body>
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">Global Transportes</div>
+  </div>
+  <div class="sidebar-menu">
+    <div class="sidebar-item">
+      <a th:href="@{/motorista}" class="sidebar-link">
+        <span class="sidebar-icon">🏠</span>
+        <span class="sidebar-text">Dashboard</span>
+      </a>
+      <div class="sidebar-tooltip">Dashboard</div>
+    </div>
+    <div class="sidebar-item">
+      <a th:href="@{/cargas/listar}" class="sidebar-link">
+        <span class="sidebar-icon">🔍</span>
+        <span class="sidebar-text">Explorar Cargas</span>
+      </a>
+      <div class="sidebar-tooltip">Explorar Cargas</div>
+    </div>
+    <div class="sidebar-item">
+      <a th:href="@{/motorista/veiculo/novo}" class="sidebar-link">
+        <span class="sidebar-icon">🚗</span>
+        <span class="sidebar-text">Cadastrar Veículo</span>
+      </a>
+      <div class="sidebar-tooltip">Cadastrar Veículo</div>
+    </div>
+    <div class="sidebar-item">
+      <a th:href="@{/motorista/fretes}" class="sidebar-link">
+        <span class="sidebar-icon">📦</span>
+        <span class="sidebar-text">Meus Fretes</span>
+      </a>
+      <div class="sidebar-tooltip">Meus Fretes</div>
+    </div>
+    <div class="sidebar-item">
+      <a th:href="@{/motorista/historico}" class="sidebar-link">
+        <span class="sidebar-icon">📋</span>
+        <span class="sidebar-text">Histórico</span>
+      </a>
+      <div class="sidebar-tooltip">Histórico</div>
+    </div>
+    <div class="sidebar-item">
+      <a th:href="@{/motorista/configuracoes}" class="sidebar-link">
+        <span class="sidebar-icon">⚙️</span>
+        <span class="sidebar-text">Configurações</span>
+      </a>
+      <div class="sidebar-tooltip">Configurações</div>
+    </div>
+  </div>
+</nav>
+
+<!-- Header -->
+<header>
+  <div class="container header-content">
+    <div class="logo">
+      <button class="mobile-menu-toggle" onclick="toggleSidebar()">☰</button>
+      <img th:src="@{/img/GlobalTransportes.png}" alt="Global Transportes Logo">
+    </div>
+    <div class="header-actions">
+      <a th:href="@{/logout}" class="btn-logout">🚪 Sair</a>
+    </div>
+  </div>
+</header>
+
+<!-- Conteúdo Principal -->
+<div class="dashboard-container">
+  <div class="dashboard-welcome">
+    <h2 th:text="|Bem-vindo, ${motorista.nome}!|">Bem-vindo, Motorista!</h2>
+    <p>Gerencie seus fretes de forma eficiente e acompanhe suas entregas em tempo real. Sua jornada começa aqui.</p>
+    <div class="welcome-actions">
+      <a th:href="@{/cargas/listar}" class="btn btn-primary">🔍 Explorar Todas as Cargas</a>
+      <a th:href="@{/motorista/veiculo/novo}" class="btn btn-secondary">🚗 Cadastrar Veículo</a>
+    </div>
+  </div>
+
+  <!-- Statistics Grid -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-number" th:text="${fretesAtivos ?: 0}">3</div>
+      <div class="stat-label">Fretes Ativos</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" th:text="${fretesFinalizados ?: 0}">27</div>
+      <div class="stat-label">Fretes Finalizados</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" th:text="|R$ ${receitaMensal ?: '0,00'}|">R$ 12.450</div>
+      <div class="stat-label">Receita (Mês)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" th:text="${avaliacaoMedia ?: '5.0'}">4.9</div>
+      <div class="stat-label">Avaliação Média</div>
+    </div>
+  </div>
+
+  <h2 class="section-title">📦 Meus Fretes</h2>
+  <div class="fretes-list">
+    <div th:if="${#lists.isEmpty(cargas)}" class="empty-state">
+      <p>Você ainda não possui fretes atribuídos.</p>
+      <p>Explore nossa lista de cargas disponíveis e comece sua próxima viagem!</p>
+      <a th:href="@{/cargas/listar}" class="btn btn-primary">🚛 Buscar Fretes Disponíveis</a>
+    </div>
+
+    <div th:each="frete : ${cargas}" class="frete-item">
+      <div class="frete-info">
+        <div class="frete-origem-destino" th:text="|${frete.origem} ${frete.destino}|">Origem Destino</div>
+        <div class="frete-detalhes">
+          <span th:if="${frete.distancia != null}" th:text="|📍 ${frete.distancia} km|">📍 430 km</span>
+          <span th:if="${frete.produto != null}" th:text="|📦 ${frete.produto}|">📦 Eletrônicos</span>
+          <span th:if="${frete.peso != null}" th:text="|⚖️ ${frete.peso} kg|">⚖️ 1200 kg</span>
+        </div>
+        <div class="frete-valor" th:text="|💰 R$ ${#numbers.formatDecimal(frete.valor, 1, 'POINT', 2, 'COMMA')}|">💰 R$ 2.500,00</div>
+      </div>
+      <div class="frete-acoes">
+        <a th:href="@{/cargas/{id}(id=${frete.id})}" class="btn btn-primary">📋 Ver Detalhes</a>
+      </div>
+    </div>
+
+    <!-- Exemplos estáticos caso não haja dados do backend -->
+    <div class="frete-item">
+      <div class="frete-info">
+        <div class="frete-origem-destino">São Paulo Rio de Janeiro</div>
+        <div class="frete-detalhes">
+          <span>📍 430 km</span>
+          <span>📦 Eletrônicos</span>
+          <span>⚖️ 1.200 kg</span>
+          <span>⏰ 2 dias</span>
+        </div>
+        <div class="frete-valor">💰 R$ 2.800,00</div>
+      </div>
+      <div class="frete-acoes">
+        <a href="#" class="btn btn-primary">📋 Ver Detalhes</a>
+      </div>
+    </div>
+
+    <div class="frete-item">
+      <div class="frete-info">
+        <div class="frete-origem-destino">Belo Horizonte Salvador</div>
+        <div class="frete-detalhes">
+          <span>📍 680 km</span>
+          <span>📦 Móveis</span>
+          <span>⚖️ 2.500 kg</span>
+          <span>⏰ 3 dias</span>
+        </div>
+        <div class="frete-valor">💰 R$ 4.200,00</div>
+      </div>
+      <div class="frete-acoes">
+        <a href="#" class="btn btn-primary">📋 Ver Detalhes</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2024 Global Transportes. Conectando o Brasil com eficiência e segurança.</p>
+</footer>
+</body>
+</html>

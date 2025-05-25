@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Transportes - Cadastro de Transportadora</title>
+    <script th:src="@{/img/js/transportadora/formulario-transportadora.js}" defer></script>
+    <link rel="stylesheet" th:href="@{/img/css/transportadora/formulario-transportadora.css}">
+</head>
+<body>
+<nav class="navbar">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/login}">
+            <img th:src="@{/img/GlobalTransportes.png}" alt="Global Transportes" class="logo">
+        </a>
+    </div>
+</nav>
+
+<div class="content-container">
+    <div class="page-title">
+        <h2>Cadastro de Transportadora</h2>
+        <p>Junte-se à nossa rede de transportadoras parceiras</p>
+    </div>
+
+    <div class="form-container">
+        <form th:action="@{/transportadora/salvar}" th:object="${transportadora}" method="post" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{id}" />
+
+            <!-- Dados de Acesso -->
+            <div class="login-section">
+                <h5>Dados de Acesso ao Sistema</h5>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email" class="form-label">E-mail de acesso:</label>
+                        <input type="email" class="form-control" id="email" th:field="*{email}"
+                               placeholder="exemplo@empresa.com" required />
+                        <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="senha" class="form-label">Senha:</label>
+                        <div class="password-container">
+                            <input type="password" class="form-control" id="senha" th:field="*{senha}"
+                                   placeholder="Mínimo 8 caracteres" required style="padding-right: 40px;" />
+                            <button type="button" class="password-toggle" onclick="toggleSenhaVisibility()">
+                                <span id="iconSenha">👁️</span>
+                            </button>
+                        </div>
+                        <span class="error" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informações da Empresa -->
+            <h5 class="section-header">Informações da Empresa</h5>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nomeFantasia" class="form-label">Nome da empresa:</label>
+                    <input type="text" class="form-control" id="nomeFantasia" th:field="*{nomeFantasia}"
+                           placeholder="Nome comercial" required />
+                    <span class="error" th:if="${#fields.hasErrors('nomeFantasia')}" th:errors="*{nomeFantasia}"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="cnpj" class="form-label">CNPJ:</label>
+                    <input type="text" class="form-control" id="cnpj" th:field="*{cnpj}"
+                           placeholder="00.000.000/0000-00" required />
+                    <span class="error" th:if="${#fields.hasErrors('cnpj')}" th:errors="*{cnpj}"></span>
+                </div>
+            </div>
+
+            <div class="form-row single">
+                <div class="form-group">
+                    <label for="razaoSocial" class="form-label">Razão Social:</label>
+                    <input type="text" class="form-control" id="razaoSocial" th:field="*{razaoSocial}"
+                           placeholder="Razão social da empresa" required />
+                    <span class="error" th:if="${#fields.hasErrors('razaoSocial')}" th:errors="*{razaoSocial}"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="inscricaoEstadual" class="form-label">Inscrição Estadual:</label>
+                    <input type="text" class="form-control" id="inscricaoEstadual" th:field="*{inscricaoEstadual}"
+                           placeholder="Inscrição estadual" />
+                    <span class="error" th:if="${#fields.hasErrors('inscricaoEstadual')}" th:errors="*{inscricaoEstadual}"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefone" class="form-label">Telefone:</label>
+                    <input type="text" class="form-control" id="telefone" th:field="*{telefone}"
+                           placeholder="(00) 0000-0000" />
+                    <span class="error" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"></span>
+                </div>
+            </div>
+
+            <!-- Endereço -->
+            <h5 class="section-header">Endereço</h5>
+
+            <div class="form-row single">
+                <div class="form-group">
+                    <label for="endereco" class="form-label">Endereço completo:</label>
+                    <input type="text" class="form-control" id="endereco" th:field="*{endereco}"
+                           placeholder="Rua, número, bairro" />
+                    <span class="error" th:if="${#fields.hasErrors('endereco')}" th:errors="*{endereco}"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="cidade" class="form-label">Cidade:</label>
+                    <input type="text" class="form-control" id="cidade" th:field="*{cidade}"
+                           placeholder="Nome da cidade" />
+                    <span class="error" th:if="${#fields.hasErrors('cidade')}" th:errors="*{cidade}"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="estado" class="form-label">Estado:</label>
+                    <input type="text" class="form-control" id="estado" th:field="*{estado}"
+                           placeholder="Ex: São Paulo" />
+                    <span class="error" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="cep" class="form-label">CEP:</label>
+                    <input type="text" class="form-control" id="cep" th:field="*{cep}"
+                           placeholder="00000-000" />
+                    <span class="error" th:if="${#fields.hasErrors('cep')}" th:errors="*{cep}"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="dataFundacao" class="form-label">Data de fundação:</label>
+                    <input type="date" class="form-control" id="dataFundacao" th:field="*{dataFundacao}" />
+                    <span class="error" th:if="${#fields.hasErrors('dataFundacao')}" th:errors="*{dataFundacao}"></span>
+                </div>
+            </div>
+
+            <!-- Licenças e Registros -->
+            <h5 class="section-header">Licenças e Registros</h5>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="numeroRegistroANTT" class="form-label">Registro ANTT:</label>
+                    <input type="text" class="form-control" id="numeroRegistroANTT" th:field="*{numeroRegistroANTT}"
+                           placeholder="Número do registro" />
+                    <span class="error" th:if="${#fields.hasErrors('numeroRegistroANTT')}" th:errors="*{numeroRegistroANTT}"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="dataVencimentoLicenca" class="form-label">Vencimento da licença:</label>
+                    <input type="date" class="form-control" id="dataVencimentoLicenca" th:field="*{dataVencimentoLicenca}" />
+                    <span class="error" th:if="${#fields.hasErrors('dataVencimentoLicenca')}" th:errors="*{dataVencimentoLicenca}"></span>
+                </div>
+            </div>
+
+            <div class="form-row single">
+                <div class="form-group">
+                    <label class="form-label">Categorias de licença (selecione as que possui):</label>
+                    <div class="categories-container">
+                        <div class="category-item">
+                            <input type="checkbox" id="cat_ETC" name="categoriasLicenca" value="ETC" />
+                            <label for="cat_ETC">Empresa de Transporte de Cargas</label>
+                        </div>
+                        <div class="category-item">
+                            <input type="checkbox" id="cat_TCP" name="categoriasLicenca" value="TCP" />
+                            <label for="cat_TCP">Transportador de Carga Própria</label>
+                        </div>
+                        <div class="category-item">
+                            <input type="checkbox" id="cat_CTC" name="categoriasLicenca" value="CTC" />
+                            <label for="cat_CTC">Cooperativa de Transporte</label>
+                        </div>
+                        <div class="category-item">
+                            <input type="checkbox" id="cat_TAC" name="categoriasLicenca" value="TAC" />
+                            <label for="cat_TAC">Transportador Autônomo</label>
+                        </div>
+                    </div>
+                    <span class="error" th:if="${#fields.hasErrors('categoriasLicenca')}" th:errors="*{categoriasLicenca}"></span>
+                </div>
+            </div>
+
+            <!-- Informações Operacionais -->
+            <h5 class="section-header">Informações Operacionais</h5>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="tipoFrota" class="form-label">Tipo de frota:</label>
+                    <select class="form-select" id="tipoFrota" th:field="*{tipoFrota}">
+                        <option value="">Selecione</option>
+                        <option value="Própria">Frota própria</option>
+                        <option value="Terceirizada">Frota terceirizada</option>
+                        <option value="Mista">Frota mista</option>
+                    </select>
+                    <span class="error" th:if="${#fields.hasErrors('tipoFrota')}" th:errors="*{tipoFrota}"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="capacidadeCarga" class="form-label">Capacidade de carga:</label>
+                    <input type="text" class="form-control" id="capacidadeCarga" th:field="*{capacidadeCarga}"
+                           placeholder="Ex: 25 toneladas" />
+                    <span class="error" th:if="${#fields.hasErrors('capacidadeCarga')}" th:errors="*{capacidadeCarga}"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="prazoPadraoEntrega" class="form-label">Prazo padrão (dias):</label>
+                    <input type="number" class="form-control" id="prazoPadraoEntrega" th:field="*{prazoPadraoEntrega}"
+                           min="1" placeholder="Ex: 5" />
+                    <span class="error" th:if="${#fields.hasErrors('prazoPadraoEntrega')}" th:errors="*{prazoPadraoEntrega}"></span>
+                </div>
+
+                <div class="form-group">
+                    <!-- Espaço em branco para manter alinhamento -->
+                </div>
+            </div>
+
+            <div class="form-row single">
+                <div class="form-group">
+                    <label for="tiposMercadorias" class="form-label">Tipos de mercadorias que transporta:</label>
+                    <textarea class="form-control" id="tiposMercadorias" th:field="*{tiposMercadorias}"
+                              placeholder="Ex: Produtos alimentícios, materiais de construção, eletrônicos..."></textarea>
+                    <small class="form-text">Descreva os principais tipos de carga que sua empresa transporta</small>
+                    <span class="error" th:if="${#fields.hasErrors('tiposMercadorias')}" th:errors="*{tiposMercadorias}"></span>
+                </div>
+            </div>
+
+            <!-- Checkboxes -->
+            <div class="checkbox-group">
+                <input type="checkbox" class="form-check-input" id="rastreamentoVeiculos" th:field="*{rastreamentoVeiculos}" />
+                <label class="form-check-label" for="rastreamentoVeiculos">
+                    Possui sistema de rastreamento de veículos
+                </label>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" class="form-check-input" id="possuiSeguroCarga" th:field="*{possuiSeguroCarga}" />
+                <label class="form-check-label" for="possuiSeguroCarga">
+                    Possui seguro de carga
+                </label>
+            </div>
+
+            <div class="button-container">
+                <a th:href="@{/empresas/listar}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Cadastrar Transportadora</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 Global Transportes. Todos os direitos reservados.</p>
+    </div>
+</footer>
+</body>
+</html>

@@ -18,10 +18,14 @@ public class Carga {
     private String veiculo;
     private String preco;
 
+    @ManyToOne
+    @JoinColumn(name = "motorista_id")
+    private Motorista motorista;
+
     public Carga() {
     }
 
-    public Carga(Long id, String origem, String destino, String produto, String especie, String veiculo, String preco) {
+    public Carga(Long id, String origem, String destino, String produto, String especie, String veiculo, String preco, Motorista motorista) {
         this.id = id;
         this.origem = origem;
         this.destino = destino;
@@ -29,6 +33,7 @@ public class Carga {
         this.especie = especie;
         this.veiculo = veiculo;
         this.preco = preco;
+        this.motorista = motorista;
     }
 
 
@@ -86,5 +91,13 @@ public class Carga {
 
     public void setOrigem(String origem) {
         this.origem = origem;
+    }
+
+    public Motorista getMotorista() {
+        return motorista;
+    }
+
+    public void setMotorista(Motorista motorista) {
+        this.motorista = motorista;
     }
 }

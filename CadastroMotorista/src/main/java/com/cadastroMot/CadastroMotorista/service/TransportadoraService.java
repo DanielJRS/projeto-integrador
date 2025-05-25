@@ -1,47 +1,48 @@
 package com.cadastroMot.CadastroMotorista.service;
 
-import com.cadastroMot.CadastroMotorista.domain.Empresa;
 import com.cadastroMot.CadastroMotorista.domain.TipoUsuario;
+import com.cadastroMot.CadastroMotorista.domain.Transportadora;
 import com.cadastroMot.CadastroMotorista.domain.Usuario;
-import com.cadastroMot.CadastroMotorista.repository.EmpresaRepository;
+import com.cadastroMot.CadastroMotorista.repository.TransportadoraRepository;
 import com.cadastroMot.CadastroMotorista.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
-public class EmpresaService {
-    private final EmpresaRepository empresaRepository;
+public class TransportadoraService {
+    private final TransportadoraRepository transportadoraRepository;
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public EmpresaService(EmpresaRepository empresaRepository, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
-        this.empresaRepository = empresaRepository;
+    public TransportadoraService (TransportadoraRepository transportadoraRepository, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+        this.transportadoraRepository = transportadoraRepository;
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Empresa salvar (Empresa empresa) {
-        return empresaRepository.save(empresa);
+    public Transportadora salvar (Transportadora transportadora){
+        return transportadoraRepository.save(transportadora);
     }
 
     @Transactional
-    public Empresa salvarComUsuario(Empresa empresa, String email, String senha) {
+    public Transportadora salvarComUsuario(Transportadora transportadora, String email, String senha){
         if (usuarioRepository.findByEmail(email).isPresent()){
-            throw new RuntimeException("Já existe uma empresa cadastrada com este e-mail");
+            throw new RuntimeException("Já existe um usuário cadastrado com este e-mail");
         }
 
         Usuario novoUsuario = new Usuario();
         novoUsuario.setEmail(email);
         novoUsuario.setSenha(passwordEncoder.encode(senha));
-        novoUsuario.setTipo(TipoUsuario.EMPRESA);
+        novoUsuario.setTipo(TipoUsuario.TRANSPORTADORA);
 
         Usuario usuarioSalvo = usuarioRepository.save(novoUsuario);
 
-        empresa.setUsuario(usuarioSalvo);
+        transportadora.setUsuario(usuarioSalvo);
 
-        return empresaRepository.save(empresa);
+        return transportadoraRepository.save(transportadora);
     }
 }

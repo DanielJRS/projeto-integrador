@@ -17,4 +17,5 @@ public interface CargaRepository extends JpaRepository<Carga, Long> {
     List<Carga> findByOrigemAndDestinoAndProdutoAndEspecie(String origem, String destino, String produto, String especie);
 
     List<Carga> findByOrigemAndDestino(String origem, String destino);
+    List<Carga> findByMotoristaId(Long id);
 }

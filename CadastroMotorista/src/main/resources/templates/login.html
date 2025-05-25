@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Transportes - Login</title>
+  <link rel="stylesheet" th:href="@{/img/css/login.css}">
+  <script th:src="@{/img/js/login.js}" defer></script>
+</head>
+<body>
+<!-- Floating Elements -->
+<div class="floating-element" style="font-size: 40px;">🚛</div>
+<div class="floating-element" style="font-size: 35px;">📦</div>
+<div class="floating-element" style="font-size: 30px;">🚚</div>
+
+<!-- Header -->
+<header>
+  <div class="header-content">
+    <div class="logo">
+      <img th:src="@{/img/GlobalTransportes.png}" alt="Global Transportes Logo">
+    </div>
+  </div>
+</header>
+
+<!-- Main Container -->
+<div class="main-container">
+  <div class="login-card">
+    <div class="login-title">
+      <h1>Acesso ao Sistema</h1>
+      <p>Entre com suas credenciais para continuar</p>
+    </div>
+
+    <form class="login-form" th:action="@{/login}" method="post" th:object="${usuario}">
+      <div class="form-group">
+        <label for="email" class="form-label">📧 E-mail</label>
+        <div class="input-group">
+          <input
+                  type="email"
+                  class="form-input"
+                  id="email"
+                  th:field="*{email}"
+                  placeholder="Digite seu e-mail"
+                  required
+          />
+          <span class="input-icon">✉️</span>
+        </div>
+        <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="senha" class="form-label">🔒 Senha</label>
+        <div class="input-group">
+          <input
+                  type="password"
+                  class="form-input"
+                  id="senha"
+                  th:field="*{senha}"
+                  placeholder="Digite sua senha"
+                  required
+          />
+          <span class="input-icon">🔑</span>
+        </div>
+        <div class="error" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></div>
+      </div>
+
+      <button type="submit" class="btn-login" onclick="showLoading(this)">
+        🚀 Entrar no Sistema
+      </button>
+    </form>
+
+    <div class="divider">
+      <span>Ou cadastre-se</span>
+    </div>
+
+    <div class="registration-options">
+      <p class="registration-title">Escolha seu tipo de cadastro:</p>
+
+      <a th:href="@{/motorista/novo}" class="btn-register">
+        <span class="btn-register-icon">👨‍💼</span>
+        Sou Motorista
+      </a>
+
+      <a th:href="@{/empresa/novo}" class="btn-register">
+        <span class="btn-register-icon">🏢</span>
+        Sou Empresa
+      </a>
+
+      <a th:href="@{/transportadora/novo}" class="btn-register">
+        <span class="btn-register-icon">🚛</span>
+        Sou Transportadora
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2024 Global Transportes. Conectando o Brasil com eficiência e segurança.</p>
+</footer>
+</body>
+</html>

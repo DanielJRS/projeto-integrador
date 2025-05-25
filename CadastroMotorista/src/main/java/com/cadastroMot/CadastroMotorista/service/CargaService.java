@@ -2,19 +2,20 @@ package com.cadastroMot.CadastroMotorista.service;
 
 import com.cadastroMot.CadastroMotorista.domain.Carga;
 import com.cadastroMot.CadastroMotorista.repository.CargaRepository;
-import com.cadastroMot.CadastroMotorista.repository.CargaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import java.util.List;
 
 @Service
 public class CargaService {
 
-    @Autowired
-    private CargaRepository cargaRepository;
+    private final CargaRepository cargaRepository;
 
+    @Autowired
+    public CargaService(CargaRepository cargaRepository) {
+        this.cargaRepository = cargaRepository;
+    }
 
     public List<Carga> listarTodos() {
         return cargaRepository.findAll();
@@ -39,7 +40,6 @@ public class CargaService {
         return null;
     }
 
-
     public List<Carga> buscarPorFiltro(String origem, String destino, String produto, String especie) {
         if (origem != null && !origem.isEmpty()) {
             if (destino != null && !destino.isEmpty()) {
@@ -48,14 +48,15 @@ public class CargaService {
                         return cargaRepository.findByOrigemAndDestinoAndProdutoAndEspecie(origem, destino, produto, especie);
                     }
                     return cargaRepository.findByOrigemAndDestinoAndProduto(origem, destino, produto);
-                } else {
-                    return cargaRepository.findByOrigemAndDestino(origem, destino);
                 }
-            } else {
-                return cargaRepository.findByOrigem(origem);
+                return cargaRepository.findByOrigemAndDestino(origem, destino);
             }
+            return cargaRepository.findByOrigem(origem);
         }
-        return cargaRepository.findAll(); // Caso nenhum filtro seja aplicado
+        return cargaRepository.findAll();
     }
 
+    public List<Carga> buscarCargaPorMotorista(Long motoristaId){
+        return cargaRepository.findByMotoristaId(motoristaId);
+    }
 }

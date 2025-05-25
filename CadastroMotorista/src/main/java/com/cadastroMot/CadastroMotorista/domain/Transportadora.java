@@ -6,14 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-@Table(name = "tb_empresa")
+@Table (name = "tb_transportadora")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Empresa {
-
+public class Transportadora {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -30,6 +30,18 @@ public class Empresa {
     private String email;
     private String senha;
     private LocalDate dataFundacao;
+    private boolean ativo;
+    private boolean souTransportadora;
+    private String numeroRegistroANTT;
+    private String tipoFrota;
+    private Integer quantidadeVeiculos;
+    private Boolean possuiSeguroCarga;
+    private String tiposMercadorias;
+    private String capacidadeCarga;
+    private Boolean rastreamentoVeiculos;
+    private Integer prazoPadraoEntrega;
+    private LocalDate dataVencimentoLicenca;
+    private String categoriasLicenca;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id")
