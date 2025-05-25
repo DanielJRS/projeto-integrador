@@ -1,66 +1,298 @@
-<!-- templates/cargas/listar.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Listar Cargas</title>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        table, th, td {
-            border: 1px solid black; border-collapse: collapse;
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        th, td {
-            padding: 8px;
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .logo {
+            height: 80px;
+        }
+        .content-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        .btn-primary {
+            background-color: #f9b000;
+            border-color: #f9b000;
+            color: #1a237e;
+            font-weight: 500;
+        }
+        .btn-primary:hover {
+            background-color: #e6a200;
+            border-color: #e6a200;
+            color: #1a237e;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .form-container {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .form-title {
+            color: #1a237e;
+            margin-bottom: 20px;
+        }
+        .form-label {
+            font-weight: 500;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Estilos adicionais para melhorar a apresentação */
+        h1, h2 {
+            color: #1a237e;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h4 {
+            color: #1a237e;
+            font-weight: 500;
+            border-bottom: 2px solid #f9b000;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .table {
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .table thead th {
+            background-color: #1a237e;
+            color: #ffffff;
+            font-weight: 600;
+            border: none;
+            padding: 15px 12px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table tbody td {
+            padding: 12px;
+            vertical-align: middle;
+            border-color: #e9ecef;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .btn-action {
+            padding: 6px 12px;
+            margin: 0 2px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 500;
+            display: inline-block;
+            text-align: center;
+            min-width: 60px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-ver {
+            background-color: #17a2b8;
+            color: white;
+            border: 1px solid #17a2b8;
+        }
+
+        .btn-ver:hover {
+            background-color: #138496;
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-editar {
+            background-color: #28a745;
+            color: white;
+            border: 1px solid #28a745;
+        }
+
+        .btn-editar:hover {
+            background-color: #218838;
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-excluir {
+            background-color: #dc3545;
+            color: white;
+            border: 1px solid #dc3545;
+        }
+
+        .btn-excluir:hover {
+            background-color: #c82333;
+            color: white;
+            text-decoration: none;
+        }
+
+        .table-responsive {
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: #dee2e6;
+            margin-bottom: 20px;
+        }
+
+        .actions-header {
+            width: 180px;
+        }
+
+        .price-cell {
+            font-weight: 600;
+            color: #28a745;
+        }
+
+        .badge-sim {
+            background-color: #28a745;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+        }
+
+        .badge-nao {
+            background-color: #6c757d;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .add-button {
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-<h1>Listar Cargas</h1>
+<div class="container-fluid">
+    <div class="content-container">
+        <div class="header-section">
+            <h1><i class="fas fa-truck text-warning me-3"></i>Listar Cargas</h1>
+        </div>
 
-<table>
-    <thead>
-    <tr>
-        <th>Origem Cidade</th>
-        <th>Origem Estado</th>
-        <th>Data Coleta</th>
-        <th>Destino Cidade</th>
-        <th>Destino Estado</th>
-        <th>Data Entrega</th>
-        <th>Produto</th>
-        <th>Especie</th>
-        <th>Veiculo</th>
-        <th>Preço</th>
-        <th>Tipo de Carga</th>
-        <th>Lona</th>
-        <th>Peso Total</th>
-        <th>Limite Altura</th>
-        <th>Volume</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="carga : ${cargas}">
-        <td th:text="${carga.origemCidade}">OrigemC</td>
-        <td th:text="${carga.origemEstado}">OrigemE</td>
-        <td th:text="${carga.dataColeta != null ? #temporals.format(carga.dataColeta, 'dd/MM/yyyy') : ''}">DataColeta</td>
-        <td th:text="${carga.destinoCidade}">Destino Cidade</td>
-        <td th:text="${carga.destinoEstado}">Destino Estado</td>
-        <td th:text="${carga.dataEntrega != null ? #temporals.format(carga.dataEntrega, 'dd/MM/yyyy') : ''}">DataEntrega</td>
-        <td th:text="${carga.produto}">Produto</td>
-        <td th:text="${carga.especie}">Especie</td>
-        <td th:text="${carga.veiculo}">Veiculo</td>
-        <td th:text="${carga.preco != null ? #numbers.formatDecimal(carga.preco, 1, 'POINT', 2, 'COMMA') : ''}">Preço</td>
-        <td th:text="${carga.tipoCarga != null} ? ${carga.tipoCarga} : 'N/A'">TipoCarga</td>
-        <td th:text="${carga.possuiLona} == true ? 'Sim' : 'Não'">Lona</td>
-        <td th:text="${carga.pesoTotal}">PesoTotal</td>
-        <td th:text="${carga.limiteAltura}">LimiteAltura</td>
-        <td th:text="${carga.volume}">Volume</td>
+        <div class="add-button">
+            <a href="/cargas/nova" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Nova Carga
+            </a>
+        </div>
 
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Origem</th>
+                    <th>Data Coleta</th>
+                    <th>Destino</th>
+                    <th>Data Entrega</th>
+                    <th>Produto</th>
+                    <th>Espécie</th>
+                    <th>Veículo</th>
+                    <th>Preço</th>
+                    <th>Tipo</th>
+                    <th>Lona</th>
+                    <th>Peso (kg)</th>
+                    <th>Altura (m)</th>
+                    <th>Volume (m³)</th>
+                    <th class="actions-header">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="carga : ${cargas}">
+                    <td>
+                        <div class="fw-bold" th:text="${carga.origemCidade}">Origem Cidade</div>
+                        <small class="text-muted" th:text="${carga.origemEstado}">Origem Estado</small>
+                    </td>
+                    <td th:text="${carga.dataColeta != null ? #temporals.format(carga.dataColeta, 'dd/MM/yyyy') : '-'}">Data Coleta</td>
+                    <td>
+                        <div class="fw-bold" th:text="${carga.destinoCidade}">Destino Cidade</div>
+                        <small class="text-muted" th:text="${carga.destinoEstado}">Destino Estado</small>
+                    </td>
+                    <td th:text="${carga.dataEntrega != null ? #temporals.format(carga.dataEntrega, 'dd/MM/yyyy') : '-'}">Data Entrega</td>
+                    <td th:text="${carga.produto}">Produto</td>
+                    <td th:text="${carga.especie}">Espécie</td>
+                    <td th:text="${carga.veiculo}">Veículo</td>
+                    <td class="price-cell">
+                        <span th:text="${carga.preco != null ? 'R$ ' + #numbers.formatDecimal(carga.preco, 1, 'POINT', 2, 'COMMA') : '-'}">Preço</span>
+                    </td>
+                    <td th:text="${carga.tipoCarga != null ? carga.tipoCarga : 'N/A'}">Tipo Carga</td>
+                    <td>
+                                <span th:class="${carga.possuiLona} ? 'badge-sim' : 'badge-nao'"
+                                      th:text="${carga.possuiLona} ? 'Sim' : 'Não'">Lona</span>
+                    </td>
+                    <td th:text="${carga.pesoTotal != null ? carga.pesoTotal : '-'}">Peso Total</td>
+                    <td th:text="${carga.limiteAltura != null ? carga.limiteAltura : '-'}">Limite Altura</td>
+                    <td th:text="${carga.volume != null ? carga.volume : '-'}">Volume</td>
+                    <td class="text-nowrap">
+                        <a th:href="@{/cargas/{id}(id=${carga.id})}" class="btn-action btn-ver" title="Visualizar">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a th:href="@{/cargas/editar/{id}(id=${carga.id})}" class="btn-action btn-editar" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a th:href="@{/cargas/excluir/{id}(id=${carga.id})}" class="btn-action btn-excluir" title="Excluir"
+                           onclick="return confirm('Tem certeza que deseja excluir esta carga?')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
+            <div th:if="${#lists.isEmpty(cargas)}" class="empty-state">
+                <i class="fas fa-truck"></i>
+                <h4>Nenhuma carga encontrada</h4>
+                <p class="text-muted">Não há cargas cadastradas no momento.</p>
+                <a href="/cargas/nova" class="btn btn-primary mt-3">
+                    <i class="fas fa-plus me-2"></i>Cadastrar Nova Carga
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
-    </tr>
-    <tr th:if="${#lists.isEmpty(cargas)}">
-        <td colspan="15">Nenhuma carga encontrada.</td>
-    </tr>
-    </tbody>
-</table>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

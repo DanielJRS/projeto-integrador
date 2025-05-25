@@ -25,12 +25,12 @@ public class CargasController {
 
 
 
-    @GetMapping("/coleta")
+    @GetMapping("/nova")
     public String formularioCarga(Model model) {
         model.addAttribute("carga", new Carga());
         model.addAttribute("cidades", cargaService.listarCidades());
         model.addAttribute("estados", cargaService.listarEstados());
-        return "cargas/coleta";
+        return "cargas/nova";
     }
 
     @PostMapping("/entrega")
@@ -49,7 +49,7 @@ public class CargasController {
             @RequestParam(required = false) Double volume,
             Model model) {
 
-        carga = cargaService.processarFormularioColeta(
+        carga = cargaService.processarFormularioCarga(
                 carga, tipoCarga, possuiLona,
                 veiculosLeves, veiculosMedios, veiculosPesados,
                 freteFechado, freteAberto, freteEspecial,
@@ -93,12 +93,19 @@ public class CargasController {
     @GetMapping("/editar/{id}")
     public String editarCarga(@PathVariable Long id, Model model) {
         Carga carga = cargaService.buscarPorId(id);
+
         model.addAttribute("carga", carga);
+        List<String> estados = cargaService.listarEstados();
+        model.addAttribute("estados", estados);
+
+        List<String> cidades = cargaService.listarCidades(); // Pode ser filtrado por estado, se quiser.
+        model.addAttribute("cidades", cidades);
         return "cargas/editar";
     }
 
-    @PostMapping("/editar")
-    public String salvarEdicao(@ModelAttribute("carga") Carga cargaAtualizada) {
+    @PostMapping("/editar/{id}")
+    public String salvarEdicao(@PathVariable Long id, @ModelAttribute("carga") Carga cargaAtualizada) {
+        cargaAtualizada.setId(id);
         cargaService.atualizar(cargaAtualizada);
         return "redirect:/cargas";
     }
