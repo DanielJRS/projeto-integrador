@@ -1,168 +1,66 @@
+<!-- templates/cargas/listar.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Transportes - Listar Cargas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Listar Cargas</title>
+    <meta charset="UTF-8" />
     <style>
-        body {
-            background-color: #f8f9fa;
+        table, th, td {
+            border: 1px solid black; border-collapse: collapse;
         }
-        .navbar {
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .logo {
-            height: 40px;
-        }
-        .content-container {
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 30px;
-            margin-top: 30px;
-        }
-        .btn-primary {
-            background-color: #f9b000;
-            border-color: #f9b000;
-            color: #1a237e;
-            font-weight: 500;
-        }
-        .btn-primary:hover {
-            background-color: #e6a200;
-            border-color: #e6a200;
-            color: #1a237e;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d;
-        }
-        .table-header {
-            background-color: #1a237e;
-            color: white;
-        }
-        .search-container {
-            background-color: #f0f0f0;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+        th, td {
+            padding: 8px;
         }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light">
-    <div class="container">
-        <a class="navbar-brand" href="#">
-            <img th:src="@{/img/GlobalTransportes.png}" alt="Global Transportes" class="logo">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/}">Início</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/cargas/listar}">Cargas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/motorista/novo}">Motoristas</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<h1>Listar Cargas</h1>
 
-<div class="container content-container">
-    <h2 class="mb-4 text-center" style="color: #1a237e;">Lista de Cargas</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Origem Cidade</th>
+        <th>Origem Estado</th>
+        <th>Data Coleta</th>
+        <th>Destino Cidade</th>
+        <th>Destino Estado</th>
+        <th>Data Entrega</th>
+        <th>Produto</th>
+        <th>Especie</th>
+        <th>Veiculo</th>
+        <th>Preço</th>
+        <th>Tipo de Carga</th>
+        <th>Lona</th>
+        <th>Peso Total</th>
+        <th>Limite Altura</th>
+        <th>Volume</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="carga : ${cargas}">
+        <td th:text="${carga.origemCidade}">OrigemC</td>
+        <td th:text="${carga.origemEstado}">OrigemE</td>
+        <td th:text="${carga.dataColeta != null ? #temporals.format(carga.dataColeta, 'dd/MM/yyyy') : ''}">DataColeta</td>
+        <td th:text="${carga.destinoCidade}">Destino Cidade</td>
+        <td th:text="${carga.destinoEstado}">Destino Estado</td>
+        <td th:text="${carga.dataEntrega != null ? #temporals.format(carga.dataEntrega, 'dd/MM/yyyy') : ''}">DataEntrega</td>
+        <td th:text="${carga.produto}">Produto</td>
+        <td th:text="${carga.especie}">Especie</td>
+        <td th:text="${carga.veiculo}">Veiculo</td>
+        <td th:text="${carga.preco != null ? #numbers.formatDecimal(carga.preco, 1, 'POINT', 2, 'COMMA') : ''}">Preço</td>
+        <td th:text="${carga.tipoCarga != null} ? ${carga.tipoCarga} : 'N/A'">TipoCarga</td>
+        <td th:text="${carga.possuiLona} == true ? 'Sim' : 'Não'">Lona</td>
+        <td th:text="${carga.pesoTotal}">PesoTotal</td>
+        <td th:text="${carga.limiteAltura}">LimiteAltura</td>
+        <td th:text="${carga.volume}">Volume</td>
 
-    <div class="search-container">
-        <h5 class="mb-3" style="color: #1a237e;">Filtrar Cargas</h5>
-        <form th:action="@{/cargas/listar}" method="get" class="row g-3">
-            <div class="col-md-3">
-                <label for="origem" class="form-label">Origem:</label>
-                <input type="text" class="form-control" id="origem" name="origem" th:value="${origem}">
-            </div>
-            <div class="col-md-3">
-                <label for="destino" class="form-label">Destino:</label>
-                <input type="text" class="form-control" id="destino" name="destino" th:value="${destino}">
-            </div>
-            <div class="col-md-3">
-                <label for="produto" class="form-label">Produto:</label>
-                <input type="text" class="form-control" id="produto" name="produto" th:value="${produto}">
-            </div>
-            <div class="col-md-3">
-                <label for="especie" class="form-label">Espécie:</label>
-                <input type="text" class="form-control" id="especie" name="especie" th:value="${especie}">
-            </div>
-            <div class="col-12 mt-3 text-end">
-                <button type="submit" class="btn btn-primary">Buscar</button>
-                <a th:href="@{/cargas/listar}" class="btn btn-secondary">Limpar</a>
-            </div>
-        </form>
-    </div>
 
-    <div class="mb-3 text-end">
-        <a th:href="@{/cargas/novo}" class="btn btn-primary">
-            <i class="bi bi-plus-circle"></i> Nova Carga
-        </a>
-    </div>
 
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead class="table-header">
-            <tr>
-                <th>ID</th>
-                <th>Origem</th>
-                <th>Destino</th>
-                <th>Produto</th>
-                <th>Espécie</th>
-                <th>Veículo</th>
-                <th>Preço</th>
-                <th>Ações</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="carga : ${cargas}">
-                <td th:text="${carga.id}"></td>
-                <td th:text="${carga.origem}"></td>
-                <td th:text="${carga.destino}"></td>
-                <td th:text="${carga.produto}"></td>
-                <td th:text="${carga.especie}"></td>
-                <td th:text="${carga.veiculo}"></td>
-                <td th:text="${carga.preco}"></td>
-                <td>
-                    <div class="btn-group btn-group-sm">
-                        <a th:href="@{/cargas/{id}(id=${carga.id})}" class="btn btn-info" title="Detalhes">
-                            <i class="bi bi-eye"></i> Ver
-                        </a>
-                        <a th:href="@{/cargas/editar/{id}(id=${carga.id})}" class="btn btn-warning" title="Editar">
-                            <i class="bi bi-pencil"></i> Editar
-                        </a>
-                        <a th:href="@{/cargas/deletar/{id}(id=${carga.id})}" class="btn btn-danger"
-                           onclick="return confirm('Tem certeza que deseja excluir esta carga?')" title="Excluir">
-                            <i class="bi bi-trash"></i> Excluir
-                        </a>
-                    </div>
-                </td>
-            </tr>
-            <tr th:if="${#lists.isEmpty(cargas)}">
-                <td colspan="8" class="text-center">Nenhuma carga encontrada</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<footer class="mt-5 py-3 text-center text-muted">
-    <div class="container">
-        <p>&copy; 2025 Global Transportes. Todos os direitos reservados.</p>
-    </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    </tr>
+    <tr th:if="${#lists.isEmpty(cargas)}">
+        <td colspan="15">Nenhuma carga encontrada.</td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

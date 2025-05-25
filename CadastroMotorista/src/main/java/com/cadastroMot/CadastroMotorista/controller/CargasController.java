@@ -1,14 +1,20 @@
 package com.cadastroMot.CadastroMotorista.controller;
 
-
 import com.cadastroMot.CadastroMotorista.domain.Carga;
+import com.cadastroMot.CadastroMotorista.domain.TipoCarga;
+import com.cadastroMot.CadastroMotorista.repository.CargaRepository;
 import com.cadastroMot.CadastroMotorista.service.CargaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Controller
 @RequestMapping("/cargas")
@@ -18,65 +24,89 @@ public class CargasController {
     private CargaService cargaService;
 
 
-    @GetMapping("/listar")
-    public String listarCargas(@RequestParam(required = false) String origem,
-                               @RequestParam(required = false) String destino,
-                               @RequestParam(required = false) String produto,
-                               @RequestParam(required = false) String especie,
-                               Model model) {
-        List<Carga> cargas;
-        if (origem != null || destino != null || produto != null || especie != null) {
-            cargas = cargaService.buscarPorFiltro(origem, destino, produto, especie);
-        } else {
-            cargas = cargaService.listarTodos();
-        }
-        model.addAttribute("cargas", cargas);
-        model.addAttribute("origem", origem);
-        model.addAttribute("destino", destino);
-        model.addAttribute("produto", produto);
-        model.addAttribute("especie", especie);
-        return "/cargas/listar";
-    }
 
-
-
-    @GetMapping("/{id:\\d+}")
-    public String detalharCarga(@PathVariable Long id, Model model) {
-        model.addAttribute("carga", cargaService.buscarPorId(id));
-        return "/cargas/detalhar";
-    }
-
-
-    @GetMapping("/novo")
-    public String formularioNovaCarga(Model model) {
+    @GetMapping("/coleta")
+    public String formularioCarga(Model model) {
         model.addAttribute("carga", new Carga());
-        return "/cargas/novo";
+        model.addAttribute("cidades", cargaService.listarCidades());
+        model.addAttribute("estados", cargaService.listarEstados());
+        return "cargas/coleta";
     }
 
+    @PostMapping("/entrega")
+    public String processarFormularioCarga(
+            @ModelAttribute Carga carga,
+            @RequestParam(required = false) String tipoCarga,
+            @RequestParam(required = false) String possuiLona,
+            @RequestParam(required = false) String[] veiculosLeves,
+            @RequestParam(required = false) String[] veiculosMedios,
+            @RequestParam(required = false) String[] veiculosPesados,
+            @RequestParam(required = false) String[] freteFechado,
+            @RequestParam(required = false) String[] freteAberto,
+            @RequestParam(required = false) String[] freteEspecial,
+            @RequestParam(required = false) Double pesoTotal,
+            @RequestParam(required = false) Double limiteAltura,
+            @RequestParam(required = false) Double volume,
+            Model model) {
 
-    @PostMapping("/salvar")
-    public String salvarCarga(@ModelAttribute Carga carga) {
-        if (carga.getId() != null) {
-            cargaService.salvar(carga);
-        } else {
-            cargaService.salvar(carga);
-        }
+        carga = cargaService.processarFormularioColeta(
+                carga, tipoCarga, possuiLona,
+                veiculosLeves, veiculosMedios, veiculosPesados,
+                freteFechado, freteAberto, freteEspecial,
+                pesoTotal, limiteAltura, volume);
+
+        cargaService.salvar(carga);
+
         return "redirect:/cargas/listar";
     }
 
+    @GetMapping("/listar")
+    public String listarCargas(
+            @RequestParam(required = false) String origemCidade,
+            @RequestParam(required = false) String origemEstado,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataColeta,
+            @RequestParam(required = false) String destinoCidade,
+            @RequestParam(required = false) String destinoEstado,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataEntrega,
+            @RequestParam(required = false) String produto,
+            @RequestParam(required = false) String especie,
+            @RequestParam(required = false) String veiculo,
+            @RequestParam(required = false) Double preco, // CORRETO
+            @RequestParam(required = false) TipoCarga tipoCarga,
+            @RequestParam(required = false) Boolean possuiLona,
+            @RequestParam(required = false) Double pesoTotal,
+            @RequestParam(required = false) Double limiteAltura,
+            @RequestParam(required = false) Double volume,
 
+            Model model) {
 
-    @GetMapping("/editar/{id:\\d+}")
-    public String formularioEditarCarga(@PathVariable Long id, Model model) {
-        model.addAttribute("carga", cargaService.buscarPorId(id));
-        return "/cargas/editar";
+        List<Carga> cargasFiltradas = cargaService.buscarPorFiltro(
+                origemCidade, destinoCidade, produto, especie);
+
+        model.addAttribute("cargas", cargasFiltradas);
+
+        return "cargas/listar";
     }
 
 
 
-    @GetMapping("/deletar/{id:\\d+}")
+    @GetMapping("/editar/{id}")
+    public String editarCarga(@PathVariable Long id, Model model) {
+        Carga carga = cargaService.buscarPorId(id);
+        model.addAttribute("carga", carga);
+        return "cargas/editar";
+    }
+
+    @PostMapping("/editar")
+    public String salvarEdicao(@ModelAttribute("carga") Carga cargaAtualizada) {
+        cargaService.atualizar(cargaAtualizada);
+        return "redirect:/cargas";
+    }
+
+    @GetMapping("/deletar/{id}")
     public String deletarCarga(@PathVariable Long id) {
         cargaService.deletar(id);
-        return "redirect:/cargas/listar";
+        return "redirect:/cargas";
     }
 }
+
