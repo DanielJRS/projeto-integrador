@@ -59,5 +59,10 @@ public class TransportadoraController {
         return "/transportadoras/dashboard-transportadora";
     }
 
+    @PostMapping("/salvarMotorista")
+    public String salvarComoMotorista (){
+        return "";
+    }
+
 
 }

@@ -37,4 +37,11 @@ public class Motorista {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    @Enumerated(EnumType.STRING)
+    private TipoMotorista tipoMotorista;
+
+    @ManyToOne
+    @JoinColumn(name = "transportadora_id")
+    private Transportadora transportadora;
 }

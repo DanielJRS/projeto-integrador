@@ -46,4 +46,7 @@ public class Transportadora {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    @OneToMany(mappedBy = "transportadora")
+    private List<Motorista> motoristas;
 }
