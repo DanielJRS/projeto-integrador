@@ -29,7 +29,7 @@
       <div class="sidebar-tooltip">Explorar Cargas</div>
     </div>
     <div class="sidebar-item">
-      <a th:href="@{/motorista/veiculo/novo}" class="sidebar-link">
+      <a th:href="@{/veiculos/novo}" class="sidebar-link">
         <span class="sidebar-icon">🚗</span>
         <span class="sidebar-text">Cadastrar Veículo</span>
       </a>
@@ -79,7 +79,7 @@
     <p>Gerencie seus fretes de forma eficiente e acompanhe suas entregas em tempo real. Sua jornada começa aqui.</p>
     <div class="welcome-actions">
       <a th:href="@{/cargas/listar}" class="btn btn-primary">🔍 Explorar Todas as Cargas</a>
-      <a th:href="@{/motorista/veiculo/novo}" class="btn btn-secondary">🚗 Cadastrar Veículo</a>
+      <a th:href="@{/veiculos/novo}" class="btn btn-secondary">🚗 Cadastrar Veículo</a>
     </div>
   </div>
 
@@ -157,6 +157,32 @@
       <div class="frete-acoes">
         <a href="#" class="btn btn-primary">📋 Ver Detalhes</a>
       </div>
+    </div>
+  </div>
+
+  <h2 class="section-title">🚗 Meus Veículos</h2>
+  <div class="veiculos-list">
+    <div th:if="${#lists.isEmpty(veiculos)}" class="empty-state">
+      <p>Você ainda não cadastrou veículos.</p>
+      <a th:href="@{/veiculos/novo}" class="btn btn-secondary">Cadastrar Veículo</a>
+    </div>
+    <div th:each="veiculo : ${veiculos}" class="veiculo-item stat-card">
+      <div class="veiculo-info">
+        <div class="veiculo-header">
+          <span class="veiculo-placa" th:text="${veiculo.placa}">ABC-1234</span>
+          <span class="veiculo-marca" th:text="${veiculo.marca}">Marca</span>
+          <span class="veiculo-modelo" th:text="${veiculo.modelo}">Modelo</span>
+        </div>
+        <div class="veiculo-detalhes">
+          <span><b>Capacidade:</b> <span th:text="${veiculo.capacidadeCarga}">1000</span> kg</span>
+          <span><b>Renavam:</b> <span th:text="${veiculo.renavam}">123456789</span></span>
+          <span><b>Chassi:</b> <span th:text="${veiculo.chassi}">CHASSI123</span></span>
+        </div>
+      </div>
+      <!-- Botão de ação, se desejar -->
+      <!-- <div class="veiculo-acoes">
+        <a th:href="@{/veiculos/{id}(id=${veiculo.id})}" class="btn btn-primary">Ver Detalhes</a>
+      </div> -->
     </div>
   </div>
 </div>

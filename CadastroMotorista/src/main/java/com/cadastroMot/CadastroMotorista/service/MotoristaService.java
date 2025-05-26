@@ -56,4 +56,8 @@ public class MotoristaService {
     public Motorista buscarPorId(Long id) {
         return motoristaRepository.findById(id).orElse(null);
     }
+
+    public Motorista findByUsuario(Usuario usuario) {
+        return motoristaRepository.findByUsuario(usuario);
+    }
 }

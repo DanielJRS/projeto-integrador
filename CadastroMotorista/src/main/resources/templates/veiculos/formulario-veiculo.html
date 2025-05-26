@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Novo Veículo</title>
+    <link rel="stylesheet" th:href="@{/img/css/transportadora/formulario-transportadora.css}" />
+</head>
+<body>
+    <div class="content-container">
+        <div class="form-container">
+            <div class="page-title">
+                <h2>Cadastrar Novo Veículo</h2>
+                <p>Preencha os dados do veículo abaixo.</p>
+            </div>
+            <form th:action="@{/veiculos}" th:object="${veiculo}" method="post">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Placa:</label>
+                        <input type="text" class="form-control" th:field="*{placa}" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Modelo:</label>
+                        <input type="text" class="form-control" th:field="*{modelo}" required />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Marca:</label>
+                        <input type="text" class="form-control" th:field="*{marca}" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Capacidade de Carga:</label>
+                        <input type="number" step="0.01" class="form-control" th:field="*{capacidadeCarga}" required />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Renavam:</label>
+                        <input type="text" class="form-control" th:field="*{renavam}" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Chassi:</label>
+                        <input type="text" class="form-control" th:field="*{chassi}" required />
+                    </div>
+                </div>
+                <div class="form-row single" th:if="${!isMotorista}">
+                    <div class="form-group">
+                        <label class="form-label">Motorista:</label>
+                        <select class="form-select" th:field="*{motorista}" required>
+                            <option th:value="">Selecione...</option>
+                            <option th:each="motorista : ${motoristas}" th:value="${motorista}" th:text="${motorista.nome}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <a th:href="@{/veiculos}" class="btn btn-secondary">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
