@@ -7,11 +7,9 @@ import com.cadastroMot.CadastroMotorista.repository.CargaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -84,36 +82,24 @@ public class CargaService {
     }
 
     public Carga atualizar(Carga cargaAtualizada) {
-        if (cargaAtualizada != null && cargaAtualizada.getId() != null && cargaRepository.existsById(cargaAtualizada.getId())) {
-            Optional<Carga> cargaExistenteOpt = cargaRepository.findById(cargaAtualizada.getId());
-            if (cargaExistenteOpt.isPresent()) {
-                Carga cargaExistente = cargaExistenteOpt.get();
-
-                cargaExistente.setDataColeta(cargaAtualizada.getDataColeta());
-                cargaExistente.setDataEntrega(cargaAtualizada.getDataEntrega());
-                cargaExistente.setOrigemEstado(cargaAtualizada.getOrigemEstado());
-                cargaExistente.setOrigemCidade(cargaAtualizada.getOrigemCidade());
-                cargaExistente.setDestinoEstado(cargaAtualizada.getDestinoEstado());
-                cargaExistente.setDestinoCidade(cargaAtualizada.getDestinoCidade());
-                cargaExistente.setTipoCarga(cargaAtualizada.getTipoCarga());
-                cargaExistente.setPossuiLona(cargaAtualizada.getPossuiLona());
-                cargaExistente.setProduto(cargaAtualizada.getProduto());
-                cargaExistente.setEspecie(cargaAtualizada.getEspecie());
-                cargaExistente.setPesoTotal(cargaAtualizada.getPesoTotal());
-                cargaExistente.setPreco(cargaAtualizada.getPreco());
-                cargaExistente.setLimiteAltura(cargaAtualizada.getLimiteAltura());
-
-                cargaExistente.setVeiculosLeves(cargaAtualizada.getVeiculosLeves());
-                cargaExistente.setVeiculosMedios(cargaAtualizada.getVeiculosMedios());
-                cargaExistente.setVeiculosPesados(cargaAtualizada.getVeiculosPesados());
-                cargaExistente.setFretesFechados(cargaAtualizada.getFretesFechados());
-                cargaExistente.setFretesAbertos(cargaAtualizada.getFretesAbertos());
-                cargaExistente.setFretesEspeciais(cargaAtualizada.getFretesEspeciais());
-
-                return cargaRepository.save(cargaExistente);
-            }
+        Carga cargaExistente = buscarPorId(cargaAtualizada.getId());
+        if (cargaExistente == null) {
+            throw new RuntimeException("Carga não encontrada");
         }
-        return null;
+
+        cargaExistente.setTipoCarga(cargaAtualizada.getTipoCarga());
+        cargaExistente.setPossuiLona(cargaAtualizada.getPossuiLona());
+        cargaExistente.setVeiculosLeves(cargaAtualizada.getVeiculosLeves());
+        cargaExistente.setVeiculosMedios(cargaAtualizada.getVeiculosMedios());
+        cargaExistente.setVeiculosPesados(cargaAtualizada.getVeiculosPesados());
+        cargaExistente.setFretesFechados(cargaAtualizada.getFretesFechados());
+        cargaExistente.setFretesAbertos(cargaAtualizada.getFretesAbertos());
+        cargaExistente.setFretesEspeciais(cargaAtualizada.getFretesEspeciais());
+        cargaExistente.setPesoTotal(cargaAtualizada.getPesoTotal());
+        cargaExistente.setLimiteAltura(cargaAtualizada.getLimiteAltura());
+        cargaExistente.setVolume(cargaAtualizada.getVolume());
+
+        return salvar(cargaExistente);
     }
 
     public List<Carga> buscarPorFiltro(String origemCidade, String origemEstado,
@@ -163,10 +149,6 @@ public class CargaService {
         }
 
 
-        if (possuiLona != null) {
-            carga.setPossuiLona("Sim".equalsIgnoreCase(possuiLona));
-        }
-
 
         carga.setPesoTotal(pesoTotal);
         carga.setLimiteAltura(limiteAltura);
@@ -204,6 +186,13 @@ public class CargaService {
 
         return carga;
     }
+
+
+
+    public List<Carga> buscarCargaPorMotorista(Long motoristaId){
+        return cargaRepository.findByMotoristaId(motoristaId);
+    }
+
 
 
 }

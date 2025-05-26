@@ -214,7 +214,7 @@
         </div>
 
         <div class="add-button">
-            <a href="/cargas/nova" class="btn btn-primary">
+            <a href="/cargas/novo" class="btn btn-primary">
                 <i class="fas fa-plus me-2"></i>Nova Carga
             </a>
         </div>
@@ -266,13 +266,13 @@
                     <td th:text="${carga.limiteAltura != null ? carga.limiteAltura : '-'}">Limite Altura</td>
                     <td th:text="${carga.volume != null ? carga.volume : '-'}">Volume</td>
                     <td class="text-nowrap">
-                        <a th:href="@{/cargas/{id}(id=${carga.id})}" class="btn-action btn-ver" title="Visualizar">
+                        <a th:href="@{/cargas/detalhar/{id}(id=${carga.id})}" class="btn-action btn-ver" title="Visualizar">
                             <i class="fas fa-eye"></i>
                         </a>
                         <a th:href="@{/cargas/editar/{id}(id=${carga.id})}" class="btn-action btn-editar" title="Editar">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a th:href="@{/cargas/excluir/{id}(id=${carga.id})}" class="btn-action btn-excluir" title="Excluir"
+                        <a th:href="@{/cargas/deletar/{id}(id=${carga.id})}" class="btn-action btn-excluir" title="Excluir"
                            onclick="return confirm('Tem certeza que deseja excluir esta carga?')">
                             <i class="fas fa-trash"></i>
                         </a>
@@ -285,7 +285,7 @@
                 <i class="fas fa-truck"></i>
                 <h4>Nenhuma carga encontrada</h4>
                 <p class="text-muted">Não há cargas cadastradas no momento.</p>
-                <a href="/cargas/nova" class="btn btn-primary mt-3">
+                <a href="/cargas/novo" class="btn btn-primary mt-3">
                     <i class="fas fa-plus me-2"></i>Cadastrar Nova Carga
                 </a>
             </div>

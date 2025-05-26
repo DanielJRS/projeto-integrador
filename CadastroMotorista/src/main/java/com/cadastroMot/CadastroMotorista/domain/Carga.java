@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,32 +38,37 @@ public class Carga {
     @ElementCollection
     @CollectionTable(name = "carga_veiculos_leves", joinColumns = @JoinColumn(name = "carga_id"))
     @Column(name = "veiculo_leve")
-    private List<String> veiculosLeves;
+    private List<String> veiculosLeves = new ArrayList<>();
 
+    // Repita para todas as outras coleções
     @ElementCollection
     @CollectionTable(name = "carga_veiculos_medios", joinColumns = @JoinColumn(name = "carga_id"))
     @Column(name = "veiculo_medio")
-    private List<String> veiculosMedios;
+    private List<String> veiculosMedios = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "carga_veiculos_pesados", joinColumns = @JoinColumn(name = "carga_id"))
     @Column(name = "veiculo_pesado")
-    private List<String> veiculosPesados;
+    private List<String> veiculosPesados = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "carga_fretes_fechados", joinColumns = @JoinColumn(name = "carga_id"))
     @Column(name = "frete_fechado")
-    private List<String> fretesFechados;
+    private List<String> fretesFechados = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "carga_fretes_abertos", joinColumns = @JoinColumn(name = "carga_id"))
     @Column(name = "frete_aberto")
-    private List<String> fretesAbertos;
+    private List<String> fretesAbertos = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "carga_fretes_especiais", joinColumns = @JoinColumn(name = "carga_id"))
     @Column(name = "frete_especial")
-    private List<String> fretesEspeciais;
+    private List<String> fretesEspeciais = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "motorista_id")
+    private Motorista motorista;
 
 
     public Long getId() {

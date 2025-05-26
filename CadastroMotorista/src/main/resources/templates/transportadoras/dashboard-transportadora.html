@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Transportadora - Global Transportes</title>
+    <script th:src="@{/img/js/transportadora/dashboard-transportadora.js}" defer></script>
+    <link rel="stylesheet" th:href="@{/img/css/transportadora/dashboard-transportadora.css}">
+</head>
+<body>
+<!-- Sidebar -->
+<nav class="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-logo">Global Transportes</div>
+    </div>
+
+    <div class="sidebar-menu">
+        <div class="sidebar-item">
+            <a th:href="@{/transportadora/}" class="sidebar-link">
+                <span class="sidebar-icon">🏢</span>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+            <div class="sidebar-tooltip">Dashboard</div>
+        </div>
+
+        <div class="sidebar-item">
+            <a th:href="@{/transportadora/motoristas/novo}" class="sidebar-link">
+                <span class="sidebar-icon">👨‍💼</span>
+                <span class="sidebar-text">Cadastrar Motorista</span>
+            </a>
+            <div class="sidebar-tooltip">Cadastrar Motorista</div>
+        </div>
+
+        <div class="sidebar-item">
+            <a th:href="@{/transportadora/veiculos/novo}" class="sidebar-link">
+                <span class="sidebar-icon">🚛</span>
+                <span class="sidebar-text">Cadastrar Veículo</span>
+            </a>
+            <div class="sidebar-tooltip">Cadastrar Veículo</div>
+        </div>
+
+        <div class="sidebar-item">
+            <a th:href="@{/transportadora/fretes}" class="sidebar-link">
+                <span class="sidebar-icon">📦</span>
+                <span class="sidebar-text">Fretes</span>
+            </a>
+            <div class="sidebar-tooltip">Fretes</div>
+        </div>
+
+        <div class="sidebar-item">
+            <a th:href="@{/transportadora/fretes/andamento}" class="sidebar-link">
+                <span class="sidebar-icon">🚚</span>
+                <span class="sidebar-text">Fretes em Andamento</span>
+            </a>
+            <div class="sidebar-tooltip">Fretes em Andamento</div>
+        </div>
+
+        <div class="sidebar-item">
+            <a th:href="@{/transportadora/relatorios}" class="sidebar-link">
+                <span class="sidebar-icon">📊</span>
+                <span class="sidebar-text">Relatórios</span>
+            </a>
+            <div class="sidebar-tooltip">Relatórios</div>
+        </div>
+
+        <div class="sidebar-item">
+            <a th:href="@{/transportadora/motoristas}" class="sidebar-link">
+                <span class="sidebar-icon">👥</span>
+                <span class="sidebar-text">Meus Motoristas</span>
+            </a>
+            <div class="sidebar-tooltip">Meus Motoristas</div>
+        </div>
+
+        <div class="sidebar-item">
+            <a th:href="@{/transportadora/frota}" class="sidebar-link">
+                <span class="sidebar-icon">🚗</span>
+                <span class="sidebar-text">Minha Frota</span>
+            </a>
+            <div class="sidebar-tooltip">Minha Frota</div>
+        </div>
+
+        <div class="sidebar-item">
+            <a th:href="@{/transportadora/perfil}" class="sidebar-link">
+                <span class="sidebar-icon">⚙️</span>
+                <span class="sidebar-text">Configurações</span>
+            </a>
+            <div class="sidebar-tooltip">Configurações</div>
+        </div>
+    </div>
+</nav>
+
+<header>
+    <div class="container header-content">
+        <div class="logo">
+            <button class="mobile-menu-toggle" onclick="toggleSidebar()">☰</button>
+            <img th:src="@{/img/GlobalTransportes.png}" alt="Global Transportes Logo">
+        </div>
+        <div class="header-actions">
+            <a th:href="@{/logout}" class="btn-logout">🚪 Sair</a>
+        </div>
+    </div>
+</header>
+
+<div class="dashboard-container">
+    <div class="dashboard-welcome">
+        <h2 th:text="|Bem-vinda, ${transportadora.nomeFantasia}!|">Bem-vinda, Transportadora VIP!</h2>
+        <p>Gerencie sua frota, motoristas e fretes de forma inteligente. Controle total das suas operações em uma única plataforma.</p>
+    </div>
+
+    <!-- Statistics Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number" th:text="${totalMotoristas}">24</div>
+            <div class="stat-label">Motoristas Ativos</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" th:text="${totalVeiculos}">18</div>
+            <div class="stat-label">Veículos na Frota</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" th:text="${fretesAndamento}">12</div>
+            <div class="stat-label">Fretes em Andamento</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" th:text="${fretesFinalizados}">156</div>
+            <div class="stat-label">Fretes Finalizados</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" th:text="|R$ ${receita}|">R$ 89.450</div>
+            <div class="stat-label">Receita (Mês)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" th:text="${mediaAvaliacao}">4.8</div>
+            <div class="stat-label">Avaliação Média</div>
+        </div>
+    </div>
+
+    <!-- Main Action Cards -->
+    <div class="action-cards">
+        <div class="action-card">
+            <span class="action-card-icon">👨‍💼</span>
+            <h3>Cadastrar Motorista</h3>
+            <p>Adicione novos motoristas à sua equipe e expanda sua capacidade operacional.</p>
+            <a th:href="@{/transportadora/motoristas/novo}" class="btn btn-primary">👤 Cadastrar Motorista</a>
+        </div>
+
+        <div class="action-card">
+            <span class="action-card-icon">🚛</span>
+            <h3>Cadastrar Veículo</h3>
+            <p>Adicione novos veículos à sua frota e aumente sua capacidade de transporte.</p>
+            <a th:href="@{/transportadora/veiculos/novo}" class="btn btn-primary">🚚 Cadastrar Veículo</a>
+        </div>
+
+        <div class="action-card">
+            <span class="action-card-icon">📦</span>
+            <h3>Gerenciar Fretes</h3>
+            <p>Visualize todos os fretes, atribua motoristas e acompanhe o progresso das entregas.</p>
+            <a th:href="@{/transportadora/fretes}" class="btn btn-secondary">📋 Ver Fretes</a>
+        </div>
+
+        <div class="action-card">
+            <span class="action-card-icon">🚚</span>
+            <h3>Fretes em Andamento</h3>
+            <p>Monitore fretes ativos e acompanhe entregas em tempo real.</p>
+            <a th:href="@{/transportadora/fretes/andamento}" class="btn btn-secondary">🚚 Ver Andamento</a>
+        </div>
+    </div>
+
+    <!-- Recent Activity Section -->
+    <h2 class="section-title">📈 Atividade Recente</h2>
+    <div class="recent-activity">
+        <div class="activity-header">
+            <h3>Últimas Atividades</h3>
+        </div>
+        <div class="activity-item">
+            <div class="activity-icon">📦</div>
+            <div class="activity-content">
+                <div class="activity-title">Novo frete aceito: São Paulo → Rio de Janeiro</div>
+                <div class="activity-time">Há 2 horas</div>
+            </div>
+        </div>
+        <div class="activity-item">
+            <div class="activity-icon">👨‍💼</div>
+            <div class="activity-content">
+                <div class="activity-title">Motorista João Silva cadastrado</div>
+                <div class="activity-time">Há 4 horas</div>
+            </div>
+        </div>
+        <div class="activity-item">
+            <div class="activity-icon">🚛</div>
+            <div class="activity-content">
+                <div class="activity-title">Veículo Mercedes-Benz Actros adicionado à frota</div>
+                <div class="activity-time">Há 1 dia</div>
+            </div>
+        </div>
+        <div class="activity-item">
+            <div class="activity-icon">✅</div>
+            <div class="activity-content">
+                <div class="activity-title">Frete Brasília → Salvador finalizado</div>
+                <div class="activity-time">Há 2 dias</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fretes Section -->
+    <h2 class="section-title">📦 Fretes Disponíveis</h2>
+    <div class="fretes-list">
+        <div class="frete-item" th:each="frete : ${fretes}">
+            <div class="frete-info">
+                <div class="frete-origem-destino" th:text="|${frete.origem} ${frete.destino}|">
+                    São Paulo Rio de Janeiro
+                </div>
+                <div class="frete-detalhes">
+                    <span th:text="|Peso: ${frete.peso}kg|">Peso: 2.500kg</span>
+                    <span th:text="|Distância: ${frete.distancia}km|">Distância: 450km</span>
+                    <span th:text="|Prazo: ${frete.prazo} dias|">Prazo: 3 dias</span>
+                    <span th:text="|Tipo: ${frete.tipoVeiculo}|">Tipo: Caminhão</span>
+                </div>
+                <div class="frete-valor" th:text="|R$ ${frete.valor}|">R$ 3.500,00</div>
+            </div>
+            <div class="frete-acoes">
+                <a th:href="@{/transportadora/fretes/{id}/aceitar(id=${frete.id})}" class="btn btn-primary">✅ Aceitar Frete</a>
+            </div>
+        </div>
+
+        <!-- Exemplo estático caso não haja fretes do backend -->
+        <div class="frete-item">
+            <div class="frete-info">
+                <div class="frete-origem-destino">Belo Horizonte Salvador</div>
+                <div class="frete-detalhes">
+                    <span>Peso: 1.800kg</span>
+                    <span>Distância: 680km</span>
+                    <span>Prazo: 4 dias</span>
+                    <span>Tipo: Caminhão</span>
+                </div>
+                <div class="frete-valor">R$ 4.200,00</div>
+            </div>
+            <div class="frete-acoes">
+                <a href="#" class="btn btn-primary">✅ Aceitar Frete</a>
+            </div>
+        </div>
+
+        <div class="frete-item">
+            <div class="frete-info">
+                <div class="frete-origem-destino">Brasília Goiânia</div>
+                <div class="frete-detalhes">
+                    <span>Peso: 900kg</span>
+                    <span>Distância: 210km</span>
+                    <span>Prazo: 1 dia</span>
+                    <span>Tipo: Van</span>
+                </div>
+                <div class="frete-valor">R$ 1.200,00</div>
+            </div>
+            <div class="frete-acoes">
+                <a href="#" class="btn btn-primary">✅ Aceitar Frete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 Global Transportes. Conectando o Brasil com eficiência e segurança.</p>
+</footer>
+</body>
+</html>
