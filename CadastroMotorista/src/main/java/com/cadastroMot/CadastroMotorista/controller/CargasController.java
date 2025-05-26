@@ -1,82 +1,241 @@
-package com.cadastroMot.CadastroMotorista.controller;
+    package com.cadastroMot.CadastroMotorista.controller;
+
+    import com.cadastroMot.CadastroMotorista.domain.Carga;
+    import com.cadastroMot.CadastroMotorista.domain.TipoCarga;
+    import com.cadastroMot.CadastroMotorista.repository.CargaRepository;
+    import com.cadastroMot.CadastroMotorista.service.CargaService;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.format.annotation.DateTimeFormat;
+    import org.springframework.stereotype.Controller;
+    import org.springframework.ui.Model;
+    import org.springframework.web.bind.annotation.*;
+    import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+    import java.math.BigDecimal;
+    import java.time.LocalDate;
+    import java.util.ArrayList;
+    import java.util.Arrays;
+    import java.util.List;
+    import java.util.stream.Collectors;
 
 
-import com.cadastroMot.CadastroMotorista.domain.Carga;
-import com.cadastroMot.CadastroMotorista.service.CargaService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+    @Controller
+    @RequestMapping("/cargas")
+    public class CargasController {
 
-import java.util.List;
-
-@Controller
-@RequestMapping("/cargas")
-public class CargasController {
-
-    @Autowired
-    private CargaService cargaService;
+        @Autowired
+        private CargaService cargaService;
 
 
-    @GetMapping("/listar")
-    public String listarCargas(@RequestParam(required = false) String origem,
-                               @RequestParam(required = false) String destino,
-                               @RequestParam(required = false) String produto,
-                               @RequestParam(required = false) String especie,
-                               Model model) {
-        List<Carga> cargas;
-        if (origem != null || destino != null || produto != null || especie != null) {
-            cargas = cargaService.buscarPorFiltro(origem, destino, produto, especie);
-        } else {
-            cargas = cargaService.listarTodos();
+
+        @GetMapping("/novo")
+        public String formularioCarga(Model model) {
+            model.addAttribute("carga", new Carga());
+            model.addAttribute("cidades", cargaService.listarCidades());
+            model.addAttribute("estados", cargaService.listarEstados());
+
+            return "cargas/novo";
         }
-        model.addAttribute("cargas", cargas);
-        model.addAttribute("origem", origem);
-        model.addAttribute("destino", destino);
-        model.addAttribute("produto", produto);
-        model.addAttribute("especie", especie);
-        return "/cargas/listar";
-    }
 
+        @PostMapping("/entrega")
+        public String processarFormularioCarga(@ModelAttribute Carga carga,
+                                               @RequestParam(required = false) String tipoCarga,
+                                               @RequestParam(required = false) String possuiLona,
+                                               @RequestParam(required = false) String[] veiculo,
+                                               @RequestParam(required = false) String[] freteFechado,
+                                               @RequestParam(required = false) String[] freteAberto,
+                                               @RequestParam(required = false) String[] freteEspecial,
+                                               @RequestParam(required = false) Double pesoTotal,
+                                               @RequestParam(required = false) Double limiteAltura,
+                                               @RequestParam(required = false) Double volume) {
 
+            // Se estiver editando, busca o objeto original para preservar campos não preenchidos no form
+            Carga cargaFinal;
+            if (carga.getId() != null) {
+                // Assumindo que o ID vem do formulário hidden
+                Carga existente = cargaService.buscarPorId(carga.getId());
+                if (existente != null) {
+                    cargaFinal = existente;
 
-    @GetMapping("/{id:\\d+}")
-    public String detalharCarga(@PathVariable Long id, Model model) {
-        model.addAttribute("carga", cargaService.buscarPorId(id));
-        return "/cargas/detalhar";
-    }
+                    // Atualiza apenas os campos que vêm do formulário
+                    cargaFinal.setTipoCarga(tipoCarga != null && !tipoCarga.isEmpty() ? TipoCarga.valueOf(tipoCarga) : null);
+                    cargaFinal.setPossuiLona("on".equalsIgnoreCase(possuiLona));
+                    cargaFinal.setPesoTotal(pesoTotal);
+                    cargaFinal.setLimiteAltura(limiteAltura);
+                    cargaFinal.setVolume(volume);
 
+                    List<String> selecionados = veiculo != null ? Arrays.asList(veiculo) : List.of();
+                    cargaFinal.setVeiculosLeves(selecionados.stream().filter(List.of("Todos", "3/4", "HR", "Toco", "VLC")::contains).toList());
+                    cargaFinal.setVeiculosMedios(selecionados.stream().filter(List.of("Bitruck", "Truck")::contains).toList());
+                    cargaFinal.setVeiculosPesados(selecionados.stream().filter(List.of("Bi-trem", "Carreta", "Rodotrem", "Carreta LS")::contains).toList());
 
-    @GetMapping("/novo")
-    public String formularioNovaCarga(Model model) {
-        model.addAttribute("carga", new Carga());
-        return "/cargas/novo";
-    }
+                    cargaFinal.setFretesFechados(freteFechado != null ? List.of(freteFechado) : List.of());
+                    cargaFinal.setFretesAbertos(freteAberto != null ? List.of(freteAberto) : List.of());
+                    cargaFinal.setFretesEspeciais(freteEspecial != null ? List.of(freteEspecial) : List.of());
+                } else {
+                    // fallback: trata como novo se não encontrar pelo ID
+                    cargaFinal = carga;
+                }
+            } else {
+                // novo registro
+                carga.setTipoCarga(tipoCarga != null && !tipoCarga.isEmpty() ? TipoCarga.valueOf(tipoCarga) : null);
+                carga.setPossuiLona("on".equalsIgnoreCase(possuiLona));
+                carga.setPesoTotal(pesoTotal);
+                carga.setLimiteAltura(limiteAltura);
+                carga.setVolume(volume);
 
+                List<String> selecionados = veiculo != null ? Arrays.asList(veiculo) : List.of();
+                carga.setVeiculosLeves(selecionados.stream().filter(List.of("Todos", "3/4", "HR", "Toco", "VLC")::contains).toList());
+                carga.setVeiculosMedios(selecionados.stream().filter(List.of("Bitruck", "Truck")::contains).toList());
+                carga.setVeiculosPesados(selecionados.stream().filter(List.of("Bi-trem", "Carreta", "Rodotrem", "Carreta LS")::contains).toList());
 
-    @PostMapping("/salvar")
-    public String salvarCarga(@ModelAttribute Carga carga) {
-        if (carga.getId() != null) {
-            cargaService.salvar(carga);
-        } else {
-            cargaService.salvar(carga);
+                carga.setFretesFechados(freteFechado != null ? List.of(freteFechado) : List.of());
+                carga.setFretesAbertos(freteAberto != null ? List.of(freteAberto) : List.of());
+                carga.setFretesEspeciais(freteEspecial != null ? List.of(freteEspecial) : List.of());
+
+                cargaFinal = carga;
+            }
+
+            // Salvar ou atualizar
+            cargaService.salvar(cargaFinal);
+
+            return "redirect:/cargas/listar";
         }
-        return "redirect:/cargas/listar";
+
+
+
+
+
+        @GetMapping("/listar")
+        public String listarCargas(
+                @RequestParam(required = false) String origemCidade,
+                @RequestParam(required = false) String origemEstado,
+                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataColeta,
+                @RequestParam(required = false) String destinoCidade,
+                @RequestParam(required = false) String destinoEstado,
+                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataEntrega,
+                @RequestParam(required = false) String produto,
+                @RequestParam(required = false) String especie,
+                @RequestParam(required = false) String veiculo,
+                @RequestParam(required = false) Double preco, // CORRETO
+                @RequestParam(required = false) TipoCarga tipoCarga,
+                @RequestParam(required = false) Boolean possuiLona,
+                @RequestParam(required = false) Double pesoTotal,
+                @RequestParam(required = false) Double limiteAltura,
+                @RequestParam(required = false) Double volume,
+
+                Model model) {
+
+            List<Carga> cargasFiltradas = cargaService.buscarPorFiltro(
+                    origemCidade, destinoCidade, produto, especie);
+
+            model.addAttribute("cargas", cargasFiltradas);
+
+            return "cargas/listar";
+        }
+
+
+
+        @GetMapping("/editar/{id}")
+        public String editarCarga(@PathVariable Long id, Model model) {
+            Carga carga = cargaService.buscarPorId(id);
+
+            // Inicializar listas se forem nulas
+            if (carga.getVeiculosLeves() == null) {
+                carga.setVeiculosLeves(new ArrayList<>());
+            }
+            if (carga.getVeiculosMedios() == null) {
+                carga.setVeiculosMedios(new ArrayList<>());
+            }
+            if (carga.getVeiculosPesados() == null) {
+                carga.setVeiculosPesados(new ArrayList<>());
+            }
+            if (carga.getFretesFechados() == null) {
+                carga.setFretesFechados(new ArrayList<>());
+            }
+            if (carga.getFretesAbertos() == null) {
+                carga.setFretesAbertos(new ArrayList<>());
+            }
+            if (carga.getFretesEspeciais() == null) {
+                carga.setFretesEspeciais(new ArrayList<>());
+            }
+
+            model.addAttribute("carga", carga);
+            model.addAttribute("estados", cargaService.listarEstados());
+            model.addAttribute("cidades", cargaService.listarCidades());
+
+                return "cargas/editar";
+        }
+
+        @PostMapping("/editar/{id}")
+        public String atualizarCarga(@PathVariable Long id,
+                                     @ModelAttribute Carga carga,
+                                     @RequestParam(required = false) String tipoCarga,
+                                     @RequestParam(required = false) String possuiLona,
+                                     @RequestParam(required = false) String[] veiculosLeves,
+                                     @RequestParam(required = false) String[] veiculosMedios,
+                                     @RequestParam(required = false) String[] veiculosPesados,
+                                     @RequestParam(required = false) String[] fretesFechados,
+                                     @RequestParam(required = false) String[] fretesAbertos,
+                                     @RequestParam(required = false) String[] fretesEspeciais,
+                                     RedirectAttributes redirectAttributes) {
+
+            Carga cargaExistente = cargaService.buscarPorId(id);
+            if (cargaExistente == null) {
+                return "redirect:/cargas/listar";
+            }
+
+            // Atualiza campos básicos
+            cargaExistente.setOrigemCidade(carga.getOrigemCidade());
+            cargaExistente.setOrigemEstado(carga.getOrigemEstado());
+            cargaExistente.setDestinoCidade(carga.getDestinoCidade());
+            cargaExistente.setDestinoEstado(carga.getDestinoEstado());
+            cargaExistente.setDataColeta(carga.getDataColeta());
+            cargaExistente.setDataEntrega(carga.getDataEntrega());
+            cargaExistente.setProduto(carga.getProduto());
+            cargaExistente.setEspecie(carga.getEspecie());
+            cargaExistente.setPesoTotal(carga.getPesoTotal());
+            cargaExistente.setLimiteAltura(carga.getLimiteAltura());
+            cargaExistente.setVolume(carga.getVolume());
+            cargaExistente.setPreco(carga.getPreco());
+
+            if (tipoCarga != null && !tipoCarga.isEmpty()) {
+                cargaExistente.setTipoCarga(TipoCarga.valueOf(tipoCarga));
+            }
+            cargaExistente.setPossuiLona("on".equalsIgnoreCase(possuiLona));
+
+            // Atualiza coleções garantindo que sejam mutáveis
+            cargaExistente.setVeiculosLeves(veiculosLeves != null ? new ArrayList<>(Arrays.asList(veiculosLeves)) : new ArrayList<>());
+            cargaExistente.setVeiculosMedios(veiculosMedios != null ? new ArrayList<>(Arrays.asList(veiculosMedios)) : new ArrayList<>());
+            cargaExistente.setVeiculosPesados(veiculosPesados != null ? new ArrayList<>(Arrays.asList(veiculosPesados)) : new ArrayList<>());
+            cargaExistente.setFretesFechados(fretesFechados != null ? new ArrayList<>(Arrays.asList(fretesFechados)) : new ArrayList<>());
+            cargaExistente.setFretesAbertos(fretesAbertos != null ? new ArrayList<>(Arrays.asList(fretesAbertos)) : new ArrayList<>());
+            cargaExistente.setFretesEspeciais(fretesEspeciais != null ? new ArrayList<>(Arrays.asList(fretesEspeciais)) : new ArrayList<>());
+
+            cargaService.atualizar(cargaExistente);
+            return "redirect:/cargas/listar";
+        }
+
+
+
+        @GetMapping("/detalhar/{id}")
+        public String detalharCarga(@PathVariable Long id, Model model) {
+            Carga carga = cargaService.buscarPorId(id);
+
+            if (carga == null) {
+                // Pode redirecionar ou lançar erro
+                return "redirect:/cargas/listar";
+            }
+
+            model.addAttribute("carga", carga);
+            return "cargas/detalhar"; // Crie esse template detalhar.html
+        }
+
+
+        @GetMapping("/deletar/{id}")
+        public String deletarCarga(@PathVariable Long id) {
+            cargaService.deletar(id);
+            return "redirect:/cargas/listar ";
+        }
     }
 
-
-
-    @GetMapping("/editar/{id:\\d+}")
-    public String formularioEditarCarga(@PathVariable Long id, Model model) {
-        model.addAttribute("carga", cargaService.buscarPorId(id));
-        return "/cargas/editar";
-    }
-
-
-
-    @GetMapping("/deletar/{id:\\d+}")
-    public String deletarCarga(@PathVariable Long id) {
-        cargaService.deletar(id);
-        return "redirect:/cargas/listar";
-    }
-}

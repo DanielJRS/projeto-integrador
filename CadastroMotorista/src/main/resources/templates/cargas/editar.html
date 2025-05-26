@@ -1,39 +1,384 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Editar Carga</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        body {
+          background-color: #f8f9fa;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .navbar {
+          background-color: #ffffff;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .logo {
+          height: 80px;
+        }
+        .content-container {
+          background-color: #ffffff;
+          border-radius: 8px;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+          padding: 30px;
+          margin-top: 30px;
+          margin-bottom: 30px;
+        }
+        .btn-primary {
+          background-color: #f9b000;
+          border-color: #f9b000;
+          color: #1a237e;
+          font-weight: 500;
+        }
+        .btn-primary:hover {
+          background-color: #e6a200;
+          border-color: #e6a200;
+          color: #1a237e;
+        }
+        .form-label {
+          font-weight: 500;
+        }
+        .form-control {
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          padding: 10px 12px;
+          transition: border-color 0.3s ease;
+        }
+        .form-control:focus {
+          border-color: #f9b000;
+          box-shadow: 0 0 0 0.2rem rgba(249, 176, 0, 0.25);
+        }
+        h2 {
+          color: #1a237e;
+          font-weight: 600;
+          text-align: center;
+          margin-bottom: 30px;
+        }
+        h4 {
+          color: #1a237e;
+          font-weight: 500;
+          border-bottom: 2px solid #f9b000;
+          padding-bottom: 10px;
+          margin-bottom: 20px;
+        }
+        .form-row {
+          margin-bottom: 20px;
+        }
+        .icon-section {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+        .icon-section i {
+          color: #f9b000;
+          margin-right: 10px;
+          font-size: 1.2em;
+        }
+        .checkbox-group {
+          background-color: #f8f9fa;
+          padding: 15px;
+          border-radius: 8px;
+          border: 1px solid #e9ecef;
+        }
+        .checkbox-group > label {
+          font-weight: 600;
+          color: #495057;
+          margin-bottom: 10px;
+          display: block;
+        }
+        .checkbox-item {
+          margin-bottom: 8px;
+        }
+        .checkbox-item input[type="checkbox"] {
+          margin-right: 8px;
+        }
+        .checkbox-item label {
+          font-weight: normal;
+          margin-bottom: 0;
+        }
+    </style>
 </head>
 <body>
-<h1>Editar Carga</h1>
-<form th:action="@{/cargas/salvar}" th:object="${carga}" method="post">
-    <div>
-        <label for="origem">Origem:</label>
-        <input type="text" id="origem" th:field="*{origem}" required/>
+<div class="container content-container">
+    <div class="icon-section">
+        <h2>Editar Carga</h2>
     </div>
-    <div>
-        <label for="destino">Destino:</label>
-        <input type="text" id="destino" th:field="*{destino}" required/>
-    </div>
-    <div>
-        <label for="produto">Produto:</label>
-        <input type="text" id="produto" th:field="*{produto}" required/>
-    </div>
-    <div>
-        <label for="especie">Espécie:</label>
-        <input type="text" id="especie" th:field="*{especie}" required/>
-    </div>
-    <div>
-        <label for="veiculo">Veículo:</label>
-        <input type="text" id="veiculo" th:field="*{veiculo}" required/>
-    </div>
-    <div>
-        <label for="preco">Preço:</label>
-        <input type="text" id="preco" th:field="*{preco}" required/>
-    </div>
-    <div>
-        <button type="submit">Salvar</button>
-    </div>
-</form>
-<a href="/cargas/listar">Voltar para lista</a>
+
+    <form th:action="@{/cargas/editar/{id}(id=${carga.id})}" method="post" th:object="${carga}">
+        <input type="hidden" th:field="*{id}" />
+        <!-- os outros campos -->
+
+
+
+    <!-- DATA DA COLETA -->
+        <div class="row form-row">
+            <div class="col-md-6">
+                <label for="dataColeta" class="form-label">
+                    <i class="fas fa-calendar-alt"></i> Data da Coleta
+                </label>
+                <input type="date" id="dataColeta" name="dataColeta" class="form-control" th:value="*{dataColeta}" required />
+            </div>
+            <div class="col-md-6">
+                <label for="dataEntrega" class="form-label">
+                    <i class="fas fa-calendar-check"></i> Data de Entrega
+                </label>
+                <input type="date" id="dataEntrega" name="dataEntrega" class="form-control" th:value="*{dataEntrega}" required />
+            </div>
+        </div>
+
+        <!-- ORIGEM -->
+        <h4><i class="fas fa-map-marker-alt"></i> Origem</h4>
+        <div class="row form-row">
+            <div class="col-md-6">
+                <label for="origemEstado" class="form-label">Estado de Origem</label>
+                <select id="origemEstado" name="origemEstado" class="form-control" required>
+                    <option value="" disabled>Selecione o estado</option>
+                    <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}" th:selected="${estado == carga.origemEstado}">Estado</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="origemCidade" class="form-label">Cidade de Origem</label>
+                <select id="origemCidade" name="origemCidade" class="form-control" required>
+                    <option value="" disabled>Selecione a cidade</option>
+                    <option th:each="cidade : ${cidades}" th:value="${cidade}" th:text="${cidade}" th:selected="${cidade == carga.origemCidade}">Cidade</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- DESTINO -->
+        <h4><i class="fas fa-flag-checkered"></i> Destino</h4>
+        <div class="row form-row">
+            <div class="col-md-6">
+                <label for="destinoEstado" class="form-label">Estado de Destino</label>
+                <select id="destinoEstado" name="destinoEstado" class="form-control" required>
+                    <option value="" disabled>Selecione o estado</option>
+                    <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}" th:selected="${estado == carga.destinoEstado}">Estado</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="destinoCidade" class="form-label">Cidade de Destino</label>
+                <select id="destinoCidade" name="destinoCidade" class="form-control" required>
+                    <option value="" disabled>Selecione a cidade</option>
+                    <option th:each="cidade : ${cidades}" th:value="${cidade}" th:text="${cidade}" th:selected="${cidade == carga.destinoCidade}">Cidade</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- CARGA -->
+        <h4><i class="fas fa-box"></i> Carga</h4>
+        <div class="row form-row">
+            <div class="col-md-6">
+                <label for="tipoCarga" class="form-label">Tipo de Carga</label>
+                <select id="tipoCarga" name="tipoCarga" class="form-control" required>
+                    <option value="" disabled>Selecione</option>
+                    <option value="COMPLETA" th:selected="${carga.tipoCarga == 'COMPLETA'}">Completa</option>
+                    <option value="CONSOLIDADA" th:selected="${carga.tipoCarga == 'CONSOLIDADA'}">Consolidada</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="possuiLona" class="form-label">Possui Lona?</label>
+                <select id="possuiLona" name="possuiLona" class="form-control" required>
+                    <option value="on" th:selected="${carga.possuiLona == true}">Sim</option>
+                    <option value="off" th:selected="${carga.possuiLona == false}">Não</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="produto" class="form-label">Produto</label>
+                <input type="text" id="produto" name="produto" class="form-control" th:value="${carga.produto}" />
+            </div>
+            <div class="col-md-6">
+                <label for="especie" class="form-label">Tipo / Espec. do Produto</label>
+                <input type="text" id="especie" name="especie" class="form-control" th:value="${carga.especie}" />
+            </div>
+        </div>
+
+        <!-- PESO, PREÇO, ALTURA -->
+        <div class="row form-row">
+            <div class="col-md-4">
+                <label for="pesoTotal" class="form-label">Peso Total (kg)</label>
+                <input type="number" step="0.01" id="pesoTotal" name="pesoTotal" class="form-control" th:value="*{pesoTotal}" required />
+            </div>
+            <div class="col-md-4">
+                <label for="preco" class="form-label">Preço (R$)</label>
+                <input type="number" step="0.01" id="preco" name="preco" class="form-control" th:value="*{preco}" required />
+            </div>
+            <div class="col-md-4">
+                <label for="limiteAltura" class="form-label">Limite de Altura (m)</label>
+                <input type="number" step="0.01" id="limiteAltura" name="limiteAltura" class="form-control" th:value="*{limiteAltura}" required />
+            </div>
+            <div class="col-md-4">
+                <label for="volume" class="form-label">Volume (m³)</label>
+                <input type="number" step="0.01" id="volume" name="volume" class="form-control" th:value="${carga.volume}" />
+            </div>
+
+        </div>
+
+        <h4><i class="fas fa-truck"></i> Veículos</h4>
+        <div class="row form-row">
+            <div class="col-md-4">
+                <div class="checkbox-group">
+                    <label>Leves</label>
+                    <div class="checkbox-item">
+                        <input type="checkbox" th:field="*{veiculosLeves}" value="Todos" id="veiculo_todos" />
+                        <label for="veiculo_todos">Todos</label>
+                    </div>
+
+                    <div class="checkbox-item">
+                        <input type="checkbox" th:field="*{veiculosLeves}" value="3/4" id="veiculo_34" />
+                        <label for="veiculo_34">3/4</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" th:field="*{veiculosLeves}" value="HR" id="veiculo_hr" />
+                        <label for="veiculo_hr">HR</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" th:field="*{veiculosLeves}" value="Toco" id="veiculo_toco" />
+                        <label for="veiculo_toco">Toco</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" th:field="*{veiculosLeves}" value="VLC" id="veiculo_vlc" />
+                        <label for="veiculo_vlc">VLC</label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="checkbox-group">
+                    <label>Médios</label>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="veiculosMedios" value="Bitruck" id="veiculo_bitruck"
+                               th:checked="${carga.veiculosMedios != null && #lists.contains(carga.veiculosMedios, 'Bitruck')}" />
+                        <label for="veiculo_bitruck">Bitruck</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="veiculosMedios" value="Truck" id="veiculo_truck"
+                               th:checked="${carga.veiculosMedios != null && #lists.contains(carga.veiculosMedios, 'Truck')}" />
+                        <label for="veiculo_truck">Truck</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="checkbox-group">
+                    <label>Pesados</label>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="veiculosPesados" value="Bi-trem" id="veiculo_bitrem"
+                               th:checked="${carga.veiculosPesados != null && #lists.contains(carga.veiculosPesados, 'Bi-trem')}" />
+                        <label for="veiculo_bitrem">Bi-trem</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="veiculosPesados" value="Carreta" id="veiculo_carreta"
+                               th:checked="${carga.veiculosPesados != null && #lists.contains(carga.veiculosPesados, 'Carreta')}" />
+                        <label for="veiculo_carreta">Carreta</label>
+
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="veiculosPesados" value="Rodotrem" id="veiculo_rodotrem"
+                               th:checked="${carga.veiculosPesados != null && #lists.contains(carga.veiculosPesados, 'Rodotrem')}" />
+                        <label for="veiculo_rodotrem">Rodotrem</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="veiculosPesados" value="Carreta LS" id="veiculo_carreta_ls"
+                               th:checked="${carga.veiculosPesados != null && #lists.contains(carga.veiculosPesados, 'Carreta LS')}" />
+                        <label for="veiculo_carreta_ls">Carreta LS</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TIPOS DE FRETE -->
+        <h4><i class="fas fa-shipping-fast"></i> Frete</h4>
+        <div class="row form-row">
+            <div class="col-md-4">
+                <div class="checkbox-group">
+                    <label>Fechados</label>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="fretesFechados" value="Graneleiro" id="fechado_graneleiro"
+                               th:checked="${carga.fretesFechados != null && #lists.contains(carga.fretesFechados, 'Graneleiro')}" />
+                        <label for="fechado_graneleiro">Graneleiro</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="fretesFechados" value="Baú Frigorífico" id="fechado_bau_frigo"
+                               th:checked="${carga.fretesFechados != null && #lists.contains(carga.fretesFechados, 'Baú Frigorífico')}" />
+                        <label for="fechado_bau_frigo">Baú Frigorífico</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="fretesFechados" value="Baú Seco" id="fechado_bau_seco"
+                               th:checked="${carga.fretesFechados != null && #lists.contains(carga.fretesFechados, 'Baú Seco')}" />
+                        <label for="fechado_bau_seco">Baú Seco</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="fretesFechados" value="Sider" id="fechado_sider"
+                               th:checked="${carga.fretesFechados != null && #lists.contains(carga.fretesFechados, 'Sider')}" />
+                        <label for="fechado_sider">Sider</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="checkbox-group">
+                    <label>Abertos</label>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="fretesAbertos" value="Graneleiro" id="aberto_graneleiro"
+                               th:checked="${carga.fretesAbertos != null && #lists.contains(carga.fretesAbertos, 'Graneleiro')}" />
+                        <label for="aberto_graneleiro">Graneleiro</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="fretesAbertos" value="Prancha" id="aberto_prancha"
+                               th:checked="${carga.fretesAbertos != null && #lists.contains(carga.fretesAbertos, 'Prancha')}" />
+                        <label for="aberto_prancha">Prancha</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="fretesAbertos" value="Plataforma" id="aberto_plataforma"
+                               th:checked="${carga.fretesAbertos != null && #lists.contains(carga.fretesAbertos, 'Plataforma')}" />
+                        <label for="aberto_plataforma">Plataforma</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="fretesAbertos" value="Container" id="aberto_container"
+                               th:checked="${carga.fretesAbertos != null && #lists.contains(carga.fretesAbertos, 'Container')}" />
+                        <label for="aberto_container">Container</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="checkbox-group">
+                    <label>Especial</label>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="fretesEspeciais" value="Carga Viva" id="especial_carga_viva"
+                               th:checked="${carga.fretesEspeciais != null && #lists.contains(carga.fretesEspeciais, 'Carga Viva')}" />
+                        <label for="especial_carga_viva">Carga Viva</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="fretesEspeciais" value="Tanque" id="especial_tanque"
+                               th:checked="${carga.fretesEspeciais != null && #lists.contains(carga.fretesEspeciais, 'Tanque')}" />
+                        <label for="especial_tanque">Tanque</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="fretesEspeciais" value="Granel" id="especial_granel"
+                               th:checked="${carga.fretesEspeciais != null && #lists.contains(carga.fretesEspeciais, 'Granel')}" />
+                        <label for="especial_granel">Granel</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="fretesEspeciais" value="Refrigerado" id="especial_refrigerado"
+                               th:checked="${carga.fretesEspeciais != null && #lists.contains(carga.fretesEspeciais, 'Refrigerado')}" />
+                        <label for="especial_refrigerado">Refrigerado</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="d-flex justify-content-end mt-4 btn-group">
+            <a th:href="@{/cargas/listar}" class="btn btn-secondary me-2">
+                <i class="fas fa-times"></i> Cancelar
+            </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Salvar
+                </button>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

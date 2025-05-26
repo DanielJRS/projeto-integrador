@@ -1,0 +1,151 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados de Entrega</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container content-container">
+    <h2>Dados de Entrega</h2>
+
+    <form th:action="@{/cargas/salvar}" method="post" th:object="${carga}">
+        <!-- Campos ocultos para manter os dados da etapa anterior -->
+        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{dataColeta}" />
+        <input type="hidden" th:field="*{origemEstado}" />
+        <input type="hidden" th:field="*{origemCidade}" />
+        <input type="hidden" th:field="*{destinoEstado}" />
+        <input type="hidden" th:field="*{destinoCidade}" />
+        <input type="hidden" th:field="*{tipoCarga}" />
+        <input type="hidden" th:field="*{possuiLona}" />
+        <input type="hidden" th:field="*{produto}" />
+        <input type="hidden" th:field="*{tipoProduto}" />
+        <input type="hidden" th:field="*{pesoTotal}" />
+        <input type="hidden" th:field="*{limiteAltura}" />
+        <input type="hidden" th:field="*{volume}" />
+        <input type="hidden" th:field="*{veiculosLeves}" />
+        <input type="hidden" th:field="*{veiculosMedios}" />
+        <input type="hidden" th:field="*{veiculosPesados}" />
+        <input type="hidden" th:field="*{freteFechado}" />
+        <input type="hidden" th:field="*{freteAberto}" />
+        <input type="hidden" th:field="*{freteEspecial}" />
+
+        <!-- INFORMAÇÕES DE ENTREGA -->
+        <h4 class="mt-4">Informações do Destinatário</h4>
+        <div class="row form-row">
+            <div class="col-md-6">
+                <label for="nomeDestinatario">Nome do Destinatário</label>
+                <input type="text" id="nomeDestinatario" name="nomeDestinatario" class="form-control" required />
+            </div>
+            <div class="col-md-6">
+                <label for="telefoneDestinatario">Telefone</label>
+                <input type="text" id="telefoneDestinatario" name="telefoneDestinatario" class="form-control" required />
+            </div>
+        </div>
+
+        <div class="row form-row mt-3">
+            <div class="col-md-6">
+                <label for="enderecoEntrega">Endereço de Entrega</label>
+                <input type="text" id="enderecoEntrega" name="enderecoEntrega" class="form-control" required />
+            </div>
+            <div class="col-md-6">
+                <label for="numeroEntrega">Número</label>
+                <input type="text" id="numeroEntrega" name="numeroEntrega" class="form-control" required />
+            </div>
+        </div>
+
+        <div class="row form-row mt-3">
+            <div class="col-md-6">
+                <label for="complementoEntrega">Complemento</label>
+                <input type="text" id="complementoEntrega" name="complementoEntrega" class="form-control" />
+            </div>
+            <div class="col-md-6">
+                <label for="bairroEntrega">Bairro</label>
+                <input type="text" id="bairroEntrega" name="bairroEntrega" class="form-control" required />
+            </div>
+        </div>
+
+        <div class="row form-row mt-3">
+            <div class="col-md-6">
+                <label for="cepEntrega">CEP</label>
+                <input type="text" id="cepEntrega" name="cepEntrega" class="form-control" required />
+            </div>
+            <div class="col-md-6">
+                <label for="pontoReferenciaEntrega">Ponto de Referência</label>
+                <input type="text" id="pontoReferenciaEntrega" name="pontoReferenciaEntrega" class="form-control" />
+            </div>
+        </div>
+
+        <h4 class="mt-4">Dados para Entrega</h4>
+        <div class="row form-row">
+            <div class="col-md-6">
+                <label for="dataPrevisaoEntrega">Previsão de Entrega</label>
+                <input type="date" id="dataPrevisaoEntrega" name="dataPrevisaoEntrega" class="form-control" required />
+            </div>
+            <div class="col-md-6">
+                <label for="horarioEntrega">Horário para Entrega</label>
+                <input type="time" id="horarioEntrega" name="horarioEntrega" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row form-row mt-3">
+            <div class="col-md-12">
+                <label for="observacoesEntrega">Observações para Entrega</label>
+                <textarea id="observacoesEntrega" name="observacoesEntrega" class="form-control" rows="3"></textarea>
+            </div>
+        </div>
+
+        <!-- ANEXOS -->
+        <h4 class="mt-4">Documentos</h4>
+        <div class="row form-row">
+            <div class="col-md-6">
+                <label for="notaFiscal">Nota Fiscal</label>
+                <input type="file" id="notaFiscal" name="notaFiscal" class="form-control" />
+            </div>
+            <div class="col-md-6">
+                <label for="outrosDocumentos">Outros Documentos</label>
+                <input type="file" id="outrosDocumentos" name="outrosDocumentos" class="form-control" multiple />
+            </div>
+        </div>
+
+        <!-- RESUMO DAS INFORMAÇÕES ANTERIORES -->
+        <h4 class="mt-4">Resumo da Carga</h4>
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><strong>Data da Coleta:</strong> <span th:text="${#temporals.format(carga.dataColeta, 'dd/MM/yyyy')}"></span></p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>Origem:</strong> <span th:text="${carga.origemCidade + ' - ' + carga.origemEstado}"></span></p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>Destino:</strong> <span th:text="${carga.destinoCidade + ' - ' + carga.destinoEstado}"></span></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><strong>Produto:</strong> <span th:text="${carga.produto}"></span></p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>Tipo:</strong> <span th:text="${carga.tipoProduto}"></span></p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>Peso Total:</strong> <span th:text="${carga.pesoTotal + ' kg'}"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="d-flex justify-content-end mt-4">
+            <a th:href="@{/cargas/coleta}" class="btn btn-secondary me-2">Voltar</a>
+            <button type="submit" class="btn btn-primary">Concluir Cadastro</button>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
