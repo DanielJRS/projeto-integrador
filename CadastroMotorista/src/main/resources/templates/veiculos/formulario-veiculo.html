@@ -51,10 +51,141 @@
                         </select>
                     </div>
                 </div>
+ 
+                <h4><i class="fas fa-truck"></i> Veículos</h4>
+                <div class="row form-row">
+                    <div class="col-md-4">
+                        <div class="checkbox-group">
+                            <label>Leves</label>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="tipos" value="Todos" id="veiculo_todos" />
+                                <label for="veiculo_todos">Todos</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="tipos" value="3/4" id="veiculo_34" />
+                                <label for="veiculo_34">3/4</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="tipos" value="HR" id="veiculo_hr" />
+                                <label for="veiculo_hr">HR</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="tipos" value="Toco" id="veiculo_toco" />
+                                <label for="veiculo_toco">Toco</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="tipos" value="VLC" id="veiculo_vlc" />
+                                <label for="veiculo_vlc">VLC</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="checkbox-group">
+                            <label>Médios</label>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="tipos" value="Bitruck" id="veiculo_bitruck" />
+                                <label for="veiculo_bitruck">Bitruck</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="tipos" value="Truck" id="veiculo_truck" />
+                                <label for="veiculo_truck">Truck</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="checkbox-group">
+                            <label>Pesados</label>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="tipos" value="Bi-trem" id="veiculo_bitrem" />
+                                <label for="veiculo_bitrem">Bi-trem</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="tipos" value="Carreta" id="veiculo_carreta" />
+                                <label for="veiculo_carreta">Carreta</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="tipos" value="Rodotrem" id="veiculo_rodotrem" />
+                                <label for="veiculo_rodotrem">Rodotrem</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="tipos" value="Carreta LS" id="veiculo_carreta_ls" />
+                                <label for="veiculo_carreta_ls">Carreta LS</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4><i class="fas fa-shipping-fast"></i> Frete</h4>
+                <div class="row form-row">
+                    <div class="col-md-4">
+                        <div class="checkbox-group">
+                            <label>Fechados</label>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="freteFechado" value="Graneleiro" id="fechado_graneleiro" />
+                                <label for="fechado_graneleiro">Graneleiro</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="freteFechado" value="Baú Frigorífico" id="fechado_bau_frigo" />
+                                <label for="fechado_bau_frigo">Baú Frigorífico</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="freteFechado" value="Baú Seco" id="fechado_bau_seco" />
+                                <label for="fechado_bau_seco">Baú Seco</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="freteFechado" value="Sider" id="fechado_sider" />
+                                <label for="fechado_sider">Sider</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="checkbox-group">
+                            <label>Abertos</label>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="freteAberto" value="Graneleiro" id="aberto_graneleiro" />
+                                <label for="aberto_graneleiro">Graneleiro</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="freteAberto" value="Prancha" id="aberto_prancha" />
+                                <label for="aberto_prancha">Prancha</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="freteAberto" value="Plataforma" id="aberto_plataforma" />
+                                <label for="aberto_plataforma">Plataforma</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="freteAberto" value="Container" id="aberto_container" />
+                                <label for="aberto_container">Container</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="checkbox-group">
+                            <label>Especial</label>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="freteEspecial" value="Carga Viva" id="especial_carga_viva" />
+                                <label for="especial_carga_viva">Carga Viva</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="freteEspecial" value="Tanque" id="especial_tanque" />
+                                <label for="especial_tanque">Tanque</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="freteEspecial" value="Granel" id="especial_granel" />
+                                <label for="especial_granel">Granel</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="freteEspecial" value="Refrigerado" id="especial_refrigerado" />
+                                <label for="especial_refrigerado">Refrigerado</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="button-container">
                     <button type="submit" class="btn btn-primary">Salvar</button>
                     <a th:href="@{/veiculos}" class="btn btn-secondary">Voltar</a>
                 </div>
+
             </form>
         </div>
     </div>

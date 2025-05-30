@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detalhes do Veículo</title>
+    <link rel="stylesheet" th:href="@{/img/css/transportadora/formulario-transportadora.css}" />
+</head>
+<body>
+    <div class="content-container">
+        <div class="form-container">
+            <div class="page-title">
+                <h2>Detalhes do Veículo</h2>
+            </div>
+            <div>
+                <p><strong>Placa:</strong> <span th:text="${veiculo.placa}"></span></p>
+                <p><strong>Modelo:</strong> <span th:text="${veiculo.modelo}"></span></p>
+                <p><strong>Marca:</strong> <span th:text="${veiculo.marca}"></span></p>
+                <p><strong>Capacidade de Carga:</strong> <span th:text="${veiculo.capacidadeCarga}"></span></p>
+                <p><strong>Renavam:</strong> <span th:text="${veiculo.renavam}"></span></p>
+                <p><strong>Chassi:</strong> <span th:text="${veiculo.chassi}"></span></p>
+                <p><strong>Motorista:</strong> <span th:text="${veiculo.motorista != null ? veiculo.motorista.nome : 'Não vinculado'}"></span></p>
+                <p><strong>Tipos de Veículo:</strong>
+                    <span th:each="tipo : ${veiculo.tipos}" th:text="${tipo}" th:unless="${#lists.isEmpty(veiculo.tipos)}"></span>
+                    <span th:if="${#lists.isEmpty(veiculo.tipos)}">Nenhum</span>
+                </p>
+                <p><strong>Fretes Fechados:</strong>
+                    <span th:each="f : ${veiculo.fretesFechados}" th:text="${f}" th:unless="${#lists.isEmpty(veiculo.fretesFechados)}"></span>
+                    <span th:if="${#lists.isEmpty(veiculo.fretesFechados)}">Nenhum</span>
+                </p>
+                <p><strong>Fretes Abertos:</strong>
+                    <span th:each="f : ${veiculo.fretesAbertos}" th:text="${f}" th:unless="${#lists.isEmpty(veiculo.fretesAbertos)}"></span>
+                    <span th:if="${#lists.isEmpty(veiculo.fretesAbertos)}">Nenhum</span>
+                </p>
+                <p><strong>Fretes Especiais:</strong>
+                    <span th:each="f : ${veiculo.fretesEspeciais}" th:text="${f}" th:unless="${#lists.isEmpty(veiculo.fretesEspeciais)}"></span>
+                    <span th:if="${#lists.isEmpty(veiculo.fretesEspeciais)}">Nenhum</span>
+                </p>
+            </div>
+            <div class="button-container">
+                <a th:href="@{/veiculos}" class="btn btn-secondary">Voltar</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

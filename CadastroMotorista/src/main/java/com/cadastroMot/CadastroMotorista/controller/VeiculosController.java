@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import java.security.Principal;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import jakarta.servlet.http.HttpSession;
@@ -43,11 +44,6 @@ public class VeiculosController {
     public Optional<Veiculo> buscar(@PathVariable Long id) {
         return veiculoRepository.findById(id);
     }
-
-    //@PostMapping
-    //public Veiculo criar(@RequestBody Veiculo veiculo) {
-    //    return veiculoRepository.save(veiculo);
-    //}
 
     @PutMapping("/{id}")
     public Veiculo atualizar(@PathVariable Long id, @RequestBody Veiculo veiculo) {
@@ -79,15 +75,27 @@ public class VeiculosController {
         }
         return "veiculos/formulario-veiculo";
     }
-    
+
     @PostMapping
-    public String salvarVeiculo(@ModelAttribute Veiculo veiculo, HttpSession session) {
+    public String salvarVeiculo(
+            @ModelAttribute Veiculo veiculo,
+            @RequestParam(required = false) String[] tipos,
+            @RequestParam(required = false) String[] freteFechado,
+            @RequestParam(required = false) String[] freteAberto,
+            @RequestParam(required = false) String[] freteEspecial,
+            HttpSession session
+    ) {
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 
         if (usuarioLogado == null || 
             (usuarioLogado.getTipo() != TipoUsuario.MOTORISTA && usuarioLogado.getTipo() != TipoUsuario.TRANSPORTADORA)) {
             return "redirect:/login";
         }
+
+        veiculo.setTipos(tipos != null ? Arrays.asList(tipos) : List.of());
+        veiculo.setFretesFechados(freteFechado != null ? Arrays.asList(freteFechado) : List.of());
+        veiculo.setFretesAbertos(freteAberto != null ? Arrays.asList(freteAberto) : List.of());
+        veiculo.setFretesEspeciais(freteEspecial != null ? Arrays.asList(freteEspecial) : List.of());
 
         if (usuarioLogado.getTipo() == TipoUsuario.MOTORISTA) {
             Motorista motorista = motoristaService.findByUsuario(usuarioLogado);
@@ -100,5 +108,15 @@ public class VeiculosController {
         }
 
         return "redirect:/login";
+    }
+
+    @GetMapping("/show/{id}")
+    public String showVeiculo(@PathVariable Long id, Model model) {
+        Veiculo veiculo = veiculoService.buscarPorId(id);
+        if (veiculo == null) {
+            return "redirect:/veiculos";
+        }
+        model.addAttribute("veiculo", veiculo);
+        return "veiculos/show";
     }
 }
