@@ -3,6 +3,7 @@ package com.cadastroMot.CadastroMotorista.service;
 import com.cadastroMot.CadastroMotorista.domain.Motorista;
 import com.cadastroMot.CadastroMotorista.domain.TipoUsuario;
 import com.cadastroMot.CadastroMotorista.domain.Usuario;
+import com.cadastroMot.CadastroMotorista.domain.Transportadora;
 import com.cadastroMot.CadastroMotorista.repository.MotoristaRepository;
 import com.cadastroMot.CadastroMotorista.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +50,9 @@ public class MotoristaService {
         return motoristaRepository.save(motorista);
     }
 
-    public List<Motorista> listarTodos(){
-        return motoristaRepository.findAll();
+    public List<Motorista> listarTodos() {
+        List<Motorista> lista = motoristaRepository.findAll();
+        return lista != null ? lista : List.of();
     }
 
     public Motorista buscarPorId(Long id) {
@@ -59,5 +61,9 @@ public class MotoristaService {
 
     public Motorista findByUsuario(Usuario usuario) {
         return motoristaRepository.findByUsuario(usuario);
+    }
+
+    public List<Motorista> listarPorTransportadora(Transportadora transportadora) {
+        return motoristaRepository.findByTransportadora(transportadora);
     }
 }

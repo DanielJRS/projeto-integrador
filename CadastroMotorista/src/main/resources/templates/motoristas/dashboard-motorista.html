@@ -59,18 +59,7 @@
   </div>
 </nav>
 
-<!-- Header -->
-<header>
-  <div class="container header-content">
-    <div class="logo">
-      <button class="mobile-menu-toggle" onclick="toggleSidebar()">☰</button>
-      <img th:src="@{/img/GlobalTransportes.png}" alt="Global Transportes Logo">
-    </div>
-    <div class="header-actions">
-      <a th:href="@{/logout}" class="btn-logout">🚪 Sair</a>
-    </div>
-  </div>
-</header>
+<div th:insert="~{shared-fragments/shared-header :: shared-header}"></div>
 
 <!-- Conteúdo Principal -->
 <div class="dashboard-container">
@@ -179,10 +168,9 @@
           <span><b>Chassi:</b> <span th:text="${veiculo.chassi}">CHASSI123</span></span>
         </div>
       </div>
-      <!-- Botão de ação, se desejar -->
-      <!-- <div class="veiculo-acoes">
-        <a th:href="@{/veiculos/{id}(id=${veiculo.id})}" class="btn btn-primary">Ver Detalhes</a>
-      </div> -->
+      <div class="veiculo-acoes">
+        <a th:href="@{/veiculos/show/{id}(id=${veiculo.id})}" class="btn btn-primary">Detalhar</a>
+      </div>
     </div>
   </div>
 </div>

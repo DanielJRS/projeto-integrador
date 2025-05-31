@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ElementCollection;
+import java.util.List;
 
 @Entity
 @Table (name = "tb_veiculo")
@@ -26,6 +28,22 @@ public class Veiculo {
     @ManyToOne
     @JoinColumn(name = "motorista_id")
     private Motorista motorista;
+
+    @ManyToOne
+    @JoinColumn(name = "transportadora_id")
+    private Transportadora transportadora;
+
+    @ElementCollection
+    private List<String> tipos;
+
+    @ElementCollection
+    private List<String> fretesFechados;
+
+    @ElementCollection
+    private List<String> fretesAbertos;
+
+    @ElementCollection
+    private List<String> fretesEspeciais;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -50,4 +68,25 @@ public class Veiculo {
 
     public Motorista getMotorista() { return motorista; }
     public void setMotorista(Motorista motorista) { this.motorista = motorista; }
+
+    public Transportadora getTransportadora() {
+        return transportadora;
+    }
+
+    public void setTransportadora(Transportadora transportadora) {
+        this.transportadora = transportadora;
+    }
+
+    public List<String> getTipos() { return tipos; }
+    public void setTipos(List<String> tipos) { this.tipos = tipos; }
+
+    public List<String> getFretesFechados() { return fretesFechados; }
+    public void setFretesFechados(List<String> fretesFechados) { this.fretesFechados = fretesFechados; }
+
+    public List<String> getFretesAbertos() { return fretesAbertos; }
+    public void setFretesAbertos(List<String> fretesAbertos) { this.fretesAbertos = fretesAbertos; }
+
+    public List<String> getFretesEspeciais() { return fretesEspeciais; }
+    public void setFretesEspeciais(List<String> fretesEspeciais) { this.fretesEspeciais = fretesEspeciais; }
+
 }

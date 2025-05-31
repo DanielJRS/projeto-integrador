@@ -666,6 +666,29 @@
             padding: 10px;
         }
 
+        /* Estilo para alinhar info e ações lado a lado */
+        .veiculo-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            padding: 18px 24px;
+            margin-bottom: 16px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(30, 58, 138, 0.04);
+        }
+
+        .veiculo-info {
+            flex: 1;
+        }
+
+        .veiculo-acoes {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .sidebar {
