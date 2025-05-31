@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import java.security.Principal;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -131,5 +132,87 @@ public class VeiculosController {
         }
         model.addAttribute("veiculo", veiculo);
         return "veiculos/show";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String editarVeiculoForm(@PathVariable Long id, Model model, HttpSession session) {
+        Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
+        if (usuarioLogado == null ||
+            (usuarioLogado.getTipo() != TipoUsuario.MOTORISTA && usuarioLogado.getTipo() != TipoUsuario.TRANSPORTADORA)) {
+            return "redirect:/login";
+        }
+
+        Veiculo veiculo = veiculoService.buscarPorId(id);
+        if (veiculo == null) {
+            return "redirect:/veiculos";
+        }
+
+        model.addAttribute("veiculo", veiculo);
+
+        if (usuarioLogado.getTipo() == TipoUsuario.MOTORISTA) {
+            model.addAttribute("isMotorista", true);
+        } else if (usuarioLogado.getTipo() == TipoUsuario.TRANSPORTADORA) {
+            model.addAttribute("isMotorista", false);
+            model.addAttribute("motoristas", motoristaService.listarPorTransportadora(usuarioLogado.getTransportadora()));
+        }
+        model.addAttribute("edicao", true); // flag para saber se é edição
+        return "veiculos/formulario-veiculo";
+    }
+
+    @PostMapping("/editar/{id}")
+    public String atualizarVeiculo(
+            @PathVariable Long id,
+            @ModelAttribute Veiculo veiculo,
+            @RequestParam(required = false) String[] tipos,
+            @RequestParam(required = false) String[] freteFechado,
+            @RequestParam(required = false) String[] freteAberto,
+            @RequestParam(required = false) String[] freteEspecial,
+            @RequestParam(required = false) Long motorista,
+            HttpSession session
+    ) {
+        Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
+
+        if (usuarioLogado == null ||
+            (usuarioLogado.getTipo() != TipoUsuario.MOTORISTA && usuarioLogado.getTipo() != TipoUsuario.TRANSPORTADORA)) {
+            return "redirect:/login";
+        }
+
+        Veiculo veiculoExistente = veiculoService.buscarPorId(id);
+        if (veiculoExistente == null) {
+            return "redirect:/veiculos";
+        }
+
+        // Atualize os campos editáveis
+        veiculoExistente.setPlaca(veiculo.getPlaca());
+        veiculoExistente.setModelo(veiculo.getModelo());
+        veiculoExistente.setMarca(veiculo.getMarca());
+        veiculoExistente.setCapacidadeCarga(veiculo.getCapacidadeCarga());
+        veiculoExistente.setRenavam(veiculo.getRenavam());
+        veiculoExistente.setChassi(veiculo.getChassi());
+        veiculoExistente.setTipos(tipos != null ? new ArrayList<>(Arrays.asList(tipos)) : new ArrayList<>());
+        veiculoExistente.setFretesFechados(freteFechado != null ? new ArrayList<>(Arrays.asList(freteFechado)) : new ArrayList<>());
+        veiculoExistente.setFretesAbertos(freteAberto != null ? new ArrayList<>(Arrays.asList(freteAberto)) : new ArrayList<>());
+        veiculoExistente.setFretesEspeciais(freteEspecial != null ? new ArrayList<>(Arrays.asList(freteEspecial)) : new ArrayList<>());
+
+        if (usuarioLogado.getTipo() == TipoUsuario.MOTORISTA) {
+            Motorista motoristaObj = motoristaService.findByUsuario(usuarioLogado);
+            veiculoExistente.setMotorista(motoristaObj);
+        } else if (usuarioLogado.getTipo() == TipoUsuario.TRANSPORTADORA) {
+            veiculoExistente.setTransportadora(usuarioLogado.getTransportadora());
+            if (motorista != null) {
+                Motorista motoristaObj = motoristaService.buscarPorId(motorista);
+                veiculoExistente.setMotorista(motoristaObj);
+            } else {
+                veiculoExistente.setMotorista(null);
+            }
+        }
+
+        veiculoService.salvar(veiculoExistente);
+
+        if (usuarioLogado.getTipo() == TipoUsuario.MOTORISTA) {
+            return "redirect:/motorista/dashboard";
+        } else {
+            return "redirect:/transportadora/dashboard";
+        }
     }
 }
