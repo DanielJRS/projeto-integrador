@@ -246,6 +246,32 @@
             </div>
         </div>
     </div>
+
+    <!-- Exemplo de lista de veículos da transportadora -->
+    <h2 class="section-title">🚚 Frota da Transportadora</h2>
+    <div class="veiculos-list">
+        <div th:if="${#lists.isEmpty(veiculos)}" class="empty-state">
+            <p>Nenhum veículo cadastrado para esta transportadora.</p>
+            <a th:href="@{/veiculos/novo}" class="btn btn-secondary">Cadastrar Veículo</a>
+        </div>
+        <div th:each="veiculo : ${veiculos}" class="veiculo-item stat-card">
+            <div class="veiculo-info">
+                <div class="veiculo-header">
+                    <span class="veiculo-placa" th:text="${veiculo.placa}">ABC-1234</span>
+                    <span class="veiculo-marca" th:text="${veiculo.marca}">Marca</span>
+                    <span class="veiculo-modelo" th:text="${veiculo.modelo}">Modelo</span>
+                </div>
+                <div class="veiculo-detalhes">
+                    <span><b>Capacidade:</b> <span th:text="${veiculo.capacidadeCarga}">1000</span> kg</span>
+                    <span><b>Renavam:</b> <span th:text="${veiculo.renavam}">123456789</span></span>
+                    <span><b>Chassi:</b> <span th:text="${veiculo.chassi}">CHASSI123</span></span>
+                </div>
+            </div>
+            <div class="veiculo-acoes">
+                <a th:href="@{/veiculos/show/{id}(id=${veiculo.id})}" class="btn btn-primary">Detalhar</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <footer>

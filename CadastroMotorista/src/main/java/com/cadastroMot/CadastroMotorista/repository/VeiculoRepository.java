@@ -8,5 +8,6 @@ import java.util.List;
 public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
     // Add inside VeiculoRepository interface
     List<Veiculo> findByMotoristaId(Long motoristaId);
+    List<Veiculo> findByTransportadoraId(Long transportadoraId);
 }
 

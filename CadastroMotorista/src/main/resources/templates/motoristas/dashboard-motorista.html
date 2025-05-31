@@ -168,10 +168,9 @@
           <span><b>Chassi:</b> <span th:text="${veiculo.chassi}">CHASSI123</span></span>
         </div>
       </div>
-      <!-- Botão de ação, se desejar -->
-      <!-- <div class="veiculo-acoes">
-        <a th:href="@{/veiculos/{id}(id=${veiculo.id})}" class="btn btn-primary">Ver Detalhes</a>
-      </div> -->
+      <div class="veiculo-acoes">
+        <a th:href="@{/veiculos/show/{id}(id=${veiculo.id})}" class="btn btn-primary">Detalhar</a>
+      </div>
     </div>
   </div>
 </div>

@@ -1,0 +1,356 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    color: #333;
+}
+
+/* Header Styles */
+.navbar {
+    background-color: #1e3a8a;
+    padding: 20px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.navbar .container {
+    text-align: center;
+}
+
+.navbar-brand .logo {
+    height: 50px;
+    filter: brightness(0) invert(1);
+}
+
+/* Main Container */
+.content-container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* Page Title */
+.page-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.page-title h2 {
+    color: #1e3a8a;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.page-title p {
+    color: #666;
+    font-size: 16px;
+}
+
+/* Form Container */
+.form-container {
+    background: white;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border: 1px solid #e9ecef;
+}
+
+/* Section Headers */
+.section-header {
+    color: #1e3a8a;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 25px 0 15px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #f9b000;
+}
+
+.section-header:first-child {
+    margin-top: 0;
+}
+
+/* Form Groups */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.form-row.single {
+    grid-template-columns: 1fr;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Form Labels */
+.form-label {
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+/* Form Inputs */
+.form-control, .form-select {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: 14px;
+    background: white;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #f9b000;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(249, 176, 0, 0.2);
+}
+
+/* Special styling for login section */
+.login-section {
+    background-color: #fff9e6;
+    border: 1px solid #f9b000;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.login-section h5 {
+    color: #1e3a8a;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Textarea */
+textarea.form-control {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Checkboxes */
+.checkbox-group {
+    background-color: #fafafa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+    flex-direction: column;
+}
+
+.checkbox-group label {
+    font-weight: 600;
+    color: #1a237e;
+    display: block;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 8px;
+}
+
+.checkbox-item {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-item input[type="checkbox"] {
+    margin-right: 8px;
+    transform: scale(1.1);
+}
+
+.checkbox-item label {
+    margin-bottom: 0;
+    font-weight: 400;
+    border: none;
+    padding: 0;
+}
+
+/* Form Check (Bootstrap) */
+.form-check-input {
+    width: 18px;
+    height: 18px;
+}
+
+.form-check-label {
+    font-size: 14px;
+    color: #333;
+}
+
+/* Categories styling */
+.categories-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.category-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #e9ecef;
+}
+
+.category-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+
+.category-item label {
+    font-size: 13px;
+    margin: 0;
+    cursor: pointer;
+}
+
+/* Error Messages */
+.error {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+/* Buttons */
+.btn {
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #f9b000;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #e6a500;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    color: white;
+}
+
+/* Button Container */
+.button-container {
+    margin-top: 30px;
+    text-align: center;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+/* Footer */
+footer {
+    background-color: #1e3a8a;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+/* Password toggle */
+.password-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 5px;
+    font-size: 16px;
+    line-height: 1;
+}
+
+/* Help text */
+.form-text {
+    color: #666;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content-container {
+        margin: 20px auto;
+        padding: 0 15px;
+    }
+
+    .form-container {
+        padding: 20px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .categories-container {
+        grid-template-columns: 1fr;
+    }
+
+    .button-container {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+/* Responsividade aprimorada para o formulário de veículos */
+@media (max-width: 1100px) {
+    .content-container {
+        max-width: 98vw;
+    }
+}
+
+@media (max-width: 900px) {
+    .form-row {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
