@@ -2,9 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Novo Veículo</title>
+    <link rel="stylesheet" th:href="@{/img/css/shared-header-footer.css}">
     <link rel="stylesheet" th:href="@{/img/css/veiculo/veiculo.css}" />
 </head>
 <body>
+    <div th:insert="~{shared-fragments/shared-header :: shared-header}"></div>
+
     <div class="content-container">
         <div class="form-container">
             <div class="page-title">
@@ -183,6 +186,7 @@
             </form>
         </div>
     </div>
+    <div th:insert="~{shared-fragments/shared-footer :: shared-footer}"></div>
     
 <script>
 document.addEventListener("DOMContentLoaded", function() {
