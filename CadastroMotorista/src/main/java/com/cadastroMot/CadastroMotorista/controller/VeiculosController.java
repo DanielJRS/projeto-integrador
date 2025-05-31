@@ -59,19 +59,24 @@ public class VeiculosController {
     @GetMapping("/novo")
     public String novoVeiculoForm(Model model, HttpSession session) {
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
-    
-        if (usuarioLogado == null || 
+
+        if (usuarioLogado == null ||
             (usuarioLogado.getTipo() != TipoUsuario.MOTORISTA && usuarioLogado.getTipo() != TipoUsuario.TRANSPORTADORA)) {
             return "redirect:/login";
         }
-    
+
         model.addAttribute("veiculo", new Veiculo());
-    
+
         if (usuarioLogado.getTipo() == TipoUsuario.MOTORISTA) {
             model.addAttribute("isMotorista", true);
         } else if (usuarioLogado.getTipo() == TipoUsuario.TRANSPORTADORA) {
+            // Validação: transportadora associada
+            if (usuarioLogado.getTransportadora() == null) {
+                // Redirecione ou mostre mensagem de erro apropriada
+                return "redirect:/erro-transportadora-nao-associada";
+            }
             model.addAttribute("isMotorista", false);
-            model.addAttribute("motoristas", motoristaService.listarTodos());
+            model.addAttribute("motoristas", motoristaService.listarPorTransportadora(usuarioLogado.getTransportadora()));
         }
         return "veiculos/formulario-veiculo";
     }
@@ -83,6 +88,7 @@ public class VeiculosController {
             @RequestParam(required = false) String[] freteFechado,
             @RequestParam(required = false) String[] freteAberto,
             @RequestParam(required = false) String[] freteEspecial,
+            @RequestParam(required = false) Long motorista, // <-- Recebe o id do motorista selecionado
             HttpSession session
     ) {
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
@@ -98,11 +104,18 @@ public class VeiculosController {
         veiculo.setFretesEspeciais(freteEspecial != null ? Arrays.asList(freteEspecial) : List.of());
 
         if (usuarioLogado.getTipo() == TipoUsuario.MOTORISTA) {
-            Motorista motorista = motoristaService.findByUsuario(usuarioLogado);
-            veiculo.setMotorista(motorista);
+            Motorista motoristaObj = motoristaService.findByUsuario(usuarioLogado);
+            veiculo.setMotorista(motoristaObj);
             veiculoService.salvar(veiculo);
             return "redirect:/motorista/dashboard";
         } else if (usuarioLogado.getTipo() == TipoUsuario.TRANSPORTADORA) {
+            // Associa a transportadora ao veículo
+            veiculo.setTransportadora(usuarioLogado.getTransportadora());
+            // Se um motorista foi selecionado, associe ao veículo
+            if (motorista != null) {
+                Motorista motoristaObj = motoristaService.buscarPorId(motorista);
+                veiculo.setMotorista(motoristaObj);
+            }
             veiculoService.salvar(veiculo);
             return "redirect:/transportadora/dashboard";
         }

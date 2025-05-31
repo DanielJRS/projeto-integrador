@@ -43,4 +43,8 @@ public class VeiculoService {
     public List<Veiculo> buscarPorMotoristaId(Long motoristaId) {
         return veiculoRepository.findByMotoristaId(motoristaId);
     }
+
+    public List<Veiculo> buscarPorTransportadoraId(Long transportadoraId) {
+        return veiculoRepository.findByTransportadoraId(transportadoraId);
+    }
 }

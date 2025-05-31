@@ -41,11 +41,11 @@
                     </div>
                 </div>
                 <div class="form-row single" th:if="${!isMotorista}">
-                    <div class="form-group">
+                    <div class="form-group" th:if="${motoristas != null}">
                         <label class="form-label">Motorista:</label>
-                        <select class="form-select" th:field="*{motorista}" required>
-                            <option th:value="">Selecione...</option>
-                            <option th:each="motorista : ${motoristas}" th:value="${motorista}" th:text="${motorista.nome}"></option>
+                        <select class="form-select" th:field="*{motorista}">
+                            <option value="">Selecione...</option>
+                            <option th:each="motorista : ${motoristas}" th:value="${motorista.id}" th:text="${motorista.nome}"></option>
                         </select>
                     </div>
                 </div>

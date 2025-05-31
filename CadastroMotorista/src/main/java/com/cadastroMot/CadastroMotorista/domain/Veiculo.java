@@ -29,6 +29,10 @@ public class Veiculo {
     @JoinColumn(name = "motorista_id")
     private Motorista motorista;
 
+    @ManyToOne
+    @JoinColumn(name = "transportadora_id")
+    private Transportadora transportadora;
+
     @ElementCollection
     private List<String> tipos;
 
@@ -64,6 +68,15 @@ public class Veiculo {
 
     public Motorista getMotorista() { return motorista; }
     public void setMotorista(Motorista motorista) { this.motorista = motorista; }
+
+    public Transportadora getTransportadora() {
+        return transportadora;
+    }
+
+    public void setTransportadora(Transportadora transportadora) {
+        this.transportadora = transportadora;
+    }
+
     public List<String> getTipos() { return tipos; }
     public void setTipos(List<String> tipos) { this.tipos = tipos; }
 

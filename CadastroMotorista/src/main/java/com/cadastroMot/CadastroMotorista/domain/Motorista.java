@@ -2,6 +2,7 @@ package com.cadastroMot.CadastroMotorista.domain;
 
 import com.cadastroMot.CadastroMotorista.domain.Carga;
 import com.cadastroMot.CadastroMotorista.domain.Usuario;
+import com.cadastroMot.CadastroMotorista.domain.Transportadora;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,4 +38,16 @@ public class Motorista {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "transportadora_id")
+    private Transportadora transportadora;
+
+    // getter e setter
+    public Transportadora getTransportadora() {
+        return transportadora;
+    }
+    public void setTransportadora(Transportadora transportadora) {
+        this.transportadora = transportadora;
+    }
 }
