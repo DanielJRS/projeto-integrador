@@ -1,16 +1,15 @@
 package com.cadastroMot.CadastroMotorista.service;
 
+import com.cadastroMot.CadastroMotorista.domain.CargaFiltro;
+import Dto.CargaSpecification;
 import com.cadastroMot.CadastroMotorista.domain.Carga;
 import com.cadastroMot.CadastroMotorista.domain.TipoCarga;
-import com.cadastroMot.CadastroMotorista.repository.CargaRepository;
 import com.cadastroMot.CadastroMotorista.repository.CargaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-
-import java.util.stream.Collectors;
 
 @Service
 public class CargaService {
@@ -88,6 +87,7 @@ public class CargaService {
         }
 
         cargaExistente.setTipoCarga(cargaAtualizada.getTipoCarga());
+        cargaExistente.setTipoEstadoCarga(cargaAtualizada.getTipoEstadoCarga());
         cargaExistente.setPossuiLona(cargaAtualizada.getPossuiLona());
         cargaExistente.setVeiculosLeves(cargaAtualizada.getVeiculosLeves());
         cargaExistente.setVeiculosMedios(cargaAtualizada.getVeiculosMedios());
@@ -102,36 +102,15 @@ public class CargaService {
         return salvar(cargaExistente);
     }
 
-    public List<Carga> buscarPorFiltro(String origemCidade, String origemEstado,
-                                       String destinoCidade, String destinoEstado,
-                                       String produto, String especie) {
-
-        List<Carga> todasCargas = cargaRepository.findAll();
-
-        return todasCargas.stream()
-                .filter(c -> origemCidade == null || origemCidade.isEmpty() ||
-                        c.getOrigemCidade().equals(origemCidade))
-                .filter(c -> origemEstado == null || origemEstado.isEmpty() ||
-                        c.getOrigemEstado().equals(origemEstado))
-                .filter(c -> destinoCidade == null || destinoCidade.isEmpty() ||
-                        c.getDestinoCidade().equals(destinoCidade))
-                .filter(c -> destinoEstado == null || destinoEstado.isEmpty() ||
-                        c.getDestinoEstado().equals(destinoEstado))
-                .filter(c -> produto == null || produto.isEmpty() ||
-                        c.getProduto().equals(produto))
-                .filter(c -> especie == null || especie.isEmpty() ||
-                        c.getEspecie().equals(especie))
-                .collect(Collectors.toList());
+    public List<Carga> buscarComFiltro(CargaFiltro filtro) {
+        return cargaRepository.findAll(CargaSpecification.filtrar(filtro));
     }
 
-
-    public List<Carga> buscarPorFiltro(String origem, String destino, String produto, String especie) {
-        return buscarPorFiltro(origem, null, destino, null, produto, especie);
-    }
     @Transactional
     public Carga processarFormularioCarga(
             Carga carga,
             String tipoCarga,
+            String tipoEstadoCarga,
             String possuiLona,
             String[] veiculosLeves,
             String[] veiculosMedios,
@@ -184,8 +163,10 @@ public class CargaService {
             carga.setFretesEspeciais(Arrays.asList(freteEspecial));
         }
 
+
         return carga;
     }
+
 
 
 

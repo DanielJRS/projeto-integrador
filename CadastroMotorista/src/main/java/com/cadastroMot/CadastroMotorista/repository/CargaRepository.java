@@ -2,13 +2,14 @@ package com.cadastroMot.CadastroMotorista.repository;
 
 import com.cadastroMot.CadastroMotorista.domain.Carga;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface CargaRepository extends JpaRepository<Carga, Long> {
+public interface CargaRepository extends JpaRepository<Carga, Long>, JpaSpecificationExecutor<Carga> {
 
     List<Carga> findByOrigemCidadeAndDestinoCidadeAndProduto(String origemCidade, String destinoCidade, String produto);
 

@@ -1,8 +1,9 @@
     package com.cadastroMot.CadastroMotorista.controller;
 
     import com.cadastroMot.CadastroMotorista.domain.Carga;
+    import com.cadastroMot.CadastroMotorista.domain.CargaFiltro;
     import com.cadastroMot.CadastroMotorista.domain.TipoCarga;
-    import com.cadastroMot.CadastroMotorista.repository.CargaRepository;
+    import com.cadastroMot.CadastroMotorista.domain.TipoEstadoCarga;
     import com.cadastroMot.CadastroMotorista.service.CargaService;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.format.annotation.DateTimeFormat;
@@ -11,12 +12,10 @@
     import org.springframework.web.bind.annotation.*;
     import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-    import java.math.BigDecimal;
     import java.time.LocalDate;
     import java.util.ArrayList;
     import java.util.Arrays;
     import java.util.List;
-    import java.util.stream.Collectors;
 
 
     @Controller
@@ -30,12 +29,17 @@
 
         @GetMapping("/novo")
         public String formularioCarga(Model model) {
-            model.addAttribute("carga", new Carga());
+            Carga carga = new Carga();
+            carga.setTipoEstadoCarga(TipoEstadoCarga.DISPONIVEL);
+
+            model.addAttribute("carga", carga);
             model.addAttribute("cidades", cargaService.listarCidades());
             model.addAttribute("estados", cargaService.listarEstados());
 
+
             return "cargas/novo";
         }
+
 
         @PostMapping("/entrega")
         public String processarFormularioCarga(@ModelAttribute Carga carga,
@@ -108,6 +112,7 @@
 
         @GetMapping("/listar")
         public String listarCargas(
+                @ModelAttribute CargaFiltro filtro,
                 @RequestParam(required = false) String origemCidade,
                 @RequestParam(required = false) String origemEstado,
                 @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataColeta,
@@ -119,6 +124,7 @@
                 @RequestParam(required = false) String veiculo,
                 @RequestParam(required = false) Double preco, // CORRETO
                 @RequestParam(required = false) TipoCarga tipoCarga,
+                @RequestParam(required = false) TipoEstadoCarga tipoEstadoCarga,
                 @RequestParam(required = false) Boolean possuiLona,
                 @RequestParam(required = false) Double pesoTotal,
                 @RequestParam(required = false) Double limiteAltura,
@@ -126,9 +132,12 @@
 
                 Model model) {
 
-            List<Carga> cargasFiltradas = cargaService.buscarPorFiltro(
-                    origemCidade, destinoCidade, produto, especie);
+            List<Carga> cargasFiltradas = cargaService.buscarComFiltro(filtro);
 
+            model.addAttribute("cargas", cargasFiltradas);
+            model.addAttribute("filtro", filtro != null ? filtro : new CargaFiltro());
+            model.addAttribute("cidades", cargaService.listarCidades());
+            model.addAttribute("estados", cargaService.listarEstados());
             model.addAttribute("cargas", cargasFiltradas);
 
             return "cargas/listar";
@@ -160,6 +169,7 @@
                 carga.setFretesEspeciais(new ArrayList<>());
             }
 
+
             model.addAttribute("carga", carga);
             model.addAttribute("estados", cargaService.listarEstados());
             model.addAttribute("cidades", cargaService.listarCidades());
@@ -171,6 +181,7 @@
         public String atualizarCarga(@PathVariable Long id,
                                      @ModelAttribute Carga carga,
                                      @RequestParam(required = false) String tipoCarga,
+                                     @RequestParam(required = false) String tipoEstadoCarga,
                                      @RequestParam(required = false) String possuiLona,
                                      @RequestParam(required = false) String[] veiculosLeves,
                                      @RequestParam(required = false) String[] veiculosMedios,
@@ -198,6 +209,10 @@
             cargaExistente.setLimiteAltura(carga.getLimiteAltura());
             cargaExistente.setVolume(carga.getVolume());
             cargaExistente.setPreco(carga.getPreco());
+
+            if (tipoEstadoCarga != null && !tipoEstadoCarga.isEmpty()) {
+                cargaExistente.setTipoEstadoCarga(TipoEstadoCarga.valueOf(tipoEstadoCarga));
+            }
 
             if (tipoCarga != null && !tipoCarga.isEmpty()) {
                 cargaExistente.setTipoCarga(TipoCarga.valueOf(tipoCarga));
