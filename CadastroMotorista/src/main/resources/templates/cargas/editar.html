@@ -178,6 +178,18 @@
                 </select>
             </div>
             <div class="col-md-6">
+                <label for="tipoEstadoCarga" class="form-label">Tipo Estado da Carga</label>
+                <select id="tipoEstadoCarga" name="tipoEstadoCarga" class="form-control">
+                    <option value="DISPONIVEL"
+                            th:selected="${carga.tipoEstadoCarga == 'DISPONIVEL'}">Disponível</option>
+                    <option value="ANDAMENTO"
+                            th:selected="${carga.tipoEstadoCarga == 'ANDAMENTO'}">Andamento</option>
+                    <option value="INDISPONIVEL"
+                            th:selected="${carga.tipoEstadoCarga == 'INDISPONIVEL'}">Indisponível</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
                 <label for="possuiLona" class="form-label">Possui Lona?</label>
                 <select id="possuiLona" name="possuiLona" class="form-control" required>
                     <option value="on" th:selected="${carga.possuiLona == true}">Sim</option>
@@ -192,6 +204,7 @@
                 <label for="especie" class="form-label">Tipo / Espec. do Produto</label>
                 <input type="text" id="especie" name="especie" class="form-control" th:value="${carga.especie}" />
             </div>
+
         </div>
 
         <!-- PESO, PREÇO, ALTURA -->
