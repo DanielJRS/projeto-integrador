@@ -557,6 +557,7 @@
                 <table class="table table-hover">
                     <thead>
                     <tr>
+                        <th>Nome</th>
                         <th>Origem</th>
                         <th>Data Coleta</th>
                         <th>Destino</th>
@@ -576,6 +577,10 @@
                     </thead>
                     <tbody>
                     <tr th:each="carga : ${cargas}">
+                        <td>
+                            <div class="fw-bold" th:text="${motorista.nome}">Nome</div>
+                            <small class="text-muted" th:text="${carga.origemEstado}">Origem Estado</small>
+                        </td>
                         <td>
                             <div class="fw-bold" th:text="${carga.origemCidade}">Origem Cidade</div>
                             <small class="text-muted" th:text="${carga.origemEstado}">Origem Estado</small>
