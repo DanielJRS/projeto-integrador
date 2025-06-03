@@ -38,9 +38,6 @@ public class Carga {
     private Double limiteAltura;
     private Double volume;
 
-    @Enumerated(EnumType.STRING)
-    private StatusCarga statusCarga = StatusCarga.DISPONIVEL;
-
     @ElementCollection
     @CollectionTable(name = "carga_veiculos_leves", joinColumns = @JoinColumn(name = "carga_id"))
     @Column(name = "veiculo_leve")

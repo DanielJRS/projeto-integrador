@@ -1,10 +1,10 @@
     package com.cadastroMot.CadastroMotorista.controller;
 
-    import com.cadastroMot.CadastroMotorista.domain.Carga;
-    import com.cadastroMot.CadastroMotorista.domain.CargaFiltro;
-    import com.cadastroMot.CadastroMotorista.domain.TipoCarga;
-    import com.cadastroMot.CadastroMotorista.domain.TipoEstadoCarga;
+    import com.cadastroMot.CadastroMotorista.domain.*;
     import com.cadastroMot.CadastroMotorista.service.CargaService;
+    import com.cadastroMot.CadastroMotorista.service.UsuarioService;
+    import jakarta.servlet.http.HttpSession;
+    import jakarta.transaction.Transactional;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.format.annotation.DateTimeFormat;
     import org.springframework.stereotype.Controller;
@@ -28,7 +28,7 @@
 
 
         @GetMapping("/novo")
-        public String formularioCarga(Model model) {
+        public String formularioCarga(Model model, HttpSession session) {
             Carga carga = new Carga();
             carga.setTipoEstadoCarga(TipoEstadoCarga.DISPONIVEL);
 
@@ -36,6 +36,11 @@
             model.addAttribute("cidades", cargaService.listarCidades());
             model.addAttribute("estados", cargaService.listarEstados());
 
+            TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuario");
+
+            if (tipoUsuario != TipoUsuario.EMPRESA) {
+                return "redirect:/cargas/listar";
+            }
 
             return "cargas/novo";
         }
@@ -107,9 +112,6 @@
         }
 
 
-
-
-
         @GetMapping("/listar")
         public String listarCargas(
                 @ModelAttribute CargaFiltro filtro,
@@ -129,8 +131,17 @@
                 @RequestParam(required = false) Double pesoTotal,
                 @RequestParam(required = false) Double limiteAltura,
                 @RequestParam(required = false) Double volume,
+                HttpSession session,
 
                 Model model) {
+
+            TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuario");
+
+            System.out.println("=== DEBUG CARGAS/LISTAR ===");
+            System.out.println("TipoUsuario: " + tipoUsuario);
+            System.out.println("=============================");
+
+            model.addAttribute("tipoUsuario", tipoUsuario);
 
             List<Carga> cargasFiltradas = cargaService.buscarComFiltro(filtro);
 
@@ -138,7 +149,6 @@
             model.addAttribute("filtro", filtro != null ? filtro : new CargaFiltro());
             model.addAttribute("cidades", cargaService.listarCidades());
             model.addAttribute("estados", cargaService.listarEstados());
-            model.addAttribute("cargas", cargasFiltradas);
 
             return "cargas/listar";
         }

@@ -1,5 +1,6 @@
 package com.cadastroMot.CadastroMotorista.service;
 
+import com.cadastroMot.CadastroMotorista.domain.TipoUsuario;
 import com.cadastroMot.CadastroMotorista.domain.Usuario;
 import com.cadastroMot.CadastroMotorista.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,9 @@ public class UsuarioService {
 
     public Usuario salvar(Usuario usuario) {
         return usuarioRepository.save(usuario);
+    }
+
+    public boolean usuarioPodeCadastrarCarga(TipoUsuario tipoUsuario) {
+        return tipoUsuario == TipoUsuario.MOTORISTA;
     }
 }
