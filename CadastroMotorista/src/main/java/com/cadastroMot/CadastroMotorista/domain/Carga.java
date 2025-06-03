@@ -43,7 +43,6 @@ public class Carga {
     @Column(name = "veiculo_leve")
     private List<String> veiculosLeves = new ArrayList<>();
 
-    // Repita para todas as outras coleções
     @ElementCollection
     @CollectionTable(name = "carga_veiculos_medios", joinColumns = @JoinColumn(name = "carga_id"))
     @Column(name = "veiculo_medio")
@@ -72,6 +71,14 @@ public class Carga {
     @ManyToOne
     @JoinColumn(name = "motorista_id")
     private Motorista motorista;
+
+    @OneToOne
+    @JoinColumn (name = "frete_id")
+    private Frete frete;
+
+    @ManyToOne
+    @JoinColumn (name = "empresa_id")
+    private Empresa empresaCarga;
 
 
     public TipoEstadoCarga getTipoEstadoCarga() {

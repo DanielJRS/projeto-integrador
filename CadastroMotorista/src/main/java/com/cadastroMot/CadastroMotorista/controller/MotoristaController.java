@@ -72,7 +72,7 @@ public class MotoristaController {
         }
     }
 
-    @GetMapping("/lista-cargas")
+    @GetMapping("/cargas")
     public String listarCargas (Model model){
         return "redirect:/cargas/listar";
     }
