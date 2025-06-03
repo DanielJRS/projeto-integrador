@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Transportes - Soluções em Logística</title>
+    <link rel="stylesheet" th:href="@{/img/css/index.css}">
+    <script th:src="@{/img/js/index.js}" defer></script>
+</head>
+<body>
+<header class="header">
+    <div class="nav-container">
+        <div class="logo">
+            <div class="logo-icon">🌐</div>
+            <span>GLOBAL TRANSPORTES</span>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="#quem-somos">Quem somos?</a></li>
+                <li><a href="#planos">Planos</a></li>
+                <li><a href="#contato">Contato</a></li>
+                <a href="/login" class="login-btn">LOGIN</a>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+<section class="hero">
+    <div class="hero-container">
+        <div class="hero-content">
+            <h1>Soluções Completas em Logística e Transporte</h1>
+            <p>Conectamos seu negócio ao mundo com eficiência, segurança e pontualidade. Sua carga, nossa responsabilidade.</p>
+            <div class="hero-buttons">
+                <a href="#servicos" class="btn btn-primary">
+                    🔍 Explorar Serviços
+                </a>
+                <a href="#contato" class="btn btn-secondary">
+                    📞 Fale Conosco
+                </a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="truck-illustration"></div>
+        </div>
+    </div>
+</section>
+
+<section class="stats">
+    <div class="stats-container">
+        <div class="stat-item">
+            <span class="stat-number">500+</span>
+            <span class="stat-label">Entregas Mensais</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">15</span>
+            <span class="stat-label">Anos de Experiência</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">98%</span>
+            <span class="stat-label">Satisfação do Cliente</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">24/7</span>
+            <span class="stat-label">Suporte Disponível</span>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about" id="quem-somos">
+    <div class="about-container">
+        <div class="about-image fade-in">
+            🚛
+        </div>
+        <div class="about-content fade-in">
+            <h2>Quem somos nós</h2>
+            <p>Somos uma empresa especializada em soluções logísticas completas, oferecendo serviços de transporte rodoviário, armazenagem e distribuição com excelência e qualidade.</p>
+            <p>Nossa equipe altamente qualificada trabalha com tecnologia de ponta para garantir que sua carga chegue ao destino no prazo correto, mantendo a integridade e segurança durante todo o percurso.</p>
+            <p>Com mais de uma década de experiência no mercado, construímos relacionamentos sólidos baseados na confiança, transparência e resultados efetivos para nossos parceiros comerciais.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Plans Section -->
+<section class="plans" id="planos">
+    <div class="plans-container">
+        <div class="plans-header fade-in">
+            <h2>Nossos Planos</h2>
+            <p>Escolha o plano ideal para seu negócio</p>
+        </div>
+
+        <div class="plans-grid">
+            <!-- Plano Mensal -->
+            <div class="plan-card fade-in">
+                <div class="plan-header">
+                    <h3>Plano Mensal</h3>
+                    <div class="plan-price">
+                        <div class="price-current">
+                            <span class="currency">R$</span>
+                            <span class="amount">299</span>
+                            <span class="period">/mês</span>
+                        </div>
+                    </div>
+                    <p class="plan-description">Perfeito para empresas em crescimento</p>
+                </div>
+
+                <div class="plan-features">
+                    <ul>
+                        <li>✅ Veritas lux 50 mea</li>
+                        <li>✅ Non videmus manticae quod in tergo est</li>
+                        <li>✅ Hoc non pereo habebo fortior me</li>
+                        <li>✅ Corvus oculum corvi non eruit</li>
+                        <li>✅ Auribus teneo lupum</li>
+                    </ul>
+                </div>
+
+                <div class="plan-footer">
+                    <a href="/contratar/mensal" class="btn btn-outline">Escolher Plano</a>
+                </div>
+            </div>
+
+            <!-- Plano Anual -->
+            <div class="plan-card plan-featured fade-in">
+                <div class="plan-badge">20% OFF</div>
+
+                <div class="plan-header">
+                    <h3>Plano Anual</h3>
+                    <div class="plan-price">
+                        <div class="price-old">
+                            <span>R$ 299/mês</span>
+                        </div>
+                        <div class="price-current">
+                            <span class="currency">R$</span>
+                            <span class="amount">239</span>
+                            <span class="period">/mês</span>
+                        </div>
+                    </div>
+                    <p class="plan-description">Melhor custo-benefício com desconto especial</p>
+                    <p class="plan-savings">Economize R$ 720 por ano!</p>
+                </div>
+
+                <div class="plan-features">
+                    <ul>
+                        <li>✅ Vincit omnia veritas</li>
+                        <li>✅ Utilius tarde quam nunquam</li>
+                        <li>✅ Lorem ipsum dolor sit amet</li>
+                        <li>✅ Ut enim ad minim veniam</li>
+                        <li>✅ Excepteur sint occaecat cupidatat non</li>
+                        <li>✅ cillum dolore eu fugiat nulla pariatur</li>
+                        <li>✅ culpa qui officia deserunt mollit</li>
+                    </ul>
+                </div>
+
+                <div class="plan-footer">
+                    <a href="/contratar/anual" class="btn btn-primary">Escolher Plano</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer" id="contato">
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3>Global Transportes</h3>
+            <p>Soluções completas em logística e transporte para conectar seu negócio ao mundo.</p>
+        </div>
+        <div class="footer-section">
+            <h3>Serviços</h3>
+            <a href="/servicos/rodoviario">Transporte Rodoviário</a>
+            <a href="/servicos/logistica">Logística Integrada</a>
+            <a href="/servicos/armazenagem">Armazenagem</a>
+            <a href="/servicos/distribuicao">Distribuição</a>
+        </div>
+        <div class="footer-section">
+            <h3>Contato</h3>
+            <p>📍 Rua Exemplo, 123</p>
+            <p>📧 exemplo@gmail.com</p>
+            <p>📞 (xx) xxxx-xxxx</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2025 Global Transportes. Todos os direitos reservados.</p>
+    </div>
+</footer>
+</body>
+</html>

@@ -32,7 +32,7 @@
 
     <form class="login-form" th:action="@{/login}" method="post" th:object="${usuario}">
       <div class="form-group">
-        <label for="email" class="form-label">📧 E-mail</label>
+        <label for="email" class="form-label"> E-mail</label>
         <div class="input-group">
           <input
                   type="email"
@@ -48,7 +48,7 @@
       </div>
 
       <div class="form-group">
-        <label for="senha" class="form-label">🔒 Senha</label>
+        <label for="senha" class="form-label"> Senha</label>
         <div class="input-group">
           <input
                   type="password"
@@ -76,18 +76,17 @@
       <p class="registration-title">Escolha seu tipo de cadastro:</p>
 
       <a th:href="@{/motorista/novo}" class="btn-register">
-        <span class="btn-register-icon">👨‍💼</span>
+        <span class="btn-register-icon"></span>
         Sou Motorista
       </a>
 
       <a th:href="@{/empresa/novo}" class="btn-register">
-        <span class="btn-register-icon">🏢</span>
+        <span class="btn-register-icon"></span>
         Sou Empresa
       </a>
 
       <a th:href="@{/transportadora/novo}" class="btn-register">
-        <span class="btn-register-icon">🚛</span>
-        Sou Transportadora
+        <span class="btn-register-icon">Sou Transportadora</span>
       </a>
     </div>
   </div>

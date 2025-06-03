@@ -5,6 +5,7 @@ import com.cadastroMot.CadastroMotorista.repository.VeiculoRepository;
 import com.cadastroMot.CadastroMotorista.service.MotoristaService;
 import com.cadastroMot.CadastroMotorista.domain.Usuario;
 import com.cadastroMot.CadastroMotorista.domain.Motorista;
+import com.cadastroMot.CadastroMotorista.service.TransportadoraService;
 import com.cadastroMot.CadastroMotorista.service.UsuarioService;
 import com.cadastroMot.CadastroMotorista.service.VeiculoService;
 import com.cadastroMot.CadastroMotorista.domain.TipoUsuario;
@@ -35,6 +36,9 @@ public class VeiculosController {
 
     @Autowired
     private VeiculoService veiculoService;
+
+    @Autowired
+    private TransportadoraService transportadoraService;
 
     @GetMapping
     public List<Veiculo> listar() {

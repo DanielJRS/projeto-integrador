@@ -17,6 +17,8 @@ public class LoginInterceptor implements HandlerInterceptor {
         System.out.println("Interceptando URI: " + uri);
 
         if (uri.equals("/login") ||
+                uri.equals("/") ||
+                uri.equals("/index") ||
                 uri.equals("/logout") ||
                 uri.startsWith("/css/") ||
                 uri.startsWith("/js/") ||
@@ -46,7 +48,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
 
         System.out.println("Acesso negado, redirecionando para login: " + uri);
-        response.sendRedirect("/login");
+        response.sendRedirect("/");
         return false;
     }
 }
