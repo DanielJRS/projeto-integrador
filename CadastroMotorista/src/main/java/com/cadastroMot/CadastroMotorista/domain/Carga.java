@@ -30,6 +30,9 @@ public class Carga {
     @Enumerated(EnumType.STRING)
     private TipoCarga tipoCarga;
 
+    @Enumerated(EnumType.STRING)
+    private TipoEstadoCarga tipoEstadoCarga = TipoEstadoCarga.DISPONIVEL;
+
     private Boolean possuiLona;
     private Double pesoTotal;
     private Double limiteAltura;
@@ -40,7 +43,6 @@ public class Carga {
     @Column(name = "veiculo_leve")
     private List<String> veiculosLeves = new ArrayList<>();
 
-    // Repita para todas as outras coleções
     @ElementCollection
     @CollectionTable(name = "carga_veiculos_medios", joinColumns = @JoinColumn(name = "carga_id"))
     @Column(name = "veiculo_medio")
@@ -70,6 +72,22 @@ public class Carga {
     @JoinColumn(name = "motorista_id")
     private Motorista motorista;
 
+    @OneToOne
+    @JoinColumn (name = "frete_id")
+    private Frete frete;
+
+    @ManyToOne
+    @JoinColumn (name = "empresa_id")
+    private Empresa empresaCarga;
+
+
+    public TipoEstadoCarga getTipoEstadoCarga() {
+        return tipoEstadoCarga;
+    }
+
+    public void setTipoEstadoCarga(TipoEstadoCarga tipoEstadoCarga) {
+        this.tipoEstadoCarga = tipoEstadoCarga;
+    }
 
     public Long getId() {
         return id;

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_empresa")
@@ -34,4 +35,7 @@ public class Empresa {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    @OneToMany (mappedBy = "empresaCarga")
+    private List<Carga> cargas;
 }
