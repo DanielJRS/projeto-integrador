@@ -558,7 +558,6 @@
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th>Nome</th>
                         <th>Origem</th>
                         <th>Data Coleta</th>
                         <th>Destino</th>
@@ -578,10 +577,6 @@
                     </thead>
                     <tbody>
                     <tr th:each="carga : ${cargas}">
-                        <td>
-                            <div class="fw-bold" th:text="${motorista.nome}">Nome</div>
-                            <small class="text-muted" th:text="${carga.origemEstado}">Origem Estado</small>
-                        </td>
                         <td>
                             <div class="fw-bold" th:text="${carga.origemCidade}">Origem Cidade</div>
                             <small class="text-muted" th:text="${carga.origemEstado}">Origem Estado</small>
@@ -617,10 +612,12 @@
                             <a th:href="@{/cargas/detalhar/{id}(id=${carga.id})}" class="btn-action btn-ver" title="Visualizar">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a th:href="@{/cargas/editar/{id}(id=${carga.id})}" class="btn-action btn-editar" title="Editar">
+                            <a th:th:if="${tipoUsuario != null and tipoUsuario.name() == 'EMPRESA'}"
+                               href="@{/cargas/editar/{id}(id=${carga.id})}" class="btn-action btn-editar" title="Editar">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a th:href="@{/cargas/deletar/{id}(id=${carga.id})}" class="btn-action btn-excluir" title="Excluir"
+                            <a th:th:if="${tipoUsuario != null and tipoUsuario.name() == 'EMPRESA'}"
+                               th:href="@{/cargas/deletar/{id}(id=${carga.id})}" class="btn-action btn-excluir" title="Excluir"
                                onclick="return confirm('Tem certeza que deseja excluir esta carga?')">
                                 <i class="fas fa-trash"></i>
                             </a>
