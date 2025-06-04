@@ -45,6 +45,14 @@ public class Veiculo {
     @ElementCollection
     private List<String> fretesEspeciais;
 
+    @ManyToOne
+    @JoinColumn (name = "motorista")
+    private Motorista motoristaVeiculo;
+
+    @ManyToOne
+    @JoinColumn (name = "transportadora")
+    private Transportadora transportadoraVeiculo;
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

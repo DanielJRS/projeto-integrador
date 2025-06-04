@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MotoristaRepository extends JpaRepository<Motorista, Long> {
     Motorista findByUsuario(Usuario usuario);
-    List<Motorista> findByTransportadora(Transportadora transportadora);
+    List<Motorista> findByTransportadoraMotorista(Transportadora transportadora);
 }

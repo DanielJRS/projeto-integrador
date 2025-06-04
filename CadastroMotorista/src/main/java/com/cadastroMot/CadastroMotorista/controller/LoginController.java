@@ -55,9 +55,10 @@ public class LoginController {
             if (senhaValida) {
                 System.out.println("Login bem-sucedido. Tipo: " + usuarioLogado.getTipo());
                 session.setAttribute("usuarioLogado", usuarioLogado);
+                session.setAttribute("tipoUsuario", usuarioLogado.getTipo());
+                session.setAttribute("usuarioId", usuarioLogado.getId());
 
                 String redirect = redirecionarPorTipoUsuario(usuarioLogado);
-                System.out.println("Redirecionando para: " + redirect);
                 return redirect;
             }
         }

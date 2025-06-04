@@ -64,6 +64,6 @@ public class MotoristaService {
     }
 
     public List<Motorista> listarPorTransportadora(Transportadora transportadora) {
-        return motoristaRepository.findByTransportadora(transportadora);
+        return motoristaRepository.findByTransportadoraMotorista(transportadora);
     }
 }
