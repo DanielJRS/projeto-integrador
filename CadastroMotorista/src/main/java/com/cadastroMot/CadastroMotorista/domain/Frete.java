@@ -22,8 +22,10 @@ public class Frete {
     private String status;
     private String data_criacao;
     private String valor;
-    private String origem;
-    private String destino;
+    private String origemCidade;
+    private String origemEstado;
+    private String destinoEstado;
+    private String destinoCidade;
 
     @OneToOne (mappedBy = "frete")
     private Carga cargas;
