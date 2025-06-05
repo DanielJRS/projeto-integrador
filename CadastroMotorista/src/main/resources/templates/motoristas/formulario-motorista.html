@@ -28,7 +28,7 @@
             <input type="hidden" th:field="*{id}" />
 
             <!-- Dados de Acesso -->
-            <div class="login-section">
+            <div th:if="${isTransportadora}" class="login-section">
                 <h5>Dados de Acesso ao Sistema</h5>
                 <div class="form-row">
                     <div class="form-group">

@@ -1,8 +1,11 @@
 package com.cadastroMot.CadastroMotorista.controller;
 
-import com.cadastroMot.CadastroMotorista.domain.*;
+import com.cadastroMot.CadastroMotorista.domain.Carga;
+import com.cadastroMot.CadastroMotorista.domain.Motorista;
+import com.cadastroMot.CadastroMotorista.domain.TipoUsuario;
+import com.cadastroMot.CadastroMotorista.domain.Usuario;
+import com.cadastroMot.CadastroMotorista.domain.Veiculo;
 import com.cadastroMot.CadastroMotorista.service.CargaService;
-import com.cadastroMot.CadastroMotorista.service.FreteService;
 import com.cadastroMot.CadastroMotorista.service.MotoristaService;
 import com.cadastroMot.CadastroMotorista.service.VeiculoService;
 import jakarta.servlet.http.HttpSession;
@@ -27,20 +30,17 @@ public class MotoristaController {
     private final MotoristaService motoristaService;
     private final CargaService cargaService;
     private final VeiculoService veiculoService;
-    private final FreteService freteService;
 
     @Autowired
-    public MotoristaController(MotoristaService motoristaService, CargaService cargaService, VeiculoService veiculoService, FreteService freteService){
+    public MotoristaController(MotoristaService motoristaService, CargaService cargaService, VeiculoService veiculoService){
         this.motoristaService = motoristaService;
         this.cargaService = cargaService;
         this.veiculoService = veiculoService;
-        this.freteService = freteService;
     }
 
     @GetMapping("/novo")
     public String formulario (Model model) {
         model.addAttribute("motorista", new Motorista());
-        model.addAttribute("edicao", false);
         return "/motoristas/formulario-motorista";
     }
 
@@ -106,42 +106,6 @@ public class MotoristaController {
         List<Veiculo> veiculos = veiculoService.buscarPorMotoristaId(motorista.getId());
         model.addAttribute("veiculos", veiculos);
 
-        Motorista motoristaLista = motoristaService.buscarPorId(usuarioLogado.getId());
-
-        List<Frete> fretes = freteService.buscarFretesPorMotorista(motoristaLista);
-        model.addAttribute("fretes", fretes);
-        model.addAttribute("motoristaLista", motoristaLista);
-
-//        Long fretesAtivos = motoristaService.contarFretesAtivos(motorista);
-//        model.addAttribute("fretesAtivos", fretesAtivos);
-
-//        Long fretesAtivosStatus = freteService.contarFretesAtivosEStatus(motorista);
-//        model.addAttribute("fretesAtivosStatus", fretesAtivosStatus);
-
-        Long numeroFretesAtivosMotorista = freteService.contarFretesEStatus(motorista, TipoEstadoFrete.ATIVO);
-        model.addAttribute("fretesAtivosMotorista", numeroFretesAtivosMotorista);
-
-        Long numeroFretesFinalizadosMotorista = freteService.contarFretesEStatus(motorista, TipoEstadoFrete.FINALIZADO);
-        model.addAttribute("fretesFinalizados", numeroFretesFinalizadosMotorista);
-
-        Long numeroFretesCanceladosMotorista = freteService.contarFretesEStatus(motorista, TipoEstadoFrete.CANCELADO);
-        model.addAttribute("fretesCancelados", numeroFretesCanceladosMotorista);
-
         return "/motoristas/dashboard-motorista";
-    }
-
-    @GetMapping("/detalhar/{id}")
-    public String detalharMotorista(@PathVariable Long id, Model model) {
-        Motorista motorista = motoristaService.buscarPorId(id); 
-        model.addAttribute("motorista", motorista);
-        return "motoristas/detalhar-motorista";
-    }
-
-    @GetMapping("/editar/{id}")
-    public String exibirFormularioEdicao(@PathVariable Long id, Model model) {
-        Motorista motorista = motoristaService.buscarPorId(id);
-        model.addAttribute("motorista", motorista);
-        model.addAttribute("edicao", true);
-        return "motoristas/formulario-motorista";
     }
 }
