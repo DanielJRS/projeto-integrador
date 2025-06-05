@@ -37,7 +37,9 @@
             model.addAttribute("estados", cargaService.listarEstados());
 
             TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuario");
+            Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 
+            carga.setEmpresaCarga(usuarioLogado.getEmpresa());
             if (tipoUsuario != TipoUsuario.EMPRESA) {
                 return "redirect:/cargas/listar";
             }
@@ -136,10 +138,6 @@
                 Model model) {
 
             TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuario");
-
-            System.out.println("=== DEBUG CARGAS/LISTAR ===");
-            System.out.println("TipoUsuario: " + tipoUsuario);
-            System.out.println("=============================");
 
             model.addAttribute("tipoUsuario", tipoUsuario);
 

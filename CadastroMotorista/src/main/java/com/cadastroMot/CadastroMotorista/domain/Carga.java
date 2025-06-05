@@ -80,6 +80,33 @@ public class Carga {
     @JoinColumn (name = "empresa_id")
     private Empresa empresaCarga;
 
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
+
+    public Motorista getMotorista() {
+        return motorista;
+    }
+
+    public void setMotorista(Motorista motorista) {
+        this.motorista = motorista;
+    }
+
+    public Frete getFrete() {
+        return frete;
+    }
+
+    public void setFrete(Frete frete) {
+        this.frete = frete;
+    }
+
+    public Empresa getEmpresaCarga() {
+        return empresaCarga;
+    }
+
+    public void setEmpresaCarga(Empresa empresaCarga) {
+        this.empresaCarga = empresaCarga;
+    }
 
     public TipoEstadoCarga getTipoEstadoCarga() {
         return tipoEstadoCarga;
