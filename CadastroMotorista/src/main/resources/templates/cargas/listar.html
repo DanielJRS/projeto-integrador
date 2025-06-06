@@ -583,7 +583,7 @@
                         <td th:text="${carga.dataEntrega != null ? #temporals.format(carga.dataEntrega, 'dd/MM/yyyy') : '-'}">Data Entrega</td>
                         <td th:text="${carga.produto}">Produto</td>
                         <td th:text="${carga.especie}">Espécie</td>
-                        <td th:text="${carga.veiculo}">Veículo</td>
+                        <td th:text="${carga.todosVeiculos}"></td>
                         <td class="price-cell">
                             <span th:text="${carga.preco != null ? 'R$ ' + #numbers.formatDecimal(carga.preco, 1, 'POINT', 2, 'COMMA') : '-'}">Preço</span>
                         </td>

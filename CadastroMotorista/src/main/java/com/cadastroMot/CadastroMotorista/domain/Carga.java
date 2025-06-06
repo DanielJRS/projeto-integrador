@@ -84,6 +84,14 @@ public class Carga {
     public Double getPrecoFrete() {
         return precoFrete;
     }
+    public String getTodosVeiculos() {
+        List<String> todosVeiculos = new ArrayList<>();
+        todosVeiculos.addAll(veiculosLeves);
+        todosVeiculos.addAll(veiculosMedios);
+        todosVeiculos.addAll(veiculosPesados);
+
+        return String.join(", ", todosVeiculos);
+    }
 
     public void setPrecoFrete(Double precoFrete) {
         this.precoFrete = precoFrete;
