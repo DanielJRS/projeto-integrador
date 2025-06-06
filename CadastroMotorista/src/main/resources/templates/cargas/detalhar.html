@@ -40,7 +40,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             background: #fff;
             border-radius: 15px;
@@ -49,9 +49,52 @@
             border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .status-disponivel {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-aceita {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-em-transito {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-entregue {
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+
+        .detail-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #1e3a8a;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
         .detail-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             margin-bottom: 20px;
         }
@@ -61,28 +104,40 @@
             font-size: 1.05rem;
             line-height: 1.6;
             color: #444;
-            padding: 8px 0;
+            padding: 12px 0;
             border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .detail-item strong {
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
             color: #1e3a8a;
-            display: inline-block;
             font-weight: 600;
-            min-width: 140px;
+            min-width: 160px;
+            flex-shrink: 0;
+        }
+
+        .detail-value {
+            color: #333;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        .price-highlight {
+            color: #22c55e;
+            font-weight: 700;
+            font-size: 1.1rem;
         }
 
         .lists-section {
             margin-top: 30px;
             padding-top: 25px;
-            border-top: 1px solid #e9ecef;
-        }
-
-        .lists-section h3 {
-            color: #1e3a8a;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-            font-weight: 600;
+            border-top: 2px solid #e9ecef;
         }
 
         .tag-container {
@@ -90,15 +145,29 @@
             flex-wrap: wrap;
             gap: 8px;
             margin-bottom: 20px;
+            min-height: 40px;
         }
 
         .tag {
-            background: #e6f0ff;
+            background: linear-gradient(135deg, #e6f0ff 0%, #dbeafe 100%);
             color: #1e3a8a;
-            padding: 6px 12px;
+            padding: 8px 14px;
             border-radius: 20px;
             font-size: 0.9rem;
             font-weight: 500;
+            border: 1px solid #bfdbfe;
+            transition: all 0.2s ease;
+        }
+
+        .tag:hover {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            transform: translateY(-1px);
+        }
+
+        .empty-list {
+            color: #6b7280;
+            font-style: italic;
+            padding: 10px 0;
         }
 
         .action-buttons {
@@ -113,7 +182,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 12px 28px;
+            padding: 14px 32px;
             color: white;
             border-radius: 30px;
             text-decoration: none;
@@ -122,8 +191,9 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             border: none;
             cursor: pointer;
-            gap: 8px;
+            gap: 10px;
             font-size: 1rem;
+            min-width: 160px;
         }
 
         .btn-accept {
@@ -160,6 +230,21 @@
             transform: translateY(0);
         }
 
+        .info-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .info-card-title {
+            color: #475569;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
         @media (max-width: 768px) {
             .detail-grid {
                 grid-template-columns: 1fr;
@@ -181,6 +266,16 @@
             .btn {
                 width: 100%;
             }
+
+            .detail-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .detail-value {
+                text-align: left;
+            }
         }
     </style>
 </head>
@@ -188,61 +283,186 @@
 <h1>Detalhes da Carga</h1>
 
 <div class="container">
-    <div class="detail-grid">
-        <div>
-            <p class="detail-item"><strong>Origem:</strong> <span th:text="${carga.origemCidade} + ' - ' + ${carga.origemEstado}"></span></p>
-            <p class="detail-item"><strong>Destino:</strong> <span th:text="${carga.destinoCidade} + ' - ' + ${carga.destinoEstado}"></span></p>
-            <p class="detail-item"><strong>Produto:</strong> <span th:text="${carga.produto}"></span></p>
-            <p class="detail-item"><strong>Espécie:</strong> <span th:text="${carga.especie}"></span></p>
-            <p class="detail-item"><strong>Data Coleta:</strong> <span th:text="${carga.dataColeta}"></span></p>
-            <p class="detail-item"><strong>Data Entrega:</strong> <span th:text="${carga.dataEntrega}"></span></p>
-        </div>
-        <div>
-            <p class="detail-item"><strong>Tipo Carga:</strong> <span th:text="${carga.tipoCarga}"></span></p>
-            <p class="detail-item"><strong>Peso Total:</strong> <span th:text="${carga.pesoTotal}"></span> kg</p>
-            <p class="detail-item"><strong>Volume:</strong> <span th:text="${carga.volume}"></span> m³</p>
-            <p class="detail-item"><strong>Limite Altura:</strong> <span th:text="${carga.limiteAltura}"></span> m</p>
-            <p class="detail-item"><strong>Veículo:</strong> <span th:text="${carga.veiculo}"></span></p>
-            <p class="detail-item"><strong>Preço:</strong> R$ <span th:text="${carga.preco}"></span></p>
-            <p class="detail-item"><strong>Possui Lona:</strong> <span th:text="${carga.possuiLona ? 'Sim' : 'Não'}"></span></p>
+    <!-- Status da Carga -->
+    <div class="status-badge" th:classappend="${carga.tipoEstadoCarga.name() == 'DISPONIVEL' ? 'status-disponivel' :
+                                              carga.tipoEstadoCarga.name() == 'ACEITA' ? 'status-aceita' :
+                                              carga.tipoEstadoCarga.name() == 'EM_TRANSITO' ? 'status-em-transito' :
+                                              'status-entregue'}"
+         th:text="${carga.tipoEstadoCarga}">
+    </div>
+
+    <!-- Informações Gerais -->
+    <div class="detail-section">
+        <h3 class="section-title">Informações Gerais</h3>
+        <div class="detail-grid">
+            <div>
+                <div class="detail-item">
+                    <span class="detail-label">Origem:</span>
+                    <span class="detail-value" th:text="${carga.origemCidade} + ' - ' + ${carga.origemEstado}"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Destino:</span>
+                    <span class="detail-value" th:text="${carga.destinoCidade} + ' - ' + ${carga.destinoEstado}"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Data Coleta:</span>
+                    <span class="detail-value" th:text="${#temporals.format(carga.dataColeta, 'dd/MM/yyyy')}"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Data Entrega:</span>
+                    <span class="detail-value" th:text="${#temporals.format(carga.dataEntrega, 'dd/MM/yyyy')}"></span>
+                </div>
+            </div>
+            <div>
+                <div class="detail-item">
+                    <span class="detail-label">Produto:</span>
+                    <span class="detail-value" th:text="${carga.produto}"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Espécie:</span>
+                    <span class="detail-value" th:text="${carga.especie}"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Tipo de Carga:</span>
+                    <span class="detail-value" th:text="${carga.tipoCarga}"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Veículo Sugerido:</span>
+                    <span class="detail-value" th:text="${carga.veiculo}"></span>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Especificações Técnicas -->
+    <div class="detail-section">
+        <h3 class="section-title">Especificações Técnicas</h3>
+        <div class="detail-grid">
+            <div>
+                <div class="detail-item">
+                    <span class="detail-label">Peso Total:</span>
+                    <span class="detail-value">
+                        <span th:text="${carga.pesoTotal}"></span> kg
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Volume:</span>
+                    <span class="detail-value">
+                        <span th:text="${carga.volume}"></span> m³
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Limite de Altura:</span>
+                    <span class="detail-value">
+                        <span th:text="${carga.limiteAltura}"></span> m
+                    </span>
+                </div>
+            </div>
+            <div>
+                <div class="detail-item">
+                    <span class="detail-label">Possui Lona:</span>
+                    <span class="detail-value" th:text="${carga.possuiLona ? 'Sim' : 'Não'}"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Preço da Carga:</span>
+                    <span class="detail-value price-highlight">
+                        R$ <span th:text="${#numbers.formatDecimal(carga.preco, 1, 2)}"></span>
+                    </span>
+                </div>
+                <div class="detail-item" th:if="${carga.precoFrete != null}">
+                    <span class="detail-label">Preço do Frete:</span>
+                    <span class="detail-value price-highlight">
+                        R$ <span th:text="${#numbers.formatDecimal(carga.precoFrete, 1, 2)}"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Informações de Relacionamento -->
+    <div class="detail-section" th:if="${carga.empresaCarga != null or carga.motorista != null}">
+        <h3 class="section-title">Informações de Relacionamento</h3>
+        <div class="info-card" th:if="${carga.empresaCarga != null}">
+            <div class="info-card-title">Empresa Responsável</div>
+            <div th:text="${carga.empresaCarga.nome}"></div>
+        </div>
+        <div class="info-card" th:if="${carga.motorista != null}">
+            <div class="info-card-title">Motorista Designado</div>
+            <div th:text="${carga.motorista.nome}"></div>
+        </div>
+    </div>
+
+    <!-- Tipos de Veículos Aceitos -->
     <div class="lists-section">
-        <h3>Tipos de Veículos</h3>
-        <div class="tag-container">
-            <div class="tag" th:each="veiculo : ${carga.veiculosLeves}" th:text="${veiculo}"></div>
+        <h3 class="section-title">Tipos de Veículos Aceitos</h3>
+
+        <div th:if="${!#lists.isEmpty(carga.veiculosLeves)}">
+            <h4 style="color: #475569; margin-bottom: 10px; font-weight: 600;">Veículos Leves</h4>
+            <div class="tag-container">
+                <div class="tag" th:each="veiculo : ${carga.veiculosLeves}" th:text="${veiculo}"></div>
+            </div>
         </div>
 
-        <div class="tag-container">
-            <div class="tag" th:each="veiculo : ${carga.veiculosMedios}" th:text="${veiculo}"></div>
+        <div th:if="${!#lists.isEmpty(carga.veiculosMedios)}">
+            <h4 style="color: #475569; margin-bottom: 10px; font-weight: 600;">Veículos Médios</h4>
+            <div class="tag-container">
+                <div class="tag" th:each="veiculo : ${carga.veiculosMedios}" th:text="${veiculo}"></div>
+            </div>
         </div>
 
-        <div class="tag-container">
-            <div class="tag" th:each="veiculo : ${carga.veiculosPesados}" th:text="${veiculo}"></div>
+        <div th:if="${!#lists.isEmpty(carga.veiculosPesados)}">
+            <h4 style="color: #475569; margin-bottom: 10px; font-weight: 600;">Veículos Pesados</h4>
+            <div class="tag-container">
+                <div class="tag" th:each="veiculo : ${carga.veiculosPesados}" th:text="${veiculo}"></div>
+            </div>
         </div>
 
-        <h3 style="margin-top: 25px;">Tipos de Fretes</h3>
-        <div class="tag-container">
-            <div class="tag" th:each="frete : ${carga.fretesFechados}" th:text="${frete}"></div>
-        </div>
-
-        <div class="tag-container">
-            <div class="tag" th:each="frete : ${carga.fretesAbertos}" th:text="${frete}"></div>
-        </div>
-
-        <div class="tag-container">
-            <div class="tag" th:each="frete : ${carga.fretesEspeciais}" th:text="${frete}"></div>
+        <div th:if="${#lists.isEmpty(carga.veiculosLeves) and #lists.isEmpty(carga.veiculosMedios) and #lists.isEmpty(carga.veiculosPesados)}">
+            <div class="empty-list">Nenhum tipo específico de veículo definido</div>
         </div>
     </div>
 
+    <!-- Tipos de Fretes Aceitos -->
+    <div class="lists-section">
+        <h3 class="section-title">Tipos de Fretes Aceitos</h3>
+
+        <div th:if="${!#lists.isEmpty(carga.fretesFechados)}">
+            <h4 style="color: #475569; margin-bottom: 10px; font-weight: 600;">Fretes Fechados</h4>
+            <div class="tag-container">
+                <div class="tag" th:each="frete : ${carga.fretesFechados}" th:text="${frete}"></div>
+            </div>
+        </div>
+
+        <div th:if="${!#lists.isEmpty(carga.fretesAbertos)}">
+            <h4 style="color: #475569; margin-bottom: 10px; font-weight: 600;">Fretes Abertos</h4>
+            <div class="tag-container">
+                <div class="tag" th:each="frete : ${carga.fretesAbertos}" th:text="${frete}"></div>
+            </div>
+        </div>
+
+        <div th:if="${!#lists.isEmpty(carga.fretesEspeciais)}">
+            <h4 style="color: #475569; margin-bottom: 10px; font-weight: 600;">Fretes Especiais</h4>
+            <div class="tag-container">
+                <div class="tag" th:each="frete : ${carga.fretesEspeciais}" th:text="${frete}"></div>
+            </div>
+        </div>
+
+        <div th:if="${#lists.isEmpty(carga.fretesFechados) and #lists.isEmpty(carga.fretesAbertos) and #lists.isEmpty(carga.fretesEspeciais)}">
+            <div class="empty-list">Nenhum tipo específico de frete definido</div>
+        </div>
+    </div>
+
+    <!-- Botões de Ação -->
     <div class="action-buttons">
-        <a th:href="@{/aceitar-frete(cargaId=${carga.id})}" class="btn btn-accept">
+        <a th:href="@{/aceitar-frete(cargaId=${carga.id})}"
+           class="btn btn-accept"
+           th:if="${carga.tipoEstadoCarga.name() == 'DISPONIVEL'}">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
             </svg>
-            Aceitar carga
+            Aceitar Carga
         </a>
+
 
         <a href="/cargas/listar" class="btn btn-back">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
