@@ -26,6 +26,7 @@ public class Carga {
     private String especie;
     private String veiculo;
     private Double preco;
+    private Double precoFrete;
 
     @Enumerated(EnumType.STRING)
     private TipoCarga tipoCarga;
@@ -79,6 +80,14 @@ public class Carga {
     @ManyToOne
     @JoinColumn (name = "empresa_id")
     private Empresa empresaCarga;
+
+    public Double getPrecoFrete() {
+        return precoFrete;
+    }
+
+    public void setPrecoFrete(Double precoFrete) {
+        this.precoFrete = precoFrete;
+    }
 
     public void setPreco(Double preco) {
         this.preco = preco;
