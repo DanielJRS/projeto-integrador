@@ -66,4 +66,15 @@ public class MotoristaService {
     public List<Motorista> listarPorTransportadora(Transportadora transportadora) {
         return motoristaRepository.findByTransportadora(transportadora);
     }
+
+//    public List<Motorista> filtrar(String nome, String cidade, String estado) {
+//    }
+    //@Service
+//public class MotoristaService {
+//    @Autowired
+//    private MotoristaRepository motoristaRepository;
+//
+    public List<Motorista> filtrar(String nome, String cidade, String estado) {
+        return motoristaRepository.findByFiltros(nome, cidade, estado);
+    }
 }
