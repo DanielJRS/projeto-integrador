@@ -12,23 +12,22 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .verde {
-    background-color: #d4edda;
-    color: #155724;
-    font-weight: bold;
-}
+            background-color: #d4edda;
+            color: #155724;
+            font-weight: bold;
+        }
 
-.vermelho {
-    background-color: #f8d7da;
-    color: #721c24;
-    font-weight: bold;
-}
+        .vermelho {
+            background-color: #f8d7da;
+            color: #721c24;
+            font-weight: bold;
+        }
 
-.amarelo {
-    background-color: #fff3cd;
-    color: #856404;
-    font-weight: bold;
-}
-
+        .amarelo {
+            background-color: #fff3cd;
+            color: #856404;
+            font-weight: bold;
+        }
 
         .main-container {
             display: flex;
@@ -399,8 +398,6 @@
                     </option>
                 </select>
 
-                </select>
-
                 <label for="origemEstado" class="form-label">Origem - Estado</label>
                 <select class="form-select" id="origemEstado" name="origemEstado">
                     <option value="">Selecione o estado...</option>
@@ -408,7 +405,6 @@
                             th:value="${estado}"
                             th:text="${estado}"
                             th:selected="*{origemEstado} == ${estado}">
-
                     </option>
                 </select>
 
@@ -420,8 +416,6 @@
                             th:text="${cidade}"
                             th:selected="*{destinoCidade} == ${cidade}">
                     </option>
-                </select>
-
                 </select>
 
                 <label for="destinoEstado" class="form-label">Destino - Estado</label>
@@ -474,6 +468,7 @@
                             th:selected="*{veiculo} == ${veiculo}">
                     </option>
                 </select>
+
                 <label for="tipoCarga" class="form-label">Tipo de Carga</label>
                 <select class="form-select" id="tipoCarga" name="tipoCarga">
                     <option value="">Selecione o tipo...</option>
@@ -526,7 +521,6 @@
                             th:selected="*{tipoEstadoCarga} == ${status}">
                     </option>
                 </select>
-
             </div>
 
             <!-- Botões de Ação -->
@@ -548,7 +542,8 @@
                 <h1 class="page-title">
                     <i class="fas fa-truck text-warning me-3"></i>Listagem de Cargas
                 </h1>
-                <a href="/cargas/novo" class="btn btn-primary">
+                <a th:if="${tipoUsuario != null and tipoUsuario.name() == 'EMPRESA'}"
+                   th:href="@{/cargas/novo}" class="btn btn-primary">
                     <i class="fas fa-plus me-2"></i>Nova Carga
                 </a>
             </div>
@@ -588,14 +583,14 @@
                         <td th:text="${carga.dataEntrega != null ? #temporals.format(carga.dataEntrega, 'dd/MM/yyyy') : '-'}">Data Entrega</td>
                         <td th:text="${carga.produto}">Produto</td>
                         <td th:text="${carga.especie}">Espécie</td>
-                        <td th:text="${carga.veiculo}">Veículo</td>
+                        <td th:text="${carga.todosVeiculos}"></td>
                         <td class="price-cell">
                             <span th:text="${carga.preco != null ? 'R$ ' + #numbers.formatDecimal(carga.preco, 1, 'POINT', 2, 'COMMA') : '-'}">Preço</span>
                         </td>
                         <td th:text="${carga.tipoCarga != null ? carga.tipoCarga : 'N/A'}">Tipo Carga</td>
                         <td>
-                                        <span th:class="${carga.possuiLona} ? 'badge-sim' : 'badge-nao'"
-                                              th:text="${carga.possuiLona} ? 'Sim' : 'Não'">Lona</span>
+                            <span th:class="${carga.possuiLona} ? 'badge-sim' : 'badge-nao'"
+                                  th:text="${carga.possuiLona} ? 'Sim' : 'Não'">Lona</span>
                         </td>
                         <td th:text="${carga.pesoTotal != null ? carga.pesoTotal : '-'}">Peso Total</td>
                         <td th:text="${carga.limiteAltura != null ? carga.limiteAltura : '-'}">Limite Altura</td>
@@ -611,10 +606,12 @@
                             <a th:href="@{/cargas/detalhar/{id}(id=${carga.id})}" class="btn-action btn-ver" title="Visualizar">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a th:href="@{/cargas/editar/{id}(id=${carga.id})}" class="btn-action btn-editar" title="Editar">
+                            <a th:if="${tipoUsuario != null and tipoUsuario.name() == 'EMPRESA'}"
+                               th:href="@{/cargas/editar/{id}(id=${carga.id})}" class="btn-action btn-editar" title="Editar">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a th:href="@{/cargas/deletar/{id}(id=${carga.id})}" class="btn-action btn-excluir" title="Excluir"
+                            <a th:if="${tipoUsuario != null and tipoUsuario.name() == 'EMPRESA'}"
+                               th:href="@{/cargas/deletar/{id}(id=${carga.id})}" class="btn-action btn-excluir" title="Excluir"
                                onclick="return confirm('Tem certeza que deseja excluir esta carga?')">
                                 <i class="fas fa-trash"></i>
                             </a>
@@ -627,7 +624,8 @@
                     <i class="fas fa-truck"></i>
                     <h4>Nenhuma carga encontrada</h4>
                     <p class="text-muted">Não há cargas que correspondam aos filtros aplicados.</p>
-                    <a href="/cargas/novo" class="btn btn-primary mt-3">
+                    <a th:if="${tipoUsuario != null and tipoUsuario.name() == 'EMPRESA'}"
+                       th:href="@{/cargas/novo}" class="btn btn-primary mt-3">
                         <i class="fas fa-plus me-2"></i>Cadastrar Nova Carga
                     </a>
                 </div>
@@ -643,16 +641,15 @@
         sidebar.classList.toggle('show');
     }
 
-    // Fechar sidebar ao clicar fora (mobile)
+    // Fecha o sidebar ao clicar fora dele (mobile)
     document.addEventListener('click', function(event) {
         const sidebar = document.getElementById('sidebarFilters');
-        const toggle = document.querySelector('.mobile-filter-toggle');
+        const toggleButton = document.querySelector('.mobile-filter-toggle');
 
-        if (window.innerWidth <= 768 &&
-            !sidebar.contains(event.target) &&
-            !toggle.contains(event.target) &&
-            sidebar.classList.contains('show')) {
-            sidebar.classList.remove('show');
+        if (window.innerWidth <= 768) {
+            if (!sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
+                sidebar.classList.remove('show');
+            }
         }
     });
 </script>

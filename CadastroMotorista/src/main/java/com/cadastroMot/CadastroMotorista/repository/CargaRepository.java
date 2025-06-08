@@ -1,11 +1,13 @@
 package com.cadastroMot.CadastroMotorista.repository;
 
 import com.cadastroMot.CadastroMotorista.domain.Carga;
+import com.cadastroMot.CadastroMotorista.domain.TipoEstadoCarga;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,4 +35,26 @@ public interface CargaRepository extends JpaRepository<Carga, Long>, JpaSpecific
     // Optional<Carga> findById(Long id);
 
     List<Carga> findByMotoristaId(Long motoristaId);
+
+    List<Carga> findByOrigemCidadeAndOrigemEstado(String cidade, String estado);
+
+    List<Carga> findByTipoEstadoCarga(TipoEstadoCarga tipoEstadoCarga);
+
+    List<Carga> findByEmpresaCargaId(Long empresaId);
+
+    List<Carga> findByOrigemCidadeAndOrigemEstadoAndDestinoCidadeAndDestinoEstado(String origemCidade, String origemEstado, String destinoCidade, String destinoEstado);
+
+    List<Carga> findByProdutoContainingIgnoreCase(String produto);
+
+    long countByEmpresaCargaId(Long empresaId);
+
+    long countByTipoEstadoCarga(TipoEstadoCarga tipoEstadoCarga);
+
+    List<Carga> findByDataEntregaBetween(LocalDate dataInicio, LocalDate dataFim);
+
+    List<Carga> findByDataColetaBetween(LocalDate dataInicio, LocalDate dataFim);
+
+    List<Carga> findByPrecoBetween(Double precoMin, Double precoMax);
+
+    List<Carga> findByDestinoCidadeAndDestinoEstado(String cidade, String estado);
 }

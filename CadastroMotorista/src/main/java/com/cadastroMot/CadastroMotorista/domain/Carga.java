@@ -26,6 +26,7 @@ public class Carga {
     private String especie;
     private String veiculo;
     private Double preco;
+    private Double precoFrete;
 
     @Enumerated(EnumType.STRING)
     private TipoCarga tipoCarga;
@@ -43,7 +44,6 @@ public class Carga {
     @Column(name = "veiculo_leve")
     private List<String> veiculosLeves = new ArrayList<>();
 
-    // Repita para todas as outras coleções
     @ElementCollection
     @CollectionTable(name = "carga_veiculos_medios", joinColumns = @JoinColumn(name = "carga_id"))
     @Column(name = "veiculo_medio")
@@ -73,6 +73,57 @@ public class Carga {
     @JoinColumn(name = "motorista_id")
     private Motorista motorista;
 
+    @OneToOne
+    @JoinColumn (name = "frete_id")
+    private Frete frete;
+
+    @ManyToOne
+    @JoinColumn (name = "empresa_id")
+    private Empresa empresaCarga;
+
+    public Double getPrecoFrete() {
+        return precoFrete;
+    }
+    public String getTodosVeiculos() {
+        List<String> todosVeiculos = new ArrayList<>();
+        todosVeiculos.addAll(veiculosLeves);
+        todosVeiculos.addAll(veiculosMedios);
+        todosVeiculos.addAll(veiculosPesados);
+
+        return String.join(", ", todosVeiculos);
+    }
+
+    public void setPrecoFrete(Double precoFrete) {
+        this.precoFrete = precoFrete;
+    }
+
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
+
+    public Motorista getMotorista() {
+        return motorista;
+    }
+
+    public void setMotorista(Motorista motorista) {
+        this.motorista = motorista;
+    }
+
+    public Frete getFrete() {
+        return frete;
+    }
+
+    public void setFrete(Frete frete) {
+        this.frete = frete;
+    }
+
+    public Empresa getEmpresaCarga() {
+        return empresaCarga;
+    }
+
+    public void setEmpresaCarga(Empresa empresaCarga) {
+        this.empresaCarga = empresaCarga;
+    }
 
     public TipoEstadoCarga getTipoEstadoCarga() {
         return tipoEstadoCarga;
