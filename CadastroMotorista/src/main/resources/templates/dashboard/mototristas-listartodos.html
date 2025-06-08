@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Todos os Motoristas</title>
+    <link rel="stylesheet" th:href="@{/img/css/dashboardadmin/index.css}" />
+</head>
+<body>
+<div class="container">
+    <h1>Lista de Motoristas</h1>
+    <form method="get" th:action="@{/dashboard/motoristas}">
+        <input type="text" name="nome" placeholder="Nome do Motorista" th:value="${nome}">
+        <input type="text" name="transportadora" placeholder="Transportadora" th:value="${transportadora}">
+        <button type="submit">Filtrar</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Transportadora</th>
+                <th>Telefone</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="motorista : ${motoristas}">
+                <td th:text="${motorista.nome}">Nome</td>
+                <td th:text="${motorista.usuario != null ? motorista.usuario.email : '---'}">Email</td>
+                <td th:text="${motorista.transportadora != null ? motorista.transportadora.nomeFantasia : '---'}">Transportadora</td>
+                <td th:text="${motorista.celular}">Telefone</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(motoristas)}">
+                <td colspan="4">Nenhum motorista encontrado.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

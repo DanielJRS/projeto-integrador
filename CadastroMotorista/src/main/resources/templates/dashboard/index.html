@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{../img/css/dashboardadmin/index.css}" />
+
+</head>
+<body>
+<!-- Sidebar -->
+    <div th:insert="~{dashboard/fragments/sidebar :: sidebar}"></div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div th:insert="~{dashboard/fragments/header :: header}"></div>
+
+
+    <!-- Content Area -->
+    <main class="content">
+        <div class="page-title">
+            <h1>Dashboard</h1>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="dashboard-cards">
+            <div class="card stat-card">
+                <div class="icon blue">
+                    <i class="fas fa-id-card"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 th:text="${driverCount ?: '42'}">42</h3>
+                    <p>Total de motoristas</p>
+                </div>
+            </div>
+
+            <div class="card stat-card">
+                <div class="icon green">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 th:text="${vehicleCount ?: '38'}">38</h3>
+                    <p>Total de veículos</p>
+                </div>
+            </div>
+
+            <div class="card stat-card">
+                <div class="icon orange">
+                    <i class="fas fa-route"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 th:text="${routeCount ?: '156'}">156</h3>
+                    <p>Fretes em andamento</p>
+                </div>
+            </div>
+
+            <div class="card stat-card">
+                <div class="icon red">
+                    <i class="fa-solid fa-building"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 th:text="${maintenanceCount ?: '7'}">7</h3>
+                    <p>Transportadoras</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>
