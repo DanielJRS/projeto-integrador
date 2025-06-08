@@ -44,4 +44,8 @@ public class EmpresaService {
 
         return empresaRepository.save(empresa);
     }
+
+    public Empresa empresa (Empresa empresaId){
+        return empresaRepository.findAllById(empresaId);
+    }
 }

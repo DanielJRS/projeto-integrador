@@ -26,6 +26,15 @@ public class Frete {
     private String origemEstado;
     private String destinoEstado;
     private String destinoCidade;
+    private String produto;
+    private Double pesoTotal;
+//    private Long fretesAtivos;
+    private Long fretesFinalizados;
+
+    private String nomeFantasia;
+    private String cnpj;
+    private String telefone;
+    private String email;
 
     @OneToOne (mappedBy = "frete")
     private Carga cargas;
