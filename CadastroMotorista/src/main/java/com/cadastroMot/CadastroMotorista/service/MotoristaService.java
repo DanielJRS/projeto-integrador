@@ -22,7 +22,10 @@ public class MotoristaService {
     @Autowired
     public MotoristaService(MotoristaRepository motoristaRepository,
                             UsuarioRepository usuarioRepository,
-                            PasswordEncoder passwordEncoder, FreteRepository freteRepository, FreteService freteService) {
+                            PasswordEncoder passwordEncoder,
+                            FreteRepository freteRepository,
+                            FreteService freteService) {
+
         this.motoristaRepository = motoristaRepository;
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
@@ -69,11 +72,11 @@ public class MotoristaService {
         return motoristaRepository.findByTransportadoraMotorista(transportadora);
     }
 
-//    public Long contarFretesAtivos(Motorista motorista){
-//        return freteRepository.countByMotoristaFrete(motorista);
-//    }
-//
-//    public Long contarFretesAtivosEStatus(Motorista motorista) {
-//        return freteService.contarFretesAtivosEStatus(motorista);
-//    }
+    public Long contarFretesAtivos(Motorista motorista){
+        return freteRepository.countByMotoristaFrete(motorista);
+    }
+
+    public Long contarFretesAtivosEStatus(Motorista motorista, TipoEstadoFrete status) {
+        return freteService.contarFretesAtivosEStatus(motorista, String.valueOf(status));
+    }
 }

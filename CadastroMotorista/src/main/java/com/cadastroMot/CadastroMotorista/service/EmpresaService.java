@@ -10,6 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class EmpresaService {
     private final EmpresaRepository empresaRepository;
@@ -45,7 +47,7 @@ public class EmpresaService {
         return empresaRepository.save(empresa);
     }
 
-    public Empresa empresa (Empresa empresaId){
-        return empresaRepository.findAllById(empresaId);
+    public Optional<Empresa> buscarEmpresaPorId(Long id) {
+        return empresaRepository.findById(id);
     }
 }
