@@ -106,4 +106,15 @@ public class DashboardController {
         model.addAttribute("empresas", empresas);
         return "dashboard/empresas-listartodos";
     }
+
+    @GetMapping("/cargas-listartodos")
+    public String listarTodasCargas(Model model, HttpSession session) {
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        if (tipoUsuario == null || !"ADMIN".equals(tipoUsuario.toString())) {
+            return "redirect:/login";
+        }
+        List<Carga> cargas = cargaService.listarTodos();
+        model.addAttribute("cargas", cargas);
+        return "dashboard/cargas-listartodos";
+    }
 }
