@@ -36,6 +36,9 @@ public class DashboardController {
     @Autowired
     private EmpresaService empresaService;
 
+    @Autowired
+    private TransportadoraService transportadoraService;
+
     @GetMapping("/")
     public String index(Model model) {
         System.out.println("Entrou no dashboard");
@@ -64,6 +67,10 @@ public class DashboardController {
         return "dashboard/veiculo-index";
     }
 
+    @GetMapping("/transportadoras")
+    public String dashboardTransportadoras() {
+        return "dashboard/transportadora-index";
+    }
 
     @GetMapping("/motoristas-listartodos")
     public String listarTodosMotoristas(
@@ -116,5 +123,16 @@ public class DashboardController {
         List<Carga> cargas = cargaService.listarTodos();
         model.addAttribute("cargas", cargas);
         return "dashboard/cargas-listartodos";
+    }
+
+    @GetMapping("/transportadoras-listartodos")
+    public String listarTodasTransportadoras(Model model, HttpSession session) {
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        if (tipoUsuario == null || !"ADMIN".equals(tipoUsuario.toString())) {
+            return "redirect:/login";
+        }
+        List<Transportadora> transportadoras = transportadoraService.listarTodos();
+        model.addAttribute("transportadoras", transportadoras);
+        return "dashboard/transportadoras-listartodos";
     }
 }
