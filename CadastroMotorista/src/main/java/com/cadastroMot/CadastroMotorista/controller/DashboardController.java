@@ -2,8 +2,14 @@ package com.cadastroMot.CadastroMotorista.controller;
 
 import com.cadastroMot.CadastroMotorista.domain.Carga;
 import com.cadastroMot.CadastroMotorista.domain.Motorista;
+import com.cadastroMot.CadastroMotorista.domain.Transportadora;
+import com.cadastroMot.CadastroMotorista.domain.Veiculo;
+import com.cadastroMot.CadastroMotorista.domain.Empresa;
 import com.cadastroMot.CadastroMotorista.service.CargaService;
 import com.cadastroMot.CadastroMotorista.service.MotoristaService;
+import com.cadastroMot.CadastroMotorista.service.TransportadoraService;
+import com.cadastroMot.CadastroMotorista.service.VeiculoService;
+import com.cadastroMot.CadastroMotorista.service.EmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +29,12 @@ public class DashboardController {
 
     @Autowired
     private MotoristaService motoristaService;
+
+    @Autowired
+    private VeiculoService veiculoService;
+
+    @Autowired
+    private EmpresaService empresaService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -71,5 +83,27 @@ public class DashboardController {
         model.addAttribute("transportadora", transportadora);
 
         return "dashboard/mototristas-listartodos";
+    }
+
+    @GetMapping("/veiculos-listartodos")
+    public String listarTodosVeiculos(Model model, HttpSession session) {
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        if (tipoUsuario == null || !"ADMIN".equals(tipoUsuario.toString())) {
+            return "redirect:/login";
+        }
+        List<Veiculo> veiculos = veiculoService.listarTodos();
+        model.addAttribute("veiculos", veiculos);
+        return "dashboard/veiculos-listartodos";
+    }
+
+    @GetMapping("/empresas-listartodos")
+    public String listarTodasEmpresas(Model model, HttpSession session) {
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        if (tipoUsuario == null || !"ADMIN".equals(tipoUsuario.toString())) {
+            return "redirect:/login";
+        }
+        List<Empresa> empresas = empresaService.listarTodos();
+        model.addAttribute("empresas", empresas);
+        return "dashboard/empresas-listartodos";
     }
 }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Todos os Veículos</title>
+    <link rel="stylesheet" th:href="@{/img/css/dashboardadmin/index.css}" />
+</head>
+<body>
+<div class="container">
+    <h1>Lista de Veículos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Placa</th>
+                <th>Modelo</th>
+                <th>Marca</th>
+                <th>Capacidade de Carga</th>
+                <th>Renavam</th>
+                <th>Chassi</th>
+                <th>Motorista</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="veiculo : ${veiculos}">
+                <td th:text="${veiculo.placa}">Placa</td>
+                <td th:text="${veiculo.modelo}">Modelo</td>
+                <td th:text="${veiculo.marca}">Marca</td>
+                <td th:text="${veiculo.capacidadeCarga}">Capacidade de Carga</td>
+                <td th:text="${veiculo.renavam}">Renavam</td>
+                <td th:text="${veiculo.chassi}">Chassi</td>
+                <td th:text="${veiculo.motorista != null ? veiculo.motorista.nome : '---'}">Motorista</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(veiculos)}">
+                <td colspan="7">Nenhum veículo encontrado.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

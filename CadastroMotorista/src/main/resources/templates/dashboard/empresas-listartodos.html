@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Todas as Empresas</title>
+    <link rel="stylesheet" th:href="@{/img/css/dashboardadmin/index.css}" />
+</head>
+<body>
+<div class="container">
+    <h1>Lista de Empresas</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome Fantasia</th>
+                <th>Razão Social</th>
+                <th>CNPJ</th>
+                <th>Email</th>
+                <th>Cidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="empresa : ${empresas}">
+                <td th:text="${empresa.nomeFantasia}">Nome Fantasia</td>
+                <td th:text="${empresa.razaoSocial}">Razão Social</td>
+                <td th:text="${empresa.cnpj}">CNPJ</td>
+                <td th:text="${empresa.email}">Email</td>
+                <td th:text="${empresa.cidade}">Cidade</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(empresas)}">
+                <td colspan="5">Nenhuma empresa encontrada.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
