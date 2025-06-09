@@ -2,37 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Todos os Motoristas</title>
-    <link rel="stylesheet" th:href="@{/img/css/dashboardadmin/index.css}" />
+    <link rel="stylesheet" th:href="@{/img/css/shared-header-footer.css}">
+    <link rel="stylesheet" th:href="@{/img/css/dashboardadmin/listar.css}">
 </head>
 <body>
-<div class="container">
-    <h1>Lista de Motoristas</h1>
-    <form method="get" th:action="@{/dashboard/motoristas}">
+<div th:insert="~{shared-fragments/shared-header :: shared-header}"></div>
+<div class="content-container">
+    <div class="page-title">
+        <h2>Lista de Motoristas</h2>
+    </div>
+    <form method="get" th:action="@{/dashboard/motoristas}" class="filter-form">
         <input type="text" name="nome" placeholder="Nome do Motorista" th:value="${nome}">
         <input type="text" name="transportadora" placeholder="Transportadora" th:value="${transportadora}">
-        <button type="submit">Filtrar</button>
+        <button type="submit" class="btn btn-primary">Filtrar</button>
     </form>
-    <table>
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Transportadora</th>
-                <th>Telefone</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="motorista : ${motoristas}">
-                <td th:text="${motorista.nome}">Nome</td>
-                <td th:text="${motorista.usuario != null ? motorista.usuario.email : '---'}">Email</td>
-                <td th:text="${motorista.transportadora != null ? motorista.transportadora.nomeFantasia : '---'}">Transportadora</td>
-                <td th:text="${motorista.celular}">Telefone</td>
-            </tr>
-            <tr th:if="${#lists.isEmpty(motoristas)}">
-                <td colspan="4">Nenhum motorista encontrado.</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Transportadora</th>
+                    <th>Telefone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="motorista : ${motoristas}">
+                    <td th:text="${motorista.nome}">Nome</td>
+                    <td th:text="${motorista.usuario != null ? motorista.usuario.email : '---'}">Email</td>
+                    <td th:text="${motorista.transportadora != null ? motorista.transportadora.nomeFantasia : '---'}">Transportadora</td>
+                    <td th:text="${motorista.celular}">Telefone</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(motoristas)}">
+                    <td colspan="4">Nenhum motorista encontrado.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="button-container">
+        <a th:href="@{/dashboard/motoristas}" class="btn btn-secondary">Voltar</a>
+    </div>
 </div>
+<div th:insert="~{shared-fragments/shared-footer :: shared-footer}"></div>
 </body>
 </html>

@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Listar Todas as Cargas</title>
+    <link rel="stylesheet" th:href="@{/img/css/shared-header-footer.css}">
+    <link rel="stylesheet" th:href="@{/img/css/dashboardadmin/listar.css}">
+
 </head>
 <body>
     <div th:insert="~{shared-fragments/shared-header :: shared-header}"></div>
@@ -56,7 +59,7 @@
             </table>
         </div>
         <div class="button-container">
-            <a th:href="@{/dashboard}" class="btn btn-secondary">Voltar</a>
+            <a th:href="@{/dashboard/cargas}" class="btn btn-secondary">Voltar</a>
         </div>
     </div>
     <div th:insert="~{shared-fragments/shared-footer :: shared-footer}"></div>

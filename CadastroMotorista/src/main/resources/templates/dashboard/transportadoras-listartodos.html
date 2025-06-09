@@ -3,11 +3,11 @@
 <head>
     <title>Listar Todas as Transportadoras</title>
     <link rel="stylesheet" th:href="@{/img/css/shared-header-footer.css}">
-    <link rel="stylesheet" th:href="@{/img/css/dashboard/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/img/css/dashboardadmin/listar.css}">
 </head>
 <body>
     <div th:insert="~{shared-fragments/shared-header :: shared-header}"></div>
-    <div class="content-container">
+    <div class="content-container transportadora-container">
         <div class="page-title">
             <h2>Listagem de Transportadoras</h2>
         </div>
@@ -72,7 +72,7 @@
             </table>
         </div>
         <div class="button-container">
-            <a th:href="@{/dashboard}" class="btn btn-secondary">Voltar</a>
+            <a th:href="@{/dashboard/transportadoras}" class="btn btn-secondary">Voltar</a>
         </div>
     </div>
     <div th:insert="~{shared-fragments/shared-footer :: shared-footer}"></div>
