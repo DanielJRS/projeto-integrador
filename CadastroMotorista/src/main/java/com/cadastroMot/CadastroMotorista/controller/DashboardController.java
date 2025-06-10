@@ -44,6 +44,20 @@ public class DashboardController {
         System.out.println("Entrou no dashboard");
         List<Carga> cargas = cargaService.listarTodos();
         model.addAttribute("cargas", cargas);
+
+        long driverCount = motoristaService.listarTodos().size();
+        long vehicleCount = veiculoService.listarTodos().size();
+        long cargaCount = cargaService.listarTodos().size();
+        long transpCount = transportadoraService.listarTodos().size();
+        long empresaCount = empresaService.listarTodos().size();
+
+        model.addAttribute("driverCount", driverCount);
+        model.addAttribute("vehicleCount", vehicleCount);
+        model.addAttribute("cargaCount", cargaCount);
+        model.addAttribute("transpCount", transpCount);
+        model.addAttribute("empresaCount", empresaCount);
+
+
         return "dashboard/index";
     }
 

@@ -26,17 +26,17 @@
                     <i class="fas fa-id-card"></i>
                 </div>
                 <div class="stat-content">
-                    <h3 th:text="${driverCount ?: '42'}">42</h3>
+                    <h3 th:text="${driverCount ?: '0'}"></h3>
                     <p>Total de motoristas</p>
                 </div>
             </div>
 
             <div class="card stat-card">
                 <div class="icon green">
-                    <i class="fas fa-truck"></i>
+                    <i class="fas fa-truck-front"></i>
                 </div>
                 <div class="stat-content">
-                    <h3 th:text="${vehicleCount ?: '38'}">38</h3>
+                    <h3 th:text="${vehicleCount ?: '0'}"></h3>
                     <p>Total de veículos</p>
                 </div>
             </div>
@@ -46,18 +46,38 @@
                     <i class="fas fa-route"></i>
                 </div>
                 <div class="stat-content">
-                    <h3 th:text="${routeCount ?: '156'}">156</h3>
-                    <p>Fretes em andamento</p>
+                    <h3 th:text="${cargaCount ?: '0'}"></h3>
+                    <p>Cargas disponíveis</p>
                 </div>
             </div>
 
             <div class="card stat-card">
                 <div class="icon red">
-                    <i class="fa-solid fa-building"></i>
+                    <i class="fa-solid fa-truck"></i>
                 </div>
                 <div class="stat-content">
-                    <h3 th:text="${maintenanceCount ?: '7'}">7</h3>
+                    <h3 th:text="${transpCount ?: '0'}"></h3>
                     <p>Transportadoras</p>
+                </div>
+            </div>
+
+            <div class="card stat-card">
+                <div class="icon yellow">
+                    <i class="fa-solid fa-industry"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 th:text="${empresaCount ?: '0'}"></h3>
+                    <p>Empresas</p>
+                </div>
+            </div>
+
+            <div class="card stat-card">
+                <div class="icon purple">
+                    <i class="fa-solid fa-road"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 th:text="${empresaCount ?: '0'}"></h3>
+                    <p>Fretes</p>
                 </div>
             </div>
         </div>

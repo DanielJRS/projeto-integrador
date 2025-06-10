@@ -1,4 +1,4 @@
-        :root {
+:root {
             --primary-color: #1e3a8a;
             --primary-hover: #2563eb;
             --accent-color: #f9b000;
@@ -301,18 +301,24 @@
         /* Dashboard Cards */
         .dashboard-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
             margin-bottom: 20px;
         }
 
         .stat-card {
-            display: flex;
-            align-items: center;
-            padding: 20px;
+            padding: 32px 28px;
             background-color: white;
-            border-radius: 5px;
+            border-radius: 10px;
             box-shadow: var(--card-shadow);
+            transition: transform 0.2s cubic-bezier(.4,2,.6,1), box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.06);
+            box-shadow: 0 12px 48px rgba(30,58,138,0.18);
+            z-index: 2;
         }
 
         .stat-card .icon {
