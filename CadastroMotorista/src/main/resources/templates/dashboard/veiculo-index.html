@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Dashboard Veículo</title>
-    <link rel="stylesheet" th:href="@{../img/css/style.css}" />
+    <link rel="stylesheet" th:href="@{../img/css/dashboardadmin/index.css}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 </head>
@@ -16,7 +16,7 @@
         <div class="page-title">
             <h1>Gerenciamento de Veículos</h1>
             <div class="action-buttons">
-                <a th:href="@{/veiculo/novo}" class="btn btn-success">
+                <a th:href="@{/veiculos/novo}" class="btn btn-success">
                     <i class="fas fa-plus"></i> Cadastrar Novo Veículo
                 </a>
 
@@ -28,7 +28,7 @@
                 <i class="fas fa-list"></i>
             </div>
             <div class="stat-content">
-                <a th:href="@{/veiculo/lista}" style="text-decoration: none;">
+                <a th:href="@{/dashboard/veiculos-listartodos}" style="text-decoration: none;">
                     <h3>Listar Veículo</h3>
                 </a>
             </div>
@@ -39,7 +39,7 @@
                 <i class="fas fa-plus-circle"></i>
             </div>
             <div class="stat-content">
-                <a th:href="@{/veiculo/novo}" style="text-decoration: none;">
+                <a th:href="@{/veiculos/novo}" style="text-decoration: none;">
                     <h3>Cadastrar Veículo</h3>
                 </a>
             </div>

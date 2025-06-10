@@ -36,11 +36,15 @@ public class CargasController {
         TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuario");
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 
-        carga.setEmpresaCarga(usuarioLogado.getEmpresa());
-        if (tipoUsuario != TipoUsuario.EMPRESA) {
+        if ("ADMIN".equals(String.valueOf(tipoUsuario))) {
+            return "cargas/novo";
+        }
+
+        if (usuarioLogado == null || tipoUsuario != TipoUsuario.EMPRESA) {
             return "redirect:/cargas/listar";
         }
 
+        carga.setEmpresaCarga(usuarioLogado.getEmpresa());
         return "cargas/novo";
     }
 

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{../img/css/dashboardadmin/index.css}" />
+
+</head>
+<body>
+    <div th:insert="~{dashboard/fragments/sidebar :: sidebar}"></div>
+
+<div class="main-content">
+    <div th:insert="~{dashboard/fragments/header :: header}"></div>
+
+
+    <main class="content">
+        <div class="page-title">
+            <h1>Dashboard Administrador</h1>
+        </div>
+
+        <div class="dashboard-cards">
+            <div class="card stat-card">
+                <div class="icon blue">
+                    <i class="fas fa-id-card"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 th:text="${driverCount ?: '0'}"></h3>
+                    <p>Total de motoristas</p>
+                </div>
+            </div>
+
+            <div class="card stat-card">
+                <div class="icon green">
+                    <i class="fas fa-truck-front"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 th:text="${vehicleCount ?: '0'}"></h3>
+                    <p>Total de veículos</p>
+                </div>
+            </div>
+
+            <div class="card stat-card">
+                <div class="icon orange">
+                    <i class="fas fa-route"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 th:text="${cargaCount ?: '0'}"></h3>
+                    <p>Cargas disponíveis</p>
+                </div>
+            </div>
+
+            <div class="card stat-card">
+                <div class="icon red">
+                    <i class="fa-solid fa-truck"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 th:text="${transpCount ?: '0'}"></h3>
+                    <p>Transportadoras</p>
+                </div>
+            </div>
+
+            <div class="card stat-card">
+                <div class="icon yellow">
+                    <i class="fa-solid fa-industry"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 th:text="${empresaCount ?: '0'}"></h3>
+                    <p>Empresas</p>
+                </div>
+            </div>
+
+            <div class="card stat-card">
+                <div class="icon purple">
+                    <i class="fa-solid fa-road"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 th:text="${empresaCount ?: '0'}"></h3>
+                    <p>Fretes</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

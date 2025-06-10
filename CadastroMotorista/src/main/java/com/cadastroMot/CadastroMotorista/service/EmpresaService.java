@@ -10,6 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class EmpresaService {
     private final EmpresaRepository empresaRepository;
@@ -43,5 +45,9 @@ public class EmpresaService {
         empresa.setUsuario(usuarioSalvo);
 
         return empresaRepository.save(empresa);
+    }
+
+    public List<Empresa> listarTodos() {
+        return empresaRepository.findAll();
     }
 }
