@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Service
 public class TransportadoraService {
     private final TransportadoraRepository transportadoraRepository;
@@ -44,5 +46,9 @@ public class TransportadoraService {
         transportadora.setUsuario(usuarioSalvo);
 
         return transportadoraRepository.save(transportadora);
+    }
+
+    public List<Transportadora> listarTodos() {
+        return transportadoraRepository.findAll();
     }
 }
