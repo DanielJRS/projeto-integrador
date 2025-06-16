@@ -3,6 +3,7 @@ package com.cadastroMot.CadastroMotorista.domain;
 import java.time.LocalDate;
 
 public class CargaFiltro {
+    private Empresa empresa;
     private String origemCidade;
     private String origemEstado;
     private LocalDate dataColeta;
@@ -146,5 +147,13 @@ public class CargaFiltro {
 
     public void setOrigemEstado(String origemEstado) {
         this.origemEstado = origemEstado;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
 }

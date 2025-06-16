@@ -35,4 +35,11 @@ public class Usuario {
     @OneToOne(mappedBy = "usuario")
     private Transportadora transportadora;
 
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+
+
 }

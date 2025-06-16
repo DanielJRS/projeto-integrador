@@ -28,6 +28,7 @@ public class Carga {
     private Double preco;
     private Double precoFrete;
 
+
     @Enumerated(EnumType.STRING)
     private TipoCarga tipoCarga;
 
@@ -84,6 +85,8 @@ public class Carga {
     public Double getPrecoFrete() {
         return precoFrete;
     }
+
+
     public String getTodosVeiculos() {
         List<String> todosVeiculos = new ArrayList<>();
         todosVeiculos.addAll(veiculosLeves);

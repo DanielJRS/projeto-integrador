@@ -1,6 +1,7 @@
 package com.cadastroMot.CadastroMotorista.repository;
 
 import com.cadastroMot.CadastroMotorista.domain.Carga;
+import com.cadastroMot.CadastroMotorista.domain.Empresa;
 import com.cadastroMot.CadastroMotorista.domain.TipoEstadoCarga;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -57,4 +58,10 @@ public interface CargaRepository extends JpaRepository<Carga, Long>, JpaSpecific
     List<Carga> findByPrecoBetween(Double precoMin, Double precoMax);
 
     List<Carga> findByDestinoCidadeAndDestinoEstado(String cidade, String estado);
+
+    List<Carga> findByEmpresaCarga(Empresa empresa);
+
+    @Query("SELECT c FROM Carga c JOIN FETCH c.empresaCarga WHERE c.empresaCarga = :empresa")
+    List<Carga> findByEmpresa(@Param("empresa") Empresa empresa);
+
 }

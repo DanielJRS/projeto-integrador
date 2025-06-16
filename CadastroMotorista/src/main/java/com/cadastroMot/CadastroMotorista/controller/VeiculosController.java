@@ -9,6 +9,7 @@ import com.cadastroMot.CadastroMotorista.service.TransportadoraService;
 import com.cadastroMot.CadastroMotorista.service.UsuarioService;
 import com.cadastroMot.CadastroMotorista.service.VeiculoService;
 import com.cadastroMot.CadastroMotorista.domain.TipoUsuario;
+import com.cadastroMot.CadastroMotorista.domain.TipoUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;

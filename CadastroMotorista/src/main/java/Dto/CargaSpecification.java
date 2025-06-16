@@ -1,6 +1,5 @@
 package Dto;
 
-
 import com.cadastroMot.CadastroMotorista.domain.Carga;
 import com.cadastroMot.CadastroMotorista.domain.CargaFiltro;
 import org.springframework.data.jpa.domain.Specification;
@@ -59,8 +58,20 @@ public class CargaSpecification {
             if (filtro.getVolume() != null)
                 predicates.getExpressions().add(cb.equal(root.get("volume"), filtro.getVolume()));
 
+            // *** FILTRO POR EMPRESA - CORRIGIDO ***
+            if (filtro.getEmpresa() != null) {
+                System.out.println("=== DEBUG SPECIFICATION ===");
+                System.out.println("Aplicando filtro para empresa ID: " + filtro.getEmpresa().getId());
+
+                // CORREÇÃO: Comparar apenas o ID da empresa
+                var empresaPredicate = cb.equal(root.get("empresaCarga").get("id"), filtro.getEmpresa().getId());
+
+                predicates.getExpressions().add(empresaPredicate);
+                System.out.println("Filtro por empresa ID aplicado na query");
+                System.out.println("=== FIM DEBUG SPECIFICATION ===");
+            }
+
             return predicates;
         };
     }
 }
-

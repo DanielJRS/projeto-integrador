@@ -1,10 +1,7 @@
 package com.cadastroMot.CadastroMotorista.service;
 
-import com.cadastroMot.CadastroMotorista.domain.CargaFiltro;
+import com.cadastroMot.CadastroMotorista.domain.*;
 import Dto.CargaSpecification;
-import com.cadastroMot.CadastroMotorista.domain.Carga;
-import com.cadastroMot.CadastroMotorista.domain.TipoCarga;
-import com.cadastroMot.CadastroMotorista.domain.TipoEstadoCarga;
 import com.cadastroMot.CadastroMotorista.repository.CargaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,12 +160,17 @@ public class CargaService {
         }
     }
 
+    public List<Carga> buscarPorEmpresa(Empresa empresa) {
+        return cargaRepository.findByEmpresaCarga(empresa);
+    }
+
     public List<Carga> buscarComFiltro(CargaFiltro filtro) {
         if (filtro == null) {
             return listarTodos();
         }
         return cargaRepository.findAll(CargaSpecification.filtrar(filtro));
     }
+
 
     @Transactional
     public Carga processarFormularioCarga(

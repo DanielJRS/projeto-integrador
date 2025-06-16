@@ -17,7 +17,7 @@ public class Empresa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String razaoSocial;
     private String nomeFantasia;
@@ -38,4 +38,6 @@ public class Empresa {
 
     @OneToMany (mappedBy = "empresaCarga")
     private List<Carga> cargas;
+
+
 }

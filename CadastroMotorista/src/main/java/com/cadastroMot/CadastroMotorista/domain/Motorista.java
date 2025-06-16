@@ -1,23 +1,23 @@
 package com.cadastroMot.CadastroMotorista.domain;
 
-import com.cadastroMot.CadastroMotorista.domain.Carga;
-import com.cadastroMot.CadastroMotorista.domain.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
-@Table (name = "tb_motorista")
+@Table(name = "tb_motorista")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class Motorista {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String nome;
     private String cpf;
@@ -31,20 +31,22 @@ public class Motorista {
     private byte[] foto;
     private String tipoFoto;
 
-    @OneToMany (mappedBy = "motorista")
+    @OneToMany(mappedBy = "motorista")
     private List<Carga> cargas;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @OneToMany (mappedBy = "motoristaFrete")
+    @OneToMany(mappedBy = "motoristaFrete")
     private List<Frete> fretes;
 
-    @OneToMany (mappedBy = "motoristaVeiculo")
+    @OneToMany(mappedBy = "motoristaVeiculo")
     private List<Veiculo> veiculos;
 
     @ManyToOne
-    @JoinColumn (name = "transportadora_id")
+    @JoinColumn(name = "transportadora_id")
     private Transportadora transportadoraMotorista;
+
+
 }
