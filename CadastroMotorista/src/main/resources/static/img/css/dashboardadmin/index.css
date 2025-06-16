@@ -298,15 +298,19 @@
             padding: 20px;
         }
 
-        /* Dashboard Cards */
         .dashboard-cards {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            display: flex;
             gap: 24px;
             margin-bottom: 20px;
+            flex-wrap: nowrap;
         }
 
         .stat-card {
+            flex: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             padding: 32px 28px;
             background-color: white;
             border-radius: 10px;
@@ -316,7 +320,7 @@
         }
 
         .stat-card:hover {
-            transform: scale(1.06);
+            transform: scale(1.01);
             box-shadow: 0 12px 48px rgba(30,58,138,0.18);
             z-index: 2;
         }
@@ -328,8 +332,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 15px;
+            margin-bottom: 15px;
             font-size: 1.5rem;
+            padding: 0px;
         }
 
         .stat-card .icon.blue {
@@ -352,15 +357,26 @@
             color: var(--danger-color);
         }
 
-        .stat-card .stat-content h3 {
-            font-size: 1.5rem;
-            font-weight: 500;
-            margin-bottom: 5px;
+        .stat-card .icon.yellow {
+            background-color: rgba(255, 221, 51, 0.1);
+            color: #ffdd33;
         }
 
+        .stat-card .icon.purple {
+            background-color: rgba(153, 102, 255, 0.1);
+            color: #9966ff;
+        }
+
+        .stat-card .stat-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-card .stat-content h3,
         .stat-card .stat-content p {
-            color: #6c757d;
-            margin: 0;
+            text-align: center;
         }
 
         /* Table Styles */
