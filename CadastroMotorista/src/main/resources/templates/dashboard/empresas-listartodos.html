@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Todas as Empresas</title>
+    <link rel="stylesheet" th:href="@{/img/css/shared-header-footer.css}">
+    <link rel="stylesheet" th:href="@{/img/css/dashboardadmin/listar.css}">
+</head>
+<body>
+<div th:insert="~{shared-fragments/shared-header :: shared-header}"></div>
+<div class="content-container">
+    <div class="page-title">
+        <h2>Lista de Empresas</h2>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome Fantasia</th>
+                    <th>Razão Social</th>
+                    <th>CNPJ</th>
+                    <th>Email</th>
+                    <th>Cidade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="empresa : ${empresas}">
+                    <td th:text="${empresa.nomeFantasia}">Nome Fantasia</td>
+                    <td th:text="${empresa.razaoSocial}">Razão Social</td>
+                    <td th:text="${empresa.cnpj}">CNPJ</td>
+                    <td th:text="${empresa.email}">Email</td>
+                    <td th:text="${empresa.cidade}">Cidade</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(empresas)}">
+                    <td colspan="5">Nenhuma empresa encontrada.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="button-container">
+        <a th:href="@{/dashboard/empresas}" class="btn btn-secondary">Voltar</a>
+    </div>
+</div>
+<div th:insert="~{shared-fragments/shared-footer :: shared-footer}"></div>
+</body>
+</html>
