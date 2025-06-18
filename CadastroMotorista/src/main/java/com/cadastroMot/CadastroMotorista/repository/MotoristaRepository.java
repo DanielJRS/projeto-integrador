@@ -11,4 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface MotoristaRepository extends JpaRepository<Motorista, Long> {
     Motorista findByUsuario(Usuario usuario);
     List<Motorista> findByTransportadoraMotorista(Transportadora transportadora);
+    List<Motorista> findByNomeContainingIgnoreCase(String nome);
+    List<Motorista> findByTransportadora_NomeFantasiaContainingIgnoreCase(String nomeFantasia);
+    List<Motorista> findByNomeContainingIgnoreCaseAndTransportadora_NomeFantasiaContainingIgnoreCase(String nome, String nomeFantasia);
 }

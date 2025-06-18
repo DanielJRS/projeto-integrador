@@ -64,4 +64,7 @@ public interface CargaRepository extends JpaRepository<Carga, Long>, JpaSpecific
     @Query("SELECT c FROM Carga c JOIN FETCH c.empresaCarga WHERE c.empresaCarga = :empresa")
     List<Carga> findByEmpresa(@Param("empresa") Empresa empresa);
 
+    List<String> findDistinctOrigemCidade();
+
+    List<String> findDistinctOrigemEstado();
 }

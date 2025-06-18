@@ -37,6 +37,23 @@ public class LoginController {
                                  HttpSession session,
                                  RedirectAttributes redirectAttributes) {
 
+        String adminEmail = "admin@admin";
+        String adminSenha = "admin123";
+
+        if (usuario.getEmail().equals(adminEmail) && usuario.getSenha().equals(adminSenha)) {
+            Usuario admin = new Usuario();
+            admin.setId(0L);
+            admin.setEmail(adminEmail);
+            admin.setSenha(adminSenha);
+            admin.setTipo(TipoUsuario.ADMIN);
+
+            session.setAttribute("usuarioLogado", admin);
+            session.setAttribute("tipoUsuario", TipoUsuario.ADMIN);
+            session.setAttribute("usuarioId", 0L);
+
+            return "redirect:/dashboard/";
+        }
+
         System.out.println("Tentativa de login para: " + usuario.getEmail());
 
         Optional<Usuario> usuarioEncontrado = usuarioService.buscarPorEmail(usuario.getEmail());
@@ -70,15 +87,14 @@ public class LoginController {
 
     private String redirecionarPorTipoUsuario(Usuario usuario) {
         switch (usuario.getTipo()) {
+            case ADMIN:
+                return "redirect:/dashboard/";
             case MOTORISTA:
                 return "redirect:/motorista/dashboard";
-
             case EMPRESA:
                 return "redirect:/empresa/dashboard";
-
             case TRANSPORTADORA:
                 return "redirect:/transportadora/dashboard";
-
             default:
                 return "redirect:/index";
         }

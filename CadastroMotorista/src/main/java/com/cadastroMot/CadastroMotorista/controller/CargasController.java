@@ -44,6 +44,15 @@ public class CargasController {
         model.addAttribute("cidades", cargaService.listarCidades());
         model.addAttribute("estados", cargaService.listarEstados());
 
+        if ("ADMIN".equals(String.valueOf(tipoUsuario))) {
+            return "cargas/novo";
+        }
+
+        if (usuarioLogado == null || tipoUsuario != TipoUsuario.EMPRESA) {
+            return "redirect:/cargas/listar";
+        }
+
+        carga.setEmpresaCarga(usuarioLogado.getEmpresa());
         return "cargas/novo";
     }
 

@@ -3,6 +3,7 @@ package com.cadastroMot.CadastroMotorista.domain;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -27,12 +28,15 @@ public class Usuario {
 
     // Remover cascade para evitar conflitos de relacionamento circular
     @OneToOne(mappedBy = "usuario")
+    @EqualsAndHashCode.Exclude
     private Motorista motorista;
 
     @OneToOne(mappedBy = "usuario")
+    @EqualsAndHashCode.Exclude
     private Empresa empresa;
 
     @OneToOne(mappedBy = "usuario")
+    @EqualsAndHashCode.Exclude
     private Transportadora transportadora;
 
 

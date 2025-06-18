@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Listar Todas as Transportadoras</title>
+    <link rel="stylesheet" th:href="@{/img/css/shared-header-footer.css}">
+    <link rel="stylesheet" th:href="@{/img/css/dashboardadmin/listar.css}">
+</head>
+<body>
+    <div th:insert="~{shared-fragments/shared-header :: shared-header}"></div>
+    <div class="content-container transportadora-container">
+        <div class="page-title">
+            <h2>Listagem de Transportadoras</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Razão Social</th>
+                        <th>Nome Fantasia</th>
+                        <th>CNPJ</th>
+                        <th>Inscrição Estadual</th>
+                        <th>Endereço</th>
+                        <th>Cidade</th>
+                        <th>Estado</th>
+                        <th>CEP</th>
+                        <th>Telefone</th>
+                        <th>Email</th>
+                        <th>Data Fundação</th>
+                        <th>Ativo</th>
+                        <th>Sou Transportadora</th>
+                        <th>Registro ANTT</th>
+                        <th>Tipo Frota</th>
+                        <th>Qtd. Veículos</th>
+                        <th>Seguro Carga</th>
+                        <th>Tipos Mercadorias</th>
+                        <th>Capacidade Carga</th>
+                        <th>Rastreamento Veículos</th>
+                        <th>Prazo Padrão Entrega</th>
+                        <th>Venc. Licença</th>
+                        <th>Categorias Licença</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="t : ${transportadoras}">
+                        <td th:text="${t.id}">1</td>
+                        <td th:text="${t.razaoSocial}">Razão Social</td>
+                        <td th:text="${t.nomeFantasia}">Nome Fantasia</td>
+                        <td th:text="${t.cnpj}">CNPJ</td>
+                        <td th:text="${t.inscricaoEstadual}">IE</td>
+                        <td th:text="${t.endereco}">Endereço</td>
+                        <td th:text="${t.cidade}">Cidade</td>
+                        <td th:text="${t.estado}">Estado</td>
+                        <td th:text="${t.cep}">CEP</td>
+                        <td th:text="${t.telefone}">Telefone</td>
+                        <td th:text="${t.email}">Email</td>
+                        <td th:text="${t.dataFundacao}">Data Fundação</td>
+                        <td th:text="${t.ativo ? 'Sim' : 'Não'}">Ativo</td>
+                        <td th:text="${t.souTransportadora ? 'Sim' : 'Não'}">Sou Transportadora</td>
+                        <td th:text="${t.numeroRegistroANTT}">ANTT</td>
+                        <td th:text="${t.tipoFrota}">Tipo Frota</td>
+                        <td th:text="${t.quantidadeVeiculos}">Qtd. Veículos</td>
+                        <td th:text="${t.possuiSeguroCarga ? 'Sim' : 'Não'}">Seguro Carga</td>
+                        <td th:text="${t.tiposMercadorias}">Tipos Mercadorias</td>
+                        <td th:text="${t.capacidadeCarga}">Capacidade Carga</td>
+                        <td th:text="${t.rastreamentoVeiculos ? 'Sim' : 'Não'}">Rastreamento</td>
+                        <td th:text="${t.prazoPadraoEntrega}">Prazo Entrega</td>
+                        <td th:text="${t.dataVencimentoLicenca}">Venc. Licença</td>
+                        <td th:text="${t.categoriasLicenca}">Categorias Licença</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="button-container">
+            <a th:href="@{/dashboard/transportadoras}" class="btn btn-secondary">Voltar</a>
+        </div>
+    </div>
+    <div th:insert="~{shared-fragments/shared-footer :: shared-footer}"></div>
+</body>
+</html>
