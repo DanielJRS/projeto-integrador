@@ -112,8 +112,8 @@
                 <select class="form-select" id="tipoCarga" name="tipoCarga">
                     <option value="">Selecione o tipo...</option>
                     <option th:each="tipo : ${tiposCarga}"
-                            th:value="${tipo}"
-                            th:text="${tipo}"
+                            th:value="${tipo.name()}"
+                            th:text="${tipo.descricao}"
                             th:selected="*{tipoCarga} == ${tipo}">
                     </option>
                 </select>
@@ -163,10 +163,11 @@
                 <select class="form-select" id="tipoEstadoCarga" name="tipoEstadoCarga">
                     <option value="">Selecione o status...</option>
                     <option th:each="status : ${statusCargas}"
-                            th:value="${status}"
-                            th:text="${status}"
+                            th:value="${status.name()}"
+                            th:text="${status.descricao}"
                             th:selected="*{tipoEstadoCarga} == ${status}">
                     </option>
+
                 </select>
             </div>
 
@@ -186,6 +187,10 @@
     <div class="content-area">
         <div class="content-container">
             <div class="page-header">
+                <a href="javascript:history.back()" class="btn btn-secondary mb-3">
+                    <i class="fas fa-arrow-left me-2"></i>Voltar
+                </a>
+
                 <h1 class="page-title">
                     <i class="fas fa-truck text-warning me-3"></i>Listagem de Cargas
                 </h1>

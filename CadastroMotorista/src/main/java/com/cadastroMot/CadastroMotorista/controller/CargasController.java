@@ -43,6 +43,7 @@ public class CargasController {
         model.addAttribute("carga", carga);
         model.addAttribute("cidades", cargaService.listarCidades());
         model.addAttribute("estados", cargaService.listarEstados());
+        model.addAttribute("tiposCarga", TipoCarga.values());
 
         if ("ADMIN".equals(String.valueOf(tipoUsuario))) {
             return "cargas/novo";
@@ -176,6 +177,8 @@ public class CargasController {
         model.addAttribute("cidades", cargaService.listarCidades());
         model.addAttribute("estados", cargaService.listarEstados());
         model.addAttribute("tipoUsuario", tipoUsuario);
+        model.addAttribute("tiposCarga", TipoCarga.values());
+        model.addAttribute("statusCargas", TipoEstadoCarga.values());
 
         return "cargas/listar";
     }

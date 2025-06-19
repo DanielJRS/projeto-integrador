@@ -16,223 +16,6 @@ public class CargaService {
     @Autowired
     private CargaRepository cargaRepository;
 
-    @Service
-    public class CargaService {
-
-        @Autowired
-        private CargaRepository cargaRepository;
-
-        public List<Carga> filtrarCargas(CargaFiltro filtro) {
-            return cargaRepository.findAll((root, query, cb) -> {
-                List<Predicate> predicates = new ArrayList<>();
-
-                // FILTRO POR EMPRESA - CAMPO PRINCIPAL
-                if (filtro.getEmpresa() != null) {
-                    predicates.add(cb.equal(root.get("empresa"), filtro.getEmpresa()));
-                }
-
-                // FILTROS DE LOCALIZAÇÃO - ORIGEM
-                if (filtro.getOrigemCidade() != null && !filtro.getOrigemCidade().isEmpty()) {
-                    predicates.add(cb.equal(root.get("origemCidade"), filtro.getOrigemCidade()));
-                }
-
-                if (filtro.getOrigemEstado() != null && !filtro.getOrigemEstado().isEmpty()) {
-                    predicates.add(cb.equal(root.get("origemEstado"), filtro.getOrigemEstado()));
-                }
-
-                // FILTROS DE LOCALIZAÇÃO - DESTINO
-                if (filtro.getDestinoCidade() != null && !filtro.getDestinoCidade().isEmpty()) {
-                    predicates.add(cb.equal(root.get("destinoCidade"), filtro.getDestinoCidade()));
-                }
-
-                if (filtro.getDestinoEstado() != null && !filtro.getDestinoEstado().isEmpty()) {
-                    predicates.add(cb.equal(root.get("destinoEstado"), filtro.getDestinoEstado()));
-                }
-
-                // FILTROS DE PRODUTO
-                if (filtro.getProduto() != null && !filtro.getProduto().isEmpty()) {
-                    predicates.add(cb.like(cb.lower(root.get("produto")),
-                            "%" + filtro.getProduto().toLowerCase() + "%"));
-                }
-
-                if (filtro.getEspecie() != null && !filtro.getEspecie().isEmpty()) {
-                    predicates.add(cb.like(cb.lower(root.get("especie")),
-                            "%" + filtro.getEspecie().toLowerCase() + "%"));
-                }
-
-                // FILTROS DE TIPO
-                if (filtro.getTipoCarga() != null) {
-                    predicates.add(cb.equal(root.get("tipoCarga"), filtro.getTipoCarga()));
-                }
-
-                if (filtro.getTipoEstadoCarga() != null) {
-                    predicates.add(cb.equal(root.get("tipoEstadoCarga"), filtro.getTipoEstadoCarga()));
-                }
-
-                // FILTROS DE DATA - COLETA
-                if (filtro.getDataColetaDe() != null) {
-                    predicates.add(cb.greaterThanOrEqualTo(root.get("dataColeta"), filtro.getDataColetaDe()));
-                }
-
-                if (filtro.getDataColetaAte() != null) {
-                    predicates.add(cb.lessThanOrEqualTo(root.get("dataColeta"), filtro.getDataColetaAte()));
-                }
-
-                // FILTROS DE DATA - ENTREGA
-                if (filtro.getDataEntregaDe() != null) {
-                    predicates.add(cb.greaterThanOrEqualTo(root.get("dataEntrega"), filtro.getDataEntregaDe()));
-                }
-
-                if (filtro.getDataEntregaAte() != null) {
-                    predicates.add(cb.lessThanOrEqualTo(root.get("dataEntrega"), filtro.getDataEntregaAte()));
-                }
-
-                // FILTROS DE PREÇO
-                if (filtro.getPrecoMinimo() != null) {
-                    predicates.add(cb.greaterThanOrEqualTo(root.get("preco"), filtro.getPrecoMinimo()));
-                }
-
-                if (filtro.getPrecoMaximo() != null) {
-                    predicates.add(cb.lessThanOrEqualTo(root.get("preco"), filtro.getPrecoMaximo()));
-                }
-
-                // FILTROS DE PESO
-                if (filtro.getPesoMinimo() != null) {
-                    predicates.add(cb.greaterThanOrEqualTo(root.get("peso"), filtro.getPesoMinimo()));
-                }
-
-                if (filtro.getPesoMaximo() != null) {
-                    predicates.add(cb.lessThanOrEqualTo(root.get("peso"), filtro.getPesoMaximo()));
-                }
-
-                // FILTROS ADICIONAIS
-                if (filtro.getPossuiLona() != null) {
-                    predicates.add(cb.equal(root.get("possuiLona"), filtro.getPossuiLona()));
-                }
-
-                if (filtro.getVolumeMinimo() != null) {
-                    predicates.add(cb.greaterThanOrEqualTo(root.get("volume"), filtro.getVolumeMinimo()));
-                }
-
-                if (filtro.getVolumeMaximo() != null) {
-                    predicates.add(cb.lessThanOrEqualTo(root.get("volume"), filtro.getVolumeMaximo()));
-                }
-
-                return cb.and(predicates.toArray(new Predicate[0]));
-            });
-        }
-
-        // Método com paginação
-        public Page<Carga> filtrarCargasPaginado(CargaFiltro filtro, Pageable pageable) {
-            return cargaRepository.findAll((root, query, cb) -> {
-                List<Predicate> predicates = new ArrayList<>();
-
-                // Aplicar os mesmos filtros do método anterior
-                aplicarFiltros(filtro, predicates, root, cb);
-
-                return cb.and(predicates.toArray(new Predicate[0]));
-            }, pageable);
-        }
-
-        // Método auxiliar para aplicar filtros (evita duplicação de código)
-        private void aplicarFiltros(CargaFiltro filtro, List<Predicate> predicates,
-                                    Root<Carga> root, CriteriaBuilder cb) {
-
-            // FILTRO POR EMPRESA
-            if (filtro.getEmpresa() != null) {
-                predicates.add(cb.equal(root.get("empresa"), filtro.getEmpresa()));
-            }
-
-            // FILTROS DE LOCALIZAÇÃO - ORIGEM
-            if (filtro.getOrigemCidade() != null && !filtro.getOrigemCidade().isEmpty()) {
-                predicates.add(cb.equal(root.get("origemCidade"), filtro.getOrigemCidade()));
-            }
-
-            if (filtro.getOrigemEstado() != null && !filtro.getOrigemEstado().isEmpty()) {
-                predicates.add(cb.equal(root.get("origemEstado"), filtro.getOrigemEstado()));
-            }
-
-            // FILTROS DE LOCALIZAÇÃO - DESTINO
-            if (filtro.getDestinoCidade() != null && !filtro.getDestinoCidade().isEmpty()) {
-                predicates.add(cb.equal(root.get("destinoCidade"), filtro.getDestinoCidade()));
-            }
-
-            if (filtro.getDestinoEstado() != null && !filtro.getDestinoEstado().isEmpty()) {
-                predicates.add(cb.equal(root.get("destinoEstado"), filtro.getDestinoEstado()));
-            }
-
-            // FILTROS DE PRODUTO
-            if (filtro.getProduto() != null && !filtro.getProduto().isEmpty()) {
-                predicates.add(cb.like(cb.lower(root.get("produto")),
-                        "%" + filtro.getProduto().toLowerCase() + "%"));
-            }
-
-            if (filtro.getEspecie() != null && !filtro.getEspecie().isEmpty()) {
-                predicates.add(cb.like(cb.lower(root.get("especie")),
-                        "%" + filtro.getEspecie().toLowerCase() + "%"));
-            }
-
-            // FILTROS DE TIPO
-            if (filtro.getTipoCarga() != null) {
-                predicates.add(cb.equal(root.get("tipoCarga"), filtro.getTipoCarga()));
-            }
-
-            if (filtro.getTipoEstadoCarga() != null) {
-                predicates.add(cb.equal(root.get("tipoEstadoCarga"), filtro.getTipoEstadoCarga()));
-            }
-
-            // FILTROS DE DATA - COLETA
-            if (filtro.getDataColetaDe() != null) {
-                predicates.add(cb.greaterThanOrEqualTo(root.get("dataColeta"), filtro.getDataColetaDe()));
-            }
-
-            if (filtro.getDataColetaAte() != null) {
-                predicates.add(cb.lessThanOrEqualTo(root.get("dataColeta"), filtro.getDataColetaAte()));
-            }
-
-            // FILTROS DE DATA - ENTREGA
-            if (filtro.getDataEntregaDe() != null) {
-                predicates.add(cb.greaterThanOrEqualTo(root.get("dataEntrega"), filtro.getDataEntregaDe()));
-            }
-
-            if (filtro.getDataEntregaAte() != null) {
-                predicates.add(cb.lessThanOrEqualTo(root.get("dataEntrega"), filtro.getDataEntregaAte()));
-            }
-
-            // FILTROS DE PREÇO
-            if (filtro.getPrecoMinimo() != null) {
-                predicates.add(cb.greaterThanOrEqualTo(root.get("preco"), filtro.getPrecoMinimo()));
-            }
-
-            if (filtro.getPrecoMaximo() != null) {
-                predicates.add(cb.lessThanOrEqualTo(root.get("preco"), filtro.getPrecoMaximo()));
-            }
-
-            // FILTROS DE PESO
-            if (filtro.getPesoMinimo() != null) {
-                predicates.add(cb.greaterThanOrEqualTo(root.get("peso"), filtro.getPesoMinimo()));
-            }
-
-            if (filtro.getPesoMaximo() != null) {
-                predicates.add(cb.lessThanOrEqualTo(root.get("peso"), filtro.getPesoMaximo()));
-            }
-
-            // FILTROS ADICIONAIS
-            if (filtro.getPossuiLona() != null) {
-                predicates.add(cb.equal(root.get("possuiLona"), filtro.getPossuiLona()));
-            }
-
-            if (filtro.getVolumeMinimo() != null) {
-                predicates.add(cb.greaterThanOrEqualTo(root.get("volume"), filtro.getVolumeMinimo()));
-            }
-
-            if (filtro.getVolumeMaximo() != null) {
-                predicates.add(cb.lessThanOrEqualTo(root.get("volume"), filtro.getVolumeMaximo()));
-            }
-        }
-
-        // Métodos auxiliares para popular selects
-
         public List<String> listarOrigemCidades() {
             return cargaRepository.findDistinctOrigemCidade();
         }
@@ -266,42 +49,8 @@ public class CargaService {
         }
 
         // Método para estatísticas de filtros
-        public Map<String, Object> obterEstatisticasFiltros(CargaFiltro filtro) {
-            List<Carga> cargas = filtrarCargas(filtro);
 
-            Map<String, Object> estatisticas = new HashMap<>();
-            estatisticas.put("totalCargas", cargas.size());
-
-            if (!cargas.isEmpty()) {
-                estatisticas.put("pesoTotal", cargas.stream()
-                        .mapToDouble(c -> c.getPeso() != null ? c.getPeso() : 0.0)
-                        .sum());
-
-                estatisticas.put("volumeTotal", cargas.stream()
-                        .mapToDouble(c -> c.getVolume() != null ? c.getVolume() : 0.0)
-                        .sum());
-
-                estatisticas.put("precoMedio", cargas.stream()
-                        .mapToDouble(c -> c.getPreco() != null ? c.getPreco() : 0.0)
-                        .average().orElse(0.0));
-
-                estatisticas.put("precoTotal", cargas.stream()
-                        .mapToDouble(c -> c.getPreco() != null ? c.getPreco() : 0.0)
-                        .sum());
-            }
-
-            return estatisticas;
-        }
-
-        // Método para contagem de cargas filtradas
-        public long contarCargasFiltradas(CargaFiltro filtro) {
-            return cargaRepository.count((root, query, cb) -> {
-                List<Predicate> predicates = new ArrayList<>();
-                aplicarFiltros(filtro, predicates, root, cb);
-                return cb.and(predicates.toArray(new Predicate[0]));
-            });
-        }
-        public List<String> listarCidades(){
+        public List<String> listarCidades() {
             List<String> cidades = new ArrayList<>();
             cidades.add("São Paulo");
             cidades.add("Rio de Janeiro");
@@ -326,7 +75,7 @@ public class CargaService {
             return cidades;
         }
 
-        public List<String> listarEstados(){
+        public List<String> listarEstados() {
             List<String> estados = new ArrayList<>();
             estados.add("AC");
             estados.add("AL");
@@ -580,7 +329,7 @@ public class CargaService {
             return carga;
         }
 
-        public List<Carga> buscarCargaPorMotorista(Long motoristaId){
+        public List<Carga> buscarCargaPorMotorista(Long motoristaId) {
             return cargaRepository.findByMotoristaId(motoristaId);
         }
 
