@@ -382,9 +382,9 @@
     <!-- Informações de Relacionamento -->
     <div class="detail-section" th:if="${carga.empresaCarga != null or carga.motorista != null}">
         <h3 class="section-title">Informações de Relacionamento</h3>
-        <div class="info-card" th:if="${carga.empresaCarga != null}">
+        <div class="info-card"  th:if="${carga.empresaCarga != null}">
             <div class="info-card-title">Empresa Responsável</div>
-            <div th:text="${carga.empresaCarga.nome}"></div>
+            <div th:text="${carga.empresaCarga != null ? carga.empresaCarga.nomeFantasia : 'N/A'}"></div>
         </div>
         <div class="info-card" th:if="${carga.motorista != null}">
             <div class="info-card-title">Motorista Designado</div>
