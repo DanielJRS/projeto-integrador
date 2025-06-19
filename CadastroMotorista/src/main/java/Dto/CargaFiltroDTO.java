@@ -1,58 +1,55 @@
-package com.cadastroMot.CadastroMotorista.domain;
+package Dto;
 
+import com.cadastroMot.CadastroMotorista.domain.TipoCarga;
+import com.cadastroMot.CadastroMotorista.domain.TipoEstadoCarga;
+import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CargaFiltro {
 
-    // FILTRO POR EMPRESA - CAMPO PRINCIPAL PARA SEU CASO
-    private Empresa empresa;
-
-    // FILTROS DE LOCALIZAÇÃO
+public class CargaFiltroDTO {
+    // Localização
     private String origemCidade;
     private String origemEstado;
     private String destinoCidade;
     private String destinoEstado;
 
-    // FILTROS DE PRODUTO
-    private String produto;
-    private String especie;
-
-    // FILTROS DE TIPO
-    private TipoCarga tipoCarga;
-    private TipoEstadoCarga tipoEstadoCarga;
-
-    // FILTROS DE DATA
+    // Datas
     private LocalDate dataColetaDe;
     private LocalDate dataColetaAte;
     private LocalDate dataEntregaDe;
     private LocalDate dataEntregaAte;
 
-    // FILTROS DE PREÇO
+    // Produto
+    private String produto;
+    private String especie;
+
+    // Transporte
+    private TipoCarga tipoCarga;
+    private Boolean possuiLona;
+
+    // Valores
     private Double precoMinimo;
     private Double precoMaximo;
-
-    // FILTROS DE PESO
     private Double pesoMinimo;
     private Double pesoMaximo;
-
-    // FILTROS ADICIONAIS
-    private Boolean possuiLona;
     private Double volumeMinimo;
     private Double volumeMaximo;
 
-    // CONSTRUTORES
-    public CargaFiltro() {}
+    // Status
+    private TipoEstadoCarga tipoEstadoCarga;
 
-    // GETTERS E SETTERS
+    // Empresa (opcional)
+    private Long empresaId;
 
-    public Empresa getEmpresa() {
-        return empresa;
+    // Construtores
+    public CargaFiltroDTO() {
     }
 
-    public void setEmpresa(Empresa empresa) {
-        this.empresa = empresa;
-    }
-
+    // Getters e Setters
     public String getOrigemCidade() {
         return origemCidade;
     }
@@ -83,38 +80,6 @@ public class CargaFiltro {
 
     public void setDestinoEstado(String destinoEstado) {
         this.destinoEstado = destinoEstado;
-    }
-
-    public String getProduto() {
-        return produto;
-    }
-
-    public void setProduto(String produto) {
-        this.produto = produto;
-    }
-
-    public String getEspecie() {
-        return especie;
-    }
-
-    public void setEspecie(String especie) {
-        this.especie = especie;
-    }
-
-    public TipoCarga getTipoCarga() {
-        return tipoCarga;
-    }
-
-    public void setTipoCarga(TipoCarga tipoCarga) {
-        this.tipoCarga = tipoCarga;
-    }
-
-    public TipoEstadoCarga getTipoEstadoCarga() {
-        return tipoEstadoCarga;
-    }
-
-    public void setTipoEstadoCarga(TipoEstadoCarga tipoEstadoCarga) {
-        this.tipoEstadoCarga = tipoEstadoCarga;
     }
 
     public LocalDate getDataColetaDe() {
@@ -149,6 +114,38 @@ public class CargaFiltro {
         this.dataEntregaAte = dataEntregaAte;
     }
 
+    public String getProduto() {
+        return produto;
+    }
+
+    public void setProduto(String produto) {
+        this.produto = produto;
+    }
+
+    public String getEspecie() {
+        return especie;
+    }
+
+    public void setEspecie(String especie) {
+        this.especie = especie;
+    }
+
+    public TipoCarga getTipoCarga() {
+        return tipoCarga;
+    }
+
+    public void setTipoCarga(TipoCarga tipoCarga) {
+        this.tipoCarga = tipoCarga;
+    }
+
+    public Boolean getPossuiLona() {
+        return possuiLona;
+    }
+
+    public void setPossuiLona(Boolean possuiLona) {
+        this.possuiLona = possuiLona;
+    }
+
     public Double getPrecoMinimo() {
         return precoMinimo;
     }
@@ -181,14 +178,6 @@ public class CargaFiltro {
         this.pesoMaximo = pesoMaximo;
     }
 
-    public Boolean getPossuiLona() {
-        return possuiLona;
-    }
-
-    public void setPossuiLona(Boolean possuiLona) {
-        this.possuiLona = possuiLona;
-    }
-
     public Double getVolumeMinimo() {
         return volumeMinimo;
     }
@@ -203,5 +192,38 @@ public class CargaFiltro {
 
     public void setVolumeMaximo(Double volumeMaximo) {
         this.volumeMaximo = volumeMaximo;
+    }
+
+    public TipoEstadoCarga getTipoEstadoCarga() {
+        return tipoEstadoCarga;
+    }
+
+    public void setTipoEstadoCarga(TipoEstadoCarga tipoEstadoCarga) {
+        this.tipoEstadoCarga = tipoEstadoCarga;
+    }
+
+    public Long getEmpresaId() {
+        return empresaId;
+    }
+
+    public void setEmpresaId(Long empresaId) {
+        this.empresaId = empresaId;
+    }
+
+    // Método utilitário para verificar se há filtros aplicados
+    public boolean temFiltros() {
+        return (origemCidade != null && !origemCidade.trim().isEmpty()) ||
+                (origemEstado != null && !origemEstado.trim().isEmpty()) ||
+                (destinoCidade != null && !destinoCidade.trim().isEmpty()) ||
+                (destinoEstado != null && !destinoEstado.trim().isEmpty()) ||
+                dataColetaDe != null || dataColetaAte != null ||
+                dataEntregaDe != null || dataEntregaAte != null ||
+                (produto != null && !produto.trim().isEmpty()) ||
+                (especie != null && !especie.trim().isEmpty()) ||
+                tipoCarga != null || possuiLona != null ||
+                precoMinimo != null || precoMaximo != null ||
+                pesoMinimo != null || pesoMaximo != null ||
+                volumeMinimo != null || volumeMaximo != null ||
+                tipoEstadoCarga != null || empresaId != null;
     }
 }

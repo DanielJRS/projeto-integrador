@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" th:href="/img/css/cargas/listar.css">
-    <script th:src="/img/js/cargas/listar.js"></script>
+    <link rel="stylesheet" th:href="@{/img/css/cargas/cargas-listar.css}">
+    <style>
+
+    </style>
 </head>
 <body>
 <div class="main-container">
@@ -72,13 +74,21 @@
             <div class="filter-section">
                 <h6><i class="fas fa-calendar me-2"></i>Datas</h6>
 
-                <label for="dataColeta" class="form-label">Data Coleta</label>
-                <input type="date" class="form-control" id="dataColeta" name="dataColeta"
-                       th:value="*{dataColeta}">
+                <label for="dataColetaDe" class="form-label">Data Coleta - De</label>
+                <input type="date" class="form-control" id="dataColetaDe" name="dataColetaDe"
+                       th:value="*{dataColetaDe}">
 
-                <label for="dataEntrega" class="form-label">Data Entrega</label>
-                <input type="date" class="form-control" id="dataEntrega" name="dataEntrega"
-                       th:value="*{dataEntrega}">
+                <label for="dataColetaAte" class="form-label">Data Coleta - Até</label>
+                <input type="date" class="form-control" id="dataColetaAte" name="dataColetaAte"
+                       th:value="*{dataColetaAte}">
+
+                <label for="dataEntregaDe" class="form-label">Data Entrega - De</label>
+                <input type="date" class="form-control" id="dataEntregaDe" name="dataEntregaDe"
+                       th:value="*{dataEntregaDe}">
+
+                <label for="dataEntregaAte" class="form-label">Data Entrega - Até</label>
+                <input type="date" class="form-control" id="dataEntregaAte" name="dataEntregaAte"
+                       th:value="*{dataEntregaAte}">
             </div>
 
             <!-- Produto -->
@@ -98,28 +108,18 @@
             <div class="filter-section">
                 <h6><i class="fas fa-truck me-2"></i>Transporte</h6>
 
-                <label for="veiculo" class="form-label">Veículo</label>
-                <select class="form-select" id="veiculo" name="veiculo">
-                    <option value="">Selecione o veículo...</option>
-                    <option th:each="veiculo : ${tiposVeiculo}"
-                            th:value="${veiculo}"
-                            th:text="${veiculo}"
-                            th:selected="*{veiculo} == ${veiculo}">
-                    </option>
-                </select>
-
                 <label for="tipoCarga" class="form-label">Tipo de Carga</label>
                 <select class="form-select" id="tipoCarga" name="tipoCarga">
                     <option value="">Selecione o tipo...</option>
                     <option th:each="tipo : ${tiposCarga}"
-                            th:value="${tipo}"
-                            th:text="${tipo}"
+                            th:value="${tipo.name()}"
+                            th:text="${tipo.descricao}"
                             th:selected="*{tipoCarga} == ${tipo}">
                     </option>
                 </select>
 
                 <label for="possuiLona" class="form-label">Possui Lona</label>
-                <select class="form-select" id="possuiLona" name="possuiLona" th:value="*{possuiLona}">
+                <select class="form-select" id="possuiLona" name="possuiLona">
                     <option value="">Selecione...</option>
                     <option value="true" th:selected="*{possuiLona} == true">Sim</option>
                     <option value="false" th:selected="*{possuiLona} == false">Não</option>
@@ -130,21 +130,29 @@
             <div class="filter-section">
                 <h6><i class="fas fa-calculator me-2"></i>Valores</h6>
 
-                <label for="preco" class="form-label">Preço (R$)</label>
-                <input type="number" class="form-control" id="preco" name="preco" step="0.01"
-                       th:value="*{preco}" placeholder="0,00">
+                <label for="precoMinimo" class="form-label">Preço Mínimo (R$)</label>
+                <input type="number" class="form-control" id="precoMinimo" name="precoMinimo" step="0.01"
+                       th:value="*{precoMinimo}" placeholder="0,00">
 
-                <label for="pesoTotal" class="form-label">Peso Total (kg)</label>
-                <input type="number" class="form-control" id="pesoTotal" name="pesoTotal" step="0.01"
-                       th:value="*{pesoTotal}" placeholder="0,00">
+                <label for="precoMaximo" class="form-label">Preço Máximo (R$)</label>
+                <input type="number" class="form-control" id="precoMaximo" name="precoMaximo" step="0.01"
+                       th:value="*{precoMaximo}" placeholder="0,00">
 
-                <label for="limiteAltura" class="form-label">Altura Limite (m)</label>
-                <input type="number" class="form-control" id="limiteAltura" name="limiteAltura" step="0.01"
-                       th:value="*{limiteAltura}" placeholder="0,00">
+                <label for="pesoMinimo" class="form-label">Peso Mínimo (kg)</label>
+                <input type="number" class="form-control" id="pesoMinimo" name="pesoMinimo" step="0.01"
+                       th:value="*{pesoMinimo}" placeholder="0,00">
 
-                <label for="volume" class="form-label">Volume (m³)</label>
-                <input type="number" class="form-control" id="volume" name="volume" step="0.01"
-                       th:value="*{volume}" placeholder="0,00">
+                <label for="pesoMaximo" class="form-label">Peso Máximo (kg)</label>
+                <input type="number" class="form-control" id="pesoMaximo" name="pesoMaximo" step="0.01"
+                       th:value="*{pesoMaximo}" placeholder="0,00">
+
+                <label for="volumeMinimo" class="form-label">Volume Mínimo (m³)</label>
+                <input type="number" class="form-control" id="volumeMinimo" name="volumeMinimo" step="0.01"
+                       th:value="*{volumeMinimo}" placeholder="0,00">
+
+                <label for="volumeMaximo" class="form-label">Volume Máximo (m³)</label>
+                <input type="number" class="form-control" id="volumeMaximo" name="volumeMaximo" step="0.01"
+                       th:value="*{volumeMaximo}" placeholder="0,00">
             </div>
 
             <!-- Status -->
@@ -155,10 +163,11 @@
                 <select class="form-select" id="tipoEstadoCarga" name="tipoEstadoCarga">
                     <option value="">Selecione o status...</option>
                     <option th:each="status : ${statusCargas}"
-                            th:value="${status}"
-                            th:text="${status}"
+                            th:value="${status.name()}"
+                            th:text="${status.descricao}"
                             th:selected="*{tipoEstadoCarga} == ${status}">
                     </option>
+
                 </select>
             </div>
 
@@ -178,6 +187,10 @@
     <div class="content-area">
         <div class="content-container">
             <div class="page-header">
+                <a href="javascript:history.back()" class="btn btn-secondary mb-3">
+                    <i class="fas fa-arrow-left me-2"></i>Voltar
+                </a>
+
                 <h1 class="page-title">
                     <i class="fas fa-truck text-warning me-3"></i>Listagem de Cargas
                 </h1>
@@ -191,6 +204,7 @@
                 <table class="table table-hover">
                     <thead>
                     <tr>
+                        <th>Empresa</th>
                         <th>Origem</th>
                         <th>Data Coleta</th>
                         <th>Destino</th>
@@ -210,6 +224,11 @@
                     </thead>
                     <tbody>
                     <tr th:each="carga : ${cargas}">
+
+                        <td>
+                            <div class="fw-bold" th:text="${carga.empresaCarga != null ? carga.empresaCarga.nomeFantasia : 'N/A'}">Nome Empresa</div>
+                            <small class="text-muted" th:text="${carga.empresaCarga != null ? carga.empresaCarga.cnpj : ''}">CNPJ</small>
+                        </td>
                         <td>
                             <div class="fw-bold" th:text="${carga.origemCidade}">Origem Cidade</div>
                             <small class="text-muted" th:text="${carga.origemEstado}">Origem Estado</small>
@@ -261,7 +280,7 @@
 
                 <div th:if="${#lists.isEmpty(cargas)}" class="empty-state">
                     <i class="fas fa-truck"></i>
-                    <h4>Nenhuma carga encontrada</h4>
+                    <h4>Nenhuma carga encontradaa</h4>
                     <p class="text-muted">Não há cargas que correspondam aos filtros aplicados.</p>
                     <a th:if="${tipoUsuario != null and tipoUsuario.name() == 'EMPRESA'}"
                        th:href="@{/cargas/novo}" class="btn btn-primary mt-3">
@@ -274,5 +293,23 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebarFilters');
+        sidebar.classList.toggle('show');
+    }
+
+    // Fecha o sidebar ao clicar fora dele (mobile)
+    document.addEventListener('click', function(event) {
+        const sidebar = document.getElementById('sidebarFilters');
+        const toggleButton = document.querySelector('.mobile-filter-toggle');
+
+        if (window.innerWidth <= 768) {
+            if (!sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
+                sidebar.classList.remove('show');
+            }
+        }
+    });
+</script>
 </body>
 </html>
