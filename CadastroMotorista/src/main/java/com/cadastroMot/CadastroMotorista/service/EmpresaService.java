@@ -57,7 +57,7 @@ public class EmpresaService {
         return empresaRepository.findAll();
     }
 
-//    public Empresa empresa() {
-//        return null;
-//    }
+    public Empresa empresa() {
+        return null;
+    }
 }
