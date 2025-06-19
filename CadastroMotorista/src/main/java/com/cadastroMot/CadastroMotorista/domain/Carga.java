@@ -312,4 +312,8 @@ public class Carga {
     public void setFretesEspeciais(List<String> fretesEspeciais) {
         this.fretesEspeciais = fretesEspeciais;
     }
+
+    public double getPeso() {
+        return pesoTotal;
+    }
 }

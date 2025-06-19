@@ -67,4 +67,6 @@ public interface CargaRepository extends JpaRepository<Carga, Long>, JpaSpecific
     List<String> findDistinctOrigemCidade();
 
     List<String> findDistinctOrigemEstado();
+
+    List<String> findDistinctEspecies();
 }
