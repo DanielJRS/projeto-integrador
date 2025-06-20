@@ -18,13 +18,16 @@
 
 <div class="content-container">
     <div class="page-title">
-        <h2>Cadastro de Transportadora</h2>
-        <p>Junte-se à nossa rede de transportadoras parceiras</p>
+        <h2 th:text="${edicao} ? 'Editar Transportadora' : 'Cadastro de Transportadora'">Cadastro de Transportadora</h2>
+        <p th:if="${!edicao}">Junte-se à nossa rede de transportadoras parceiras</p>
     </div>
 
     <div class="form-container">
-        <form th:action="@{/transportadora/salvar}" th:object="${transportadora}" method="post" enctype="multipart/form-data">
-            <input type="hidden" th:field="*{id}" />
+        <form th:action="@{${edicao} ? '/transportadora/editar/' + ${transportadora.id} : '/transportadora/salvar'}"
+              th:object="${transportadora}"
+              method="post"
+              enctype="multipart/form-data">
+
 
             <!-- Dados de Acesso -->
             <div class="login-section">
@@ -244,7 +247,10 @@
 
             <div class="button-container">
                 <a th:href="@{/empresas/listar}" class="btn btn-secondary">Cancelar</a>
-                <button type="submit" class="btn btn-primary">Cadastrar Transportadora</button>
+                <button type="submit" class="btn btn-primary"
+                        th:text="${edicao} ? 'Salvar Alterações' : 'Cadastrar Transportadora'">
+                    Cadastrar Transportadora
+                </button>
             </div>
         </form>
     </div>

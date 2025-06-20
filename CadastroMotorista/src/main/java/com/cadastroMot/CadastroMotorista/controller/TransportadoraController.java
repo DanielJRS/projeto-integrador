@@ -10,12 +10,14 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -32,6 +34,7 @@ public class TransportadoraController {
     @GetMapping ("/novo")
     public String novaEmpresa (Model model){
         model.addAttribute("transportadora", new Transportadora());
+        model.addAttribute("edicao", false);
         return "/transportadoras/formulario-transportadora";
     }
 
@@ -69,5 +72,30 @@ public class TransportadoraController {
         return "/transportadoras/dashboard-transportadora";
     }
 
+    @GetMapping("/detalhar/{id}")
+    public String detalharTransportadora(@PathVariable Long id, Model model) {
+        Transportadora transportadora = transportadoraService.buscarPorId(id);
+        model.addAttribute("transportadora", transportadora);
+        String dataFundacaoFormatada = null;
+        if (transportadora.getDataFundacao() != null) {
+            dataFundacaoFormatada = transportadora.getDataFundacao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        }
+        model.addAttribute("dataFundacaoFormatada", dataFundacaoFormatada);
+        String dataVencimentoLicencaFormatada = null;
+        if (transportadora.getDataVencimentoLicenca() != null) {
+            dataVencimentoLicencaFormatada = transportadora.getDataVencimentoLicenca().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        }
+        model.addAttribute("dataVencimentoLicencaFormatada", dataVencimentoLicencaFormatada);
 
+
+        return "/transportadoras/detalhar-transportadora";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String editarTransportadora(@PathVariable Long id, Model model) {
+        Transportadora transportadora = transportadoraService.buscarPorId(id);
+        model.addAttribute("transportadora", transportadora);
+        model.addAttribute("edicao", true);
+        return "/transportadoras/formulario-transportadora";
+    }
 }

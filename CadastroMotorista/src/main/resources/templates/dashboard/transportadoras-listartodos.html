@@ -33,19 +33,7 @@
                         <th>CEP</th>
                         <th>Telefone</th>
                         <th>Email</th>
-                        <th>Data Fundação</th>
-                        <th>Ativo</th>
-                        <th>Sou Transportadora</th>
-                        <th>Registro ANTT</th>
-                        <th>Tipo Frota</th>
-                        <th>Qtd. Veículos</th>
-                        <th>Seguro Carga</th>
-                        <th>Tipos Mercadorias</th>
-                        <th>Capacidade Carga</th>
-                        <th>Rastreamento Veículos</th>
-                        <th>Prazo Padrão Entrega</th>
-                        <th>Venc. Licença</th>
-                        <th>Categorias Licença</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,19 +49,12 @@
                         <td th:text="${t.cep}">CEP</td>
                         <td th:text="${t.telefone}">Telefone</td>
                         <td th:text="${t.email}">Email</td>
-                        <td th:text="${t.dataFundacao}">Data Fundação</td>
-                        <td th:text="${t.ativo ? 'Sim' : 'Não'}">Ativo</td>
-                        <td th:text="${t.souTransportadora ? 'Sim' : 'Não'}">Sou Transportadora</td>
-                        <td th:text="${t.numeroRegistroANTT}">ANTT</td>
-                        <td th:text="${t.tipoFrota}">Tipo Frota</td>
-                        <td th:text="${t.quantidadeVeiculos}">Qtd. Veículos</td>
-                        <td th:text="${t.possuiSeguroCarga ? 'Sim' : 'Não'}">Seguro Carga</td>
-                        <td th:text="${t.tiposMercadorias}">Tipos Mercadorias</td>
-                        <td th:text="${t.capacidadeCarga}">Capacidade Carga</td>
-                        <td th:text="${t.rastreamentoVeiculos ? 'Sim' : 'Não'}">Rastreamento</td>
-                        <td th:text="${t.prazoPadraoEntrega}">Prazo Entrega</td>
-                        <td th:text="${t.dataVencimentoLicenca}">Venc. Licença</td>
-                        <td th:text="${t.categoriasLicenca}">Categorias Licença</td>
+                        <td>
+                            <a th:href="@{'/transportadora/detalhar/' + ${t.id}}" class="btn btn-primary btn-sm">
+                                Detalhar
+                            </a>
+                        </td>
+                        
                     </tr>
                 </tbody>
             </table>
