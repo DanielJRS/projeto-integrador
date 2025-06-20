@@ -26,6 +26,7 @@
                     <th>Email</th>
                     <th>Transportadora</th>
                     <th>Telefone</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -34,6 +35,11 @@
                     <td th:text="${motorista.usuario != null ? motorista.usuario.email : '---'}">Email</td>
                     <td th:text="${motorista.transportadora != null ? motorista.transportadora.nomeFantasia : '---'}">Transportadora</td>
                     <td th:text="${motorista.celular}">Telefone</td>
+                    <td>
+                        <a th:href="@{/motorista/detalhar/{id}(id=${motorista.id})}" class="btn btn-sm btn-primary">
+                            Detalhar
+                        </a>
+                    </td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(motoristas)}">
                     <td colspan="4">Nenhum motorista encontrado.</td>
