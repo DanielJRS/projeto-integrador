@@ -28,6 +28,7 @@
                     <th>Renavam</th>
                     <th>Chassi</th>
                     <th>Motorista</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -39,6 +40,11 @@
                     <td th:text="${veiculo.renavam}">Renavam</td>
                     <td th:text="${veiculo.chassi}">Chassi</td>
                     <td th:text="${veiculo.motorista != null ? veiculo.motorista.nome : '---'}">Motorista</td>
+                    <td>
+                        <a th:href="@{/veiculos/show/{id}(id=${veiculo.id})}" class="btn btn-sm btn-primary">
+                            Detalhar
+                        </a>
+                    </td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(veiculos)}">
                     <td colspan="7">Nenhum veículo encontrado.</td>
