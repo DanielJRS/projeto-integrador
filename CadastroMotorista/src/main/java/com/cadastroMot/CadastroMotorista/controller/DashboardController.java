@@ -1,15 +1,7 @@
 package com.cadastroMot.CadastroMotorista.controller;
 
-import com.cadastroMot.CadastroMotorista.domain.Carga;
-import com.cadastroMot.CadastroMotorista.domain.Motorista;
-import com.cadastroMot.CadastroMotorista.domain.Transportadora;
-import com.cadastroMot.CadastroMotorista.domain.Veiculo;
-import com.cadastroMot.CadastroMotorista.domain.Empresa;
-import com.cadastroMot.CadastroMotorista.service.CargaService;
-import com.cadastroMot.CadastroMotorista.service.MotoristaService;
-import com.cadastroMot.CadastroMotorista.service.TransportadoraService;
-import com.cadastroMot.CadastroMotorista.service.VeiculoService;
-import com.cadastroMot.CadastroMotorista.service.EmpresaService;
+    import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +9,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cadastroMot.CadastroMotorista.domain.Carga;
+import com.cadastroMot.CadastroMotorista.domain.Empresa;
+import com.cadastroMot.CadastroMotorista.domain.Motorista;
+import com.cadastroMot.CadastroMotorista.domain.Transportadora;
+import com.cadastroMot.CadastroMotorista.domain.Veiculo;
+import com.cadastroMot.CadastroMotorista.service.CargaService;
+import com.cadastroMot.CadastroMotorista.service.EmpresaService;
+import com.cadastroMot.CadastroMotorista.service.MotoristaService;
+import com.cadastroMot.CadastroMotorista.service.TransportadoraService;
+import com.cadastroMot.CadastroMotorista.service.VeiculoService;
+
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 @RequestMapping("/dashboard")
@@ -107,24 +109,44 @@ public class DashboardController {
     }
 
     @GetMapping("/veiculos-listartodos")
-    public String listarTodosVeiculos(Model model, HttpSession session) {
+    public String listarTodosVeiculos(
+            @RequestParam(required = false) String placa,
+            @RequestParam(required = false) String modelo,
+            Model model,
+            HttpSession session) {
+
         Object tipoUsuario = session.getAttribute("tipoUsuario");
         if (tipoUsuario == null || !"ADMIN".equals(tipoUsuario.toString())) {
             return "redirect:/login";
         }
-        List<Veiculo> veiculos = veiculoService.listarTodos();
+
+        List<Veiculo> veiculos = veiculoService.buscarVeiculos(placa, modelo);
         model.addAttribute("veiculos", veiculos);
+        model.addAttribute("placa", placa);
+        model.addAttribute("modelo", modelo);
+
         return "dashboard/veiculos-listartodos";
     }
 
     @GetMapping("/empresas-listartodos")
-    public String listarTodasEmpresas(Model model, HttpSession session) {
+    public String listarTodasEmpresas(
+            @RequestParam(required = false) String razaoSocial,
+            @RequestParam(required = false) String nomeFantasia,
+            @RequestParam(required = false) String cnpj,
+            Model model,
+            HttpSession session) {
+
         Object tipoUsuario = session.getAttribute("tipoUsuario");
         if (tipoUsuario == null || !"ADMIN".equals(tipoUsuario.toString())) {
             return "redirect:/login";
         }
-        List<Empresa> empresas = empresaService.listarTodos();
+
+        List<Empresa> empresas = empresaService.buscarEmpresas(razaoSocial, nomeFantasia, cnpj);
         model.addAttribute("empresas", empresas);
+        model.addAttribute("razaoSocial", razaoSocial);
+        model.addAttribute("nomeFantasia", nomeFantasia);
+        model.addAttribute("cnpj", cnpj);
+
         return "dashboard/empresas-listartodos";
     }
 
@@ -140,13 +162,27 @@ public class DashboardController {
     }
 
     @GetMapping("/transportadoras-listartodos")
-    public String listarTodasTransportadoras(Model model, HttpSession session) {
+    public String listarTodasTransportadoras(
+            @RequestParam(required = false) String razaoSocial,
+            @RequestParam(required = false) String nomeFantasia,
+            @RequestParam(required = false) String cnpj,
+            Model model,
+            HttpSession session) {
+            
         Object tipoUsuario = session.getAttribute("tipoUsuario");
         if (tipoUsuario == null || !"ADMIN".equals(tipoUsuario.toString())) {
             return "redirect:/login";
         }
-        List<Transportadora> transportadoras = transportadoraService.listarTodos();
+    
+        List<Transportadora> transportadoras = transportadoraService.buscarTransportadoras(
+            razaoSocial, nomeFantasia, cnpj
+        );
         model.addAttribute("transportadoras", transportadoras);
+        model.addAttribute("razaoSocial", razaoSocial);
+        model.addAttribute("nomeFantasia", nomeFantasia);
+        model.addAttribute("cnpj", cnpj);
+    
         return "dashboard/transportadoras-listartodos";
     }
+
 }

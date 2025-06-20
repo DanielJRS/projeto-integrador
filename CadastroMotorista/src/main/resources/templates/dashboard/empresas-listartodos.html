@@ -2,15 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Todas as Empresas</title>
-    <link rel="stylesheet" th:href="@{/img/css/shared-header-footer.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/img/css/dashboardadmin/listar.css}">
 </head>
 <body>
-<div th:insert="~{shared-fragments/shared-header :: shared-header}"></div>
+<div th:insert="~{dashboard/fragments/sidebar :: sidebar}"></div>
+<div class="main-content"></div>
+<div th:insert="~{dashboard/fragments/header :: header}"></div>
 <div class="content-container">
     <div class="page-title">
         <h2>Lista de Empresas</h2>
     </div>
+    <form method="get" th:action="@{/dashboard/empresas-listartodos}" class="filter-form">
+        <input type="text" name="razaoSocial" placeholder="Razão Social" th:value="${razaoSocial}">
+        <input type="text" name="nomeFantasia" placeholder="Nome Fantasia" th:value="${nomeFantasia}">
+        <input type="text" name="cnpj" placeholder="CNPJ" th:value="${cnpj}">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </form>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -40,6 +48,5 @@
         <a th:href="@{/dashboard/empresas}" class="btn btn-secondary">Voltar</a>
     </div>
 </div>
-<div th:insert="~{shared-fragments/shared-footer :: shared-footer}"></div>
 </body>
 </html>

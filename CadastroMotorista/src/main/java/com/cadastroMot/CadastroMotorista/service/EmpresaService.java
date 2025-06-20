@@ -50,4 +50,12 @@ public class EmpresaService {
     public List<Empresa> listarTodos() {
         return empresaRepository.findAll();
     }
+
+    public List<Empresa> buscarEmpresas(String razaoSocial, String nomeFantasia, String cnpj) {
+    return empresaRepository.findByRazaoSocialContainingIgnoreCaseAndNomeFantasiaContainingIgnoreCaseAndCnpjContainingIgnoreCase(
+        razaoSocial == null ? "" : razaoSocial,
+        nomeFantasia == null ? "" : nomeFantasia,
+        cnpj == null ? "" : cnpj
+    );
+}
 }
