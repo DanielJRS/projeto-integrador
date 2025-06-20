@@ -31,6 +31,7 @@
                         <th>Status</th>
                         <th>Data Coleta</th>
                         <th>Data Entrega</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,6 +56,11 @@
                         <td th:text="${carga.tipoEstadoCarga}">Status</td>
                         <td th:text="${carga.dataColeta}">Data Coleta</td>
                         <td th:text="${carga.dataEntrega}">Data Entrega</td>
+                         <td>
+                        <a th:href="@{/cargas/detalhar/{id}(id=${carga.id})}" class="btn btn-sm btn-primary">
+                            Detalhar
+                        </a>
+                    </td>
                     </tr>
                 </tbody>
             </table>
