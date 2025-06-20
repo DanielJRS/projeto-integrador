@@ -27,6 +27,7 @@
                     <th>CNPJ</th>
                     <th>Email</th>
                     <th>Cidade</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -36,6 +37,7 @@
                     <td th:text="${empresa.cnpj}">CNPJ</td>
                     <td th:text="${empresa.email}">Email</td>
                     <td th:text="${empresa.cidade}">Cidade</td>
+                    <td><a th:href="@{'/empresa/detalhar/' + ${empresa.id}}" class="btn btn-primary btn-sm">Detalhar</a></td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(empresas)}">
                     <td colspan="5">Nenhuma empresa encontrada.</td>
