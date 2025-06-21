@@ -48,6 +48,14 @@ public class CargaService {
             return Arrays.asList(TipoEstadoCarga.values());
         }
 
+        public Long buscarCargasPorEmpresa(Long empresaId) {
+            return cargaRepository.countByEmpresaCargaId(empresaId);
+        }
+
+        public List <Carga> buscarCargasPorEmpresa(Empresa empresa){
+            return cargaRepository.findByEmpresaCarga(empresa);
+        }
+
     public List<Carga> buscarPorNomeEmpresa(String nomeEmpresa) {
         return cargaRepository.findByEmpresaCargaRazaoSocialContainingIgnoreCaseOrEmpresaCargaNomeFantasiaContainingIgnoreCase(
                 nomeEmpresa, nomeEmpresa);
@@ -342,8 +350,8 @@ public class CargaService {
             return cargaRepository.findByMotoristaId(motoristaId);
         }
 
-        public List<Carga> buscarCargasPorEmpresa(Long empresaId) {
-            return cargaRepository.findByEmpresaCargaId(empresaId);
+        Long buscarCargasAtivasEmpresa(Long empresaId) {
+            return cargaRepository.countByEmpresaCargaId(empresaId);
         }
 
         public List<Carga> buscarCargasDisponiveis() {
