@@ -2,15 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Todos os Veículos</title>
-    <link rel="stylesheet" th:href="@{/img/css/shared-header-footer.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/img/css/dashboardadmin/listar.css}">
 </head>
 <body>
-<div th:insert="~{shared-fragments/shared-header :: shared-header}"></div>
+<div th:insert="~{dashboard/fragments/sidebar :: sidebar}"></div>
+<div th:insert="~{dashboard/fragments/header :: header}"></div>
 <div class="content-container">
     <div class="page-title">
         <h2>Lista de Veículos</h2>
     </div>
+    <form method="get" th:action="@{/dashboard/veiculos-listartodos}" class="filter-form">
+        <input type="text" name="placa" placeholder="Placa" th:value="${placa}">
+        <input type="text" name="modelo" placeholder="Modelo" th:value="${modelo}">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </form>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -22,6 +28,7 @@
                     <th>Renavam</th>
                     <th>Chassi</th>
                     <th>Motorista</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -33,6 +40,11 @@
                     <td th:text="${veiculo.renavam}">Renavam</td>
                     <td th:text="${veiculo.chassi}">Chassi</td>
                     <td th:text="${veiculo.motorista != null ? veiculo.motorista.nome : '---'}">Motorista</td>
+                    <td>
+                        <a th:href="@{/veiculos/show/{id}(id=${veiculo.id})}" class="btn btn-sm btn-primary">
+                            Detalhar
+                        </a>
+                    </td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(veiculos)}">
                     <td colspan="7">Nenhum veículo encontrado.</td>
@@ -44,6 +56,5 @@
         <a th:href="@{/dashboard/veiculos}" class="btn btn-secondary">Voltar</a>
     </div>
 </div>
-<div th:insert="~{shared-fragments/shared-footer :: shared-footer}"></div>
 </body>
 </html>

@@ -51,4 +51,23 @@ public class TransportadoraService {
     public List<Transportadora> listarTodos() {
         return transportadoraRepository.findAll();
     }
+
+    public List<Transportadora> buscarTransportadoras(String razaoSocial, String nomeFantasia, String cnpj) {
+        if ((razaoSocial == null || razaoSocial.isEmpty()) &&
+            (nomeFantasia == null || nomeFantasia.isEmpty()) &&
+            (cnpj == null || cnpj.isEmpty())) {
+            return transportadoraRepository.findAll();
+        }
+    
+        return transportadoraRepository.findByRazaoSocialContainingIgnoreCaseAndNomeFantasiaContainingIgnoreCaseAndCnpjContainingIgnoreCase(
+            razaoSocial == null ? "" : razaoSocial,
+            nomeFantasia == null ? "" : nomeFantasia,
+            cnpj == null ? "" : cnpj
+        );
+    }
+
+    public Transportadora buscarPorId(Long id) {
+        return transportadoraRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Transportadora não encontrada com ID: " + id));
+    }
 }

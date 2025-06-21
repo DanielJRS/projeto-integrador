@@ -40,6 +40,7 @@ public class MotoristaController {
     @GetMapping("/novo")
     public String formulario (Model model) {
         model.addAttribute("motorista", new Motorista());
+        model.addAttribute("edicao", false);
         return "/motoristas/formulario-motorista";
     }
 
@@ -127,5 +128,20 @@ public class MotoristaController {
         model.addAttribute("fretesCancelados", numeroFretesCanceladosMotorista);
 
         return "/motoristas/dashboard-motorista";
+    }
+
+    @GetMapping("/detalhar/{id}")
+    public String detalharMotorista(@PathVariable Long id, Model model) {
+        Motorista motorista = motoristaService.buscarPorId(id); 
+        model.addAttribute("motorista", motorista);
+        return "motoristas/detalhar-motorista";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String exibirFormularioEdicao(@PathVariable Long id, Model model) {
+        Motorista motorista = motoristaService.buscarPorId(id);
+        model.addAttribute("motorista", motorista);
+        model.addAttribute("edicao", true);
+        return "motoristas/formulario-motorista";
     }
 }
