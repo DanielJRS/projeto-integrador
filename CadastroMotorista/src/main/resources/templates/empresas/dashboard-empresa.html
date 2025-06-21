@@ -38,30 +38,6 @@
             </a>
             <div class="sidebar-tooltip">Fretes</div>
         </div>
-
-        <div class="sidebar-item">
-            <a th:href="@{/empresa/perfil}" class="sidebar-link">
-                <span class="sidebar-icon">👤</span>
-                <span class="sidebar-text">Perfil</span>
-            </a>
-            <div class="sidebar-tooltip">Perfil</div>
-        </div>
-
-        <div class="sidebar-item">
-            <a th:href="@{/empresa/relatorios}" class="sidebar-link">
-                <span class="sidebar-icon">📊</span>
-                <span class="sidebar-text">Relatórios</span>
-            </a>
-            <div class="sidebar-tooltip">Relatórios</div>
-        </div>
-
-        <div class="sidebar-item">
-            <a th:href="@{/suporte}" class="sidebar-link">
-                <span class="sidebar-icon">💬</span>
-                <span class="sidebar-text">Suporte</span>
-            </a>
-            <div class="sidebar-tooltip">Suporte</div>
-        </div>
     </div>
 </nav>
 
@@ -87,76 +63,41 @@
             <div class="stat-number" th:text="${fretesFinalizados}">45</div>
             <div class="stat-label">Fretes Finalizados</div>
         </div>
-        <div class="stat-card">
-            <div class="stat-number" th:text="|R$ ${valorTotal}|">R$ 125.340</div>
-            <div class="stat-label">Valor Total (Mês)</div>
-        </div>
     </div>
 
     <div class="action-cards">
-        <div class="action-card">
+        <!-- Card para Nova Carga - Ocupa toda a largura -->
+        <div class="action-card nova-carga">
             <span class="action-card-icon">📦</span>
             <h3>Crie uma nova demanda</h3>
             <p>Cadastre uma nova demanda de transporte e receba propostas de motoristas qualificados para sua carga.</p>
-            <a th:href="@{/cargas/novo}" class="btn btn-primary">Cadastrar demanda</a>
+            <a th:href="@{/cargas/novo}" class="btn btn-primary">📦 Cadastrar demanda</a>
         </div>
 
-        <div class="action-card">
-            <span class="action-card-icon">🚛</span>
-            <h3>Gerencie seus fretes</h3>
-            <p>Acompanhe o status dos seus fretes, visualize rotas e mantenha contato com os motoristas responsáveis.</p>
-            <a th:href="@{/fretes/lista}" class="btn btn-secondary">Ver fretes</a>
-        </div>
-    </div>
-
-    <div class="recent-activity">
-        <div class="activity-header">
-            <h3>🕒 Atividades Recentes</h3>
-        </div>
-
-        <div th:if="${#lists.isEmpty(atividadesRecentes)}">
-            <div class="activity-item">
-                <div class="activity-icon">ℹ️</div>
-                <div class="activity-content">
-                    <div class="activity-title">Nenhuma atividade recente</div>
-                    <div class="activity-time">Cadastre sua primeira carga para começar</div>
+        <!-- Card para Fretes - Ocupa toda a largura -->
+        <div class="action-card fretes-lista">
+            <h3>🚛 Meus fretes</h3>
+            <div th:each="frete : ${fretes}" class="frete-item">
+                <div class="frete-info">
+                    <div class="frete-origem-destino">
+                        <i data-lucide="map-pin"></i>
+                        <span th:text="|${frete.origemCidade} → ${frete.destinoCidade}|">Origem → Destino</span>
+                    </div>
+                    <div class="frete-detalhes">
+                        <span th:if="${frete.produto != null}">
+                            <i data-lucide="package"></i> <span th:text="${frete.produto}">Eletrônicos</span>
+                        </span>
+                        <span th:if="${frete.pesoTotal != null}">
+                            <i data-lucide="weight"></i> <span th:text="|${frete.pesoTotal} kg|">1200 kg</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="frete-acoes">
+                    <a th:href="@{/frete/{id}(id=${frete.id})}" class="btn btn-primary">
+                        <i data-lucide="clipboard"></i> Ver detalhes
+                    </a>
                 </div>
             </div>
-        </div>
-
-        <div th:each="atividade : ${atividadesRecentes}" class="activity-item">
-            <div class="activity-icon" th:switch="${atividade.tipo}">
-                <span th:case="'nova_carga'">📦</span>
-                <span th:case="'frete_aceito'">✅</span>
-                <span th:case="'frete_finalizado'">🏁</span>
-                <span th:case="*">📋</span>
-            </div>
-            <div class="activity-content">
-                <div class="activity-title" th:text="${atividade.descricao}">
-                    Nova carga cadastrada: São Paulo → Rio de Janeiro
-                </div>
-                <div class="activity-time" th:text="${atividade.dataFormatada}">
-                    Há 2 horas
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Quick Actions -->
-    <h2 class="section-title">Ações Rápidas</h2>
-    <div class="action-cards">
-        <div class="action-card">
-            <span class="action-card-icon">📊</span>
-            <h3>Relatórios</h3>
-            <p>Visualize relatórios detalhados sobre suas operações, custos e performance de entregas.</p>
-            <a th:href="@{/empresa/relatorios}" class="btn btn-secondary">📈 Ver Relatórios</a>
-        </div>
-
-        <div class="action-card">
-            <span class="action-card-icon">💬</span>
-            <h3>Suporte</h3>
-            <p>Precisa de ajuda? Nossa equipe está pronta para auxiliar você com qualquer dúvida ou problema.</p>
-            <a th:href="@{/suporte}" class="btn btn-primary">🆘 Falar com Suporte</a>
         </div>
     </div>
 </div>

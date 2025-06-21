@@ -98,12 +98,20 @@ public interface CargaRepository extends JpaRepository<Carga, Long>, JpaSpecific
 
     Optional<Carga> findByFreteId(Long freteId);
 
-           List<Carga> findByEmpresaCargaRazaoSocialContainingIgnoreCaseOrEmpresaCargaNomeFantasiaContainingIgnoreCase(
-                   String razaoSocial, String nomeFantasia);
+       List<Carga> findByEmpresaCargaRazaoSocialContainingIgnoreCaseOrEmpresaCargaNomeFantasiaContainingIgnoreCase(
+               String razaoSocial, String nomeFantasia);
 
-           @Query("SELECT DISTINCT e.razaoSocial FROM Carga c JOIN c.empresaCarga e WHERE e.razaoSocial IS NOT NULL ORDER BY e.razaoSocial")
-           List<String> findDistinctEmpresaCargaRazaoSocial();
+       @Query("SELECT DISTINCT e.razaoSocial FROM Carga c JOIN c.empresaCarga e WHERE e.razaoSocial IS NOT NULL ORDER BY e.razaoSocial")
+       List<String> findDistinctEmpresaCargaRazaoSocial();
 
-           @Query("SELECT DISTINCT e.nomeFantasia FROM Carga c JOIN c.empresaCarga e WHERE e.nomeFantasia IS NOT NULL ORDER BY e.nomeFantasia")
-           List<String> findDistinctEmpresaCargaNomeFantasia();
+       @Query("SELECT DISTINCT e.nomeFantasia FROM Carga c JOIN c.empresaCarga e WHERE e.nomeFantasia IS NOT NULL ORDER BY e.nomeFantasia")
+       List<String> findDistinctEmpresaCargaNomeFantasia();
+
+       default Long buscarCargasAtivasEmpresa(Empresa empresa){
+           return countByEmpresaCargaId(empresa.getId());
        }
+
+       default List <Carga> buscarCargasPorEmpresa(Empresa empresa){
+           return findByEmpresaCarga(empresa);
+       }
+}
