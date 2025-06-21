@@ -29,7 +29,9 @@ public class EmpresaController {
     }
 
     @GetMapping("/novo")
-    public String novaEmpresa(Model model){
+    public String novaEmpresa(Model model, HttpSession session) {
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        model.addAttribute("tipoUsuario", tipoUsuario);
         model.addAttribute("empresa", new Empresa());
         return "/empresas/formulario-empresa";
     }
