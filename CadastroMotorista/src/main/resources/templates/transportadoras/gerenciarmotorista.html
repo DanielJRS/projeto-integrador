@@ -1,0 +1,432 @@
+<!-- src/main/resources/templates/layout/main.html -->
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} + ' - Global Transportes'">Global Transportes</title>
+
+    <!-- CSS Global -->
+    <link th:href="@{/img/css/gerenciarmotorista.css}" rel="stylesheet">
+    <!-- CSS específico da página -->
+    <th:block layout:fragment="css"></th:block>
+</head>
+<body>
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-icon" th:classappend="${activeMenu == 'dashboard'} ? 'active' : ''">
+        <a th:href="@{/dashboard}">🏠</a>
+    </div>
+    <div class="sidebar-icon" th:classappend="${activeMenu == 'motoristas'} ? 'active' : ''">
+        <a th:href="@{/motoristas}">👤</a>
+    </div>
+    <div class="sidebar-icon" th:classappend="${activeMenu == 'veiculos'} ? 'active' : ''">
+        <a th:href="@{/veiculos}">🚛</a>
+    </div>
+    <div class="sidebar-icon" th:classappend="${activeMenu == 'relatorios'} ? 'active' : ''">
+        <a th:href="@{/relatorios}">📊</a>
+    </div>
+    <div class="sidebar-icon" th:classappend="${activeMenu == 'configuracoes'} ? 'active' : ''">
+        <a th:href="@{/configuracoes}">⚙️</a>
+    </div>
+</div>
+
+<!-- Conteúdo Principal -->
+<div class="main-content">
+    <!-- Header -->
+    <div class="header">
+        <div class="logo-section">
+            <div class="logo">GT</div>
+            <div class="company-name">GLOBAL TRANSPORTES</div>
+        </div>
+        <div class="user-section">
+            <span th:text="${session.usuario?.nome} ?: 'Transportadora01!'">Transportadora01!</span>
+            <form th:action="@{/logout}" method="post" style="display: inline;">
+                <button type="submit" class="exit-btn">Sair</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Área de Conteúdo -->
+    <div class="content-area" layout:fragment="content">
+        <!-- Conteúdo específico da página será inserido aqui -->
+    </div>
+</div>
+
+<!-- Scripts Globais -->
+<script th:src="@{/js/main.js}"></script>
+<!-- Scripts específicos da página -->
+<th:block layout:fragment="scripts"></th:block>
+</body>
+</html>
+
+<!-- =================================================================== -->
+<!-- src/main/resources/templates/motoristas/index.html -->
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+
+<th:block layout:fragment="css">
+    <link th:href="@{/css/motoristas.css}" rel="stylesheet">
+</th:block>
+
+<div layout:fragment="content">
+    <!-- Seção de Boas-vindas -->
+    <div class="welcome-section">
+        <h1 class="welcome-title">Gerenciamento de Motoristas</h1>
+        <p class="welcome-subtitle">
+            Controle completo da sua equipe de motoristas. Cadastre, edite e monitore o status de todos os profissionais.
+        </p>
+    </div>
+
+    <!-- Alertas -->
+    <div th:if="${mensagem}" class="alert alert-success" th:text="${mensagem}"></div>
+    <div th:if="${erro}" class="alert alert-error" th:text="${erro}"></div>
+
+    <!-- Seção de Estatísticas -->
+    <div class="stats-section">
+        <div class="stat-card">
+            <div class="stat-number" th:text="${estatisticas.total}">0</div>
+            <div class="stat-label">Total de Motoristas</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" th:text="${estatisticas.ativos}">0</div>
+            <div class="stat-label">Motoristas Ativos</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" th:text="${estatisticas.emViagem}">0</div>
+            <div class="stat-label">Em Viagem</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" th:text="${estatisticas.inativos}">0</div>
+            <div class="stat-label">Inativos</div>
+        </div>
+    </div>
+
+    <!-- Barra de Ações -->
+    <div class="actions-bar">
+        <form th:action="@{/motoristas}" method="get" class="search-form">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" name="busca"
+                       th:value="${param.busca}" placeholder="Pesquisar motoristas...">
+            </div>
+            <button type="submit" class="btn-search">Buscar</button>
+        </form>
+        <a th:href="@{/motorista/transportadora-motorista-novo}" class="add-driver-btn">
+            <span>+</span>
+            Novo Motorista
+        </a>
+    </div>
+
+    <!-- Grid de Motoristas -->
+    <div class="drivers-grid">
+        <div th:if="${motoristas.empty}" class="no-results">
+            <p>Nenhum motorista encontrado.</p>
+        </div>
+
+        <div th:each="motorista : ${motoristas}" class="driver-card">
+            <!-- Status Badge -->
+            <div class="driver-status"
+                 th:classappend="'status-' + ${motorista.status.name().toLowerCase()}">
+                <span th:text="${motorista.statusDescricao}">Ativo</span>
+            </div>
+
+            <!-- Header do Card -->
+            <div class="driver-header">
+                <div class="driver-avatar" th:text="${motorista.iniciais}">JS</div>
+                <div class="driver-info">
+                    <h3 th:text="${motorista.nome}">Nome do Motorista</h3>
+                    <p>CNH: <span th:text="${motorista.cnh}">12345678901</span></p>
+                </div>
+            </div>
+
+            <!-- Detalhes -->
+            <div class="driver-details">
+                <div class="detail-item">
+                    <div class="detail-label">CPF</div>
+                    <div class="detail-value" th:text="${motorista.cpfFormatado}">000.000.000-00</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Categoria</div>
+                    <div class="detail-value" th:text="${motorista.categoriaCnh}">D</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Telefone</div>
+                    <div class="detail-value" th:text="${motorista.telefoneFormatado}">(11) 99999-1234</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Email</div>
+                    <div class="detail-value" th:text="${motorista.email}">email@exemplo.com</div>
+                </div>
+            </div>
+
+            <!-- Ações -->
+            <div class="driver-actions">
+                <a th:href="@{/motoristas/{id}(id=${motorista.id})}" class="action-btn btn-view">Ver</a>
+                <a th:href="@{/motoristas/{id}/editar(id=${motorista.id})}" class="action-btn btn-edit">Editar</a>
+                <button type="button" class="action-btn btn-delete"
+                        th:onclick="|confirmarExclusao('${motorista.nome}', '${motorista.id}')|">
+                    Excluir
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paginação -->
+    <div th:if="${motoristas.totalPages > 1}" class="pagination">
+        <div class="pagination-info">
+            <span>Mostrando </span>
+            <span th:text="${motoristas.numberOfElements}">10</span>
+            <span> de </span>
+            <span th:text="${motoristas.totalElements}">100</span>
+            <span> motoristas</span>
+        </div>
+
+        <div class="pagination-controls">
+            <a th:if="${motoristas.hasPrevious()}"
+               th:href="@{/motoristas(page=${motoristas.number - 1}, busca=${param.busca})}"
+               class="btn-pagination">« Anterior</a>
+
+            <span th:each="pageNum : ${#numbers.sequence(0, motoristas.totalPages - 1)}"
+                  th:if="${pageNum >= motoristas.number - 2 and pageNum <= motoristas.number + 2}">
+                <a th:if="${pageNum != motoristas.number}"
+                   th:href="@{/motoristas(page=${pageNum}, busca=${param.busca})}"
+                   th:text="${pageNum + 1}"
+                   class="btn-pagination">1</a>
+                <span th:if="${pageNum == motoristas.number}"
+                      th:text="${pageNum + 1}"
+                      class="btn-pagination active">1</span>
+            </span>
+
+            <a th:if="${motoristas.hasNext()}"
+               th:href="@{/motoristas(page=${motoristas.number + 1}, busca=${param.busca})}"
+               class="btn-pagination">Próxima »</a>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="scripts">
+    <script th:src="@{/js/motoristas.js}"></script>
+    <script th:inline="javascript">
+        function confirmarExclusao(nome, id) {
+            if (confirm('Tem certeza que deseja excluir o motorista ' + nome + '?')) {
+                // Criar form para DELETE
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = /*[[@{/motoristas/}]]*/ '/motoristas/' + id + '/excluir';
+
+                const methodInput = document.createElement('input');
+                methodInput.type = 'hidden';
+                methodInput.name = '_method';
+                methodInput.value = 'DELETE';
+                form.appendChild(methodInput);
+
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = /*[[${_csrf.parameterName}]]*/ '_csrf';
+                csrfInput.value = /*[[${_csrf.token}]]*/ 'csrf-token';
+                form.appendChild(csrfInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    </script>
+</th:block>
+
+</html>
+
+<!-- =================================================================== -->
+<!-- src/main/resources/templates/motoristas/form.html -->
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+
+<th:block layout:fragment="css">
+    <link th:href="@{/css/motoristas.css}" rel="stylesheet">
+</th:block>
+
+<div layout:fragment="content">
+    <!-- Seção de Boas-vindas -->
+    <div class="welcome-section">
+        <h1 class="welcome-title" th:text="${motorista.id != null} ? 'Editar Motorista' : 'Novo Motorista'">
+            Novo Motorista
+        </h1>
+        <p class="welcome-subtitle">
+            Preencha os dados do motorista abaixo. Todos os campos marcados com * são obrigatórios.
+        </p>
+    </div>
+
+    <!-- Formulário -->
+    <div class="form-container">
+        <form th:action="@{/motoristas}" th:object="${motorista}" method="post" class="driver-form">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+            <!-- Erros de Validação -->
+            <div th:if="${#fields.hasAnyErrors()}" class="alert alert-error">
+                <h4>Corrija os erros abaixo:</h4>
+                <ul>
+                    <li th:each="error : ${#fields.allErrors()}" th:text="${error}">Erro de validação</li>
+                </ul>
+            </div>
+
+            <div class="form-grid">
+                <!-- Nome Completo -->
+                <div class="form-group">
+                    <label class="form-label" for="nome">Nome Completo *</label>
+                    <input type="text" class="form-input" th:field="*{nome}"
+                           th:classappend="${#fields.hasErrors('nome')} ? 'error' : ''"
+                           id="nome" required maxlength="100">
+                    <span th:if="${#fields.hasErrors('nome')}"
+                          th:errors="*{nome}" class="field-error">Erro no nome</span>
+                </div>
+
+                <!-- CPF -->
+                <div class="form-group">
+                    <label class="form-label" for="cpf">CPF *</label>
+                    <input type="text" class="form-input" th:field="*{cpf}"
+                           th:classappend="${#fields.hasErrors('cpf')} ? 'error' : ''"
+                           id="cpf" required pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+                           placeholder="000.000.000-00" maxlength="14">
+                    <span th:if="${#fields.hasErrors('cpf')}"
+                          th:errors="*{cpf}" class="field-error">Erro no CPF</span>
+                </div>
+
+                <!-- CNH -->
+                <div class="form-group">
+                    <label class="form-label" for="cnh">CNH *</label>
+                    <input type="text" class="form-input" th:field="*{cnh}"
+                           th:classappend="${#fields.hasErrors('cnh')} ? 'error' : ''"
+                           id="cnh" required maxlength="11" pattern="\d{11}">
+                    <span th:if="${#fields.hasErrors('cnh')}"
+                          th:errors="*{cnh}" class="field-error">Erro na CNH</span>
+                </div>
+
+                <!-- Categoria CNH -->
+                <div class="form-group">
+                    <label class="form-label" for="categoriaCnh">Categoria CNH *</label>
+                    <select class="form-select" th:field="*{categoriaCnh}"
+                            th:classappend="${#fields.hasErrors('categoriaCnh')} ? 'error' : ''"
+                            id="categoriaCnh" required>
+                        <option value="">Selecione...</option>
+                        <option th:each="categoria : ${T(com.globaltransportes.enums.CategoriaCnh).values()}"
+                                th:value="${categoria}" th:text="${categoria.descricao}">Categoria A</option>
+                    </select>
+                    <span th:if="${#fields.hasErrors('categoriaCnh')}"
+                          th:errors="*{categoriaCnh}" class="field-error">Erro na categoria</span>
+                </div>
+
+                <!-- Telefone -->
+                <div class="form-group">
+                    <label class="form-label" for="telefone">Telefone *</label>
+                    <input type="tel" class="form-input" th:field="*{telefone}"
+                           th:classappend="${#fields.hasErrors('telefone')} ? 'error' : ''"
+                           id="telefone" required pattern="\(\d{2}\) \d{4,5}-\d{4}"
+                           placeholder="(11) 99999-1234" maxlength="15">
+                    <span th:if="${#fields.hasErrors('telefone')}"
+                          th:errors="*{telefone}" class="field-error">Erro no telefone</span>
+                </div>
+
+                <!-- Status -->
+                <div class="form-group">
+                    <label class="form-label" for="status">Status *</label>
+                    <select class="form-select" th:field="*{status}"
+                            th:classappend="${#fields.hasErrors('status')} ? 'error' : ''"
+                            id="status" required>
+                        <option th:each="status : ${T(com.globaltransportes.enums.StatusMotorista).values()}"
+                                th:value="${status}" th:text="${status.descricao}">Ativo</option>
+                    </select>
+                    <span th:if="${#fields.hasErrors('status')}"
+                          th:errors="*{status}" class="field-error">Erro no status</span>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group full-width">
+                    <label class="form-label" for="email">Email</label>
+                    <input type="email" class="form-input" th:field="*{email}"
+                           th:classappend="${#fields.hasErrors('email')} ? 'error' : ''"
+                           id="email" maxlength="100">
+                    <span th:if="${#fields.hasErrors('email')}"
+                          th:errors="*{email}" class="field-error">Erro no email</span>
+                </div>
+
+                <!-- Data de Nascimento -->
+                <div class="form-group">
+                    <label class="form-label" for="dataNascimento">Data de Nascimento</label>
+                    <input type="date" class="form-input" th:field="*{dataNascimento}"
+                           th:classappend="${#fields.hasErrors('dataNascimento')} ? 'error' : ''"
+                           id="dataNascimento">
+                    <span th:if="${#fields.hasErrors('dataNascimento')}"
+                          th:errors="*{dataNascimento}" class="field-error">Erro na data</span>
+                </div>
+
+                <!-- Data de Vencimento CNH -->
+                <div class="form-group">
+                    <label class="form-label" for="dataVencimentoCnh">Vencimento CNH</label>
+                    <input type="date" class="form-input" th:field="*{dataVencimentoCnh}"
+                           th:classappend="${#fields.hasErrors('dataVencimentoCnh')} ? 'error' : ''"
+                           id="dataVencimentoCnh">
+                    <span th:if="${#fields.hasErrors('dataVencimentoCnh')}"
+                          th:errors="*{dataVencimentoCnh}" class="field-error">Erro na data</span>
+                </div>
+            </div>
+
+            <!-- Ações do Formulário -->
+            <div class="form-actions">
+                <a th:href="@{/motoristas}" class="btn-secondary">Cancelar</a>
+                <button type="submit" class="btn-primary">
+                    <span th:text="${motorista.id != null} ? 'Atualizar' : 'Salvar'">Salvar</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<th:block layout:fragment="scripts">
+    <script th:src="@{/js/form-masks.js}"></script>
+    <script>
+        // Aplicar máscaras aos campos
+        document.addEventListener('DOMContentLoaded', function() {
+            // Máscara para CPF
+            const cpfInput = document.getElementById('cpf');
+            if (cpfInput) {
+                cpfInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                    value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                    e.target.value = value;
+                });
+            }
+
+            // Máscara para telefone
+            const telefoneInput = document.getElementById('telefone');
+            if (telefoneInput) {
+                telefoneInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length <= 10) {
+                        value = value.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+                    } else {
+                        value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+                    }
+                    e.target.value = value;
+                });
+            }
+
+            // Validação de CNH (apenas números)
+            const cnhInput = document.getElementById('cnh');
+            if (cnhInput) {
+                cnhInput.addEventListener('input', function(e) {
+                    e.target.value = e.target.value.replace(/\D/g, '');
+                });
+            }
+        });
+    </script>
+</th:block>
+
+</html>

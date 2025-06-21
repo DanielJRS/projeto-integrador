@@ -1,10 +1,6 @@
 package com.cadastroMot.CadastroMotorista.controller;
 
-import com.cadastroMot.CadastroMotorista.domain.Carga;
-import com.cadastroMot.CadastroMotorista.domain.Motorista;
-import com.cadastroMot.CadastroMotorista.domain.TipoUsuario;
-import com.cadastroMot.CadastroMotorista.domain.Usuario;
-import com.cadastroMot.CadastroMotorista.domain.Veiculo;
+import com.cadastroMot.CadastroMotorista.domain.*;
 import com.cadastroMot.CadastroMotorista.service.CargaService;
 import com.cadastroMot.CadastroMotorista.service.MotoristaService;
 import com.cadastroMot.CadastroMotorista.service.VeiculoService;
@@ -39,24 +35,39 @@ public class MotoristaController {
     }
 
     @GetMapping("/novo")
-    public String formulario (Model model) {
-        model.addAttribute("motorista", new Motorista());
+    public String formulario (Model model, HttpSession session) {
+        Motorista motorista = new Motorista();
+
+        model.addAttribute("motorista", motorista);
         return "/motoristas/formulario-motorista";
     }
 
     @PostMapping("/salvar")
     public String salvar(Motorista motorista,
-                         @RequestParam("arquivoFoto") MultipartFile arquivoFoto,
-                         @RequestParam("email") String email,
-                         @RequestParam("senha") String senha,
-                         RedirectAttributes redirectAttributes) throws IOException {
 
+                         @RequestParam(required = false) MultipartFile arquivoFoto,
+                         @RequestParam(required = false) String email,
+                         @RequestParam(required = false) String senha,
+                         @RequestParam(required = false) Long transportadora,
+                         RedirectAttributes redirectAttributes, HttpSession session) throws IOException {
         try {
             // Processar a foto se enviada
             if (!arquivoFoto.isEmpty()) {
                 motorista.setFoto(arquivoFoto.getBytes());
                 motorista.setTipoFoto(arquivoFoto.getContentType());
             }
+
+            Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
+
+            if(usuarioLogado != null && usuarioLogado.getTipo() == TipoUsuario.TRANSPORTADORA){
+
+                motorista.setTransportadoraMotorista(usuarioLogado.getTransportadora());
+
+                Motorista motoristaSalvo = motoristaService.salvar(motorista);
+
+                return "redirect:/transportadora/dashboard";
+            }
+
 
             // Usar o método do service que cuida da transação
             Motorista motoristaSalvo = motoristaService.salvarComUsuario(motorista, email, senha);
@@ -108,4 +119,11 @@ public class MotoristaController {
 
         return "/motoristas/dashboard-motorista";
     }
+
+    @GetMapping("/gerenciarmotorista")
+    public String motorista(Model model){
+        return "redirect:/motorista/gerenciarmotorista";
+    }
+
 }
+

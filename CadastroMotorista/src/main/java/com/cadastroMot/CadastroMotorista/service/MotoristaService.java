@@ -71,6 +71,7 @@ public class MotoristaService {
     public List<Motorista> listarPorTransportadora(Transportadora transportadora) {
         return motoristaRepository.findByTransportadoraMotorista(transportadora);
     }
+
     public List<Motorista> buscarMotoristas(String nome, String nomeFantasia) {
         if ((nome == null || nome.isEmpty()) && (nomeFantasia == null || nomeFantasia.isEmpty())) {
             return motoristaRepository.findAll();
