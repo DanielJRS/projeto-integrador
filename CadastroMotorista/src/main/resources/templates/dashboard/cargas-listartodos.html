@@ -52,7 +52,7 @@
                         <td th:text="${carga.volume}">0.0</td>
                         <td th:text="${#numbers.formatDecimal(carga.preco, 1, 'POINT', 2, 'COMMA')}">0,00</td>
                         <td th:text="${#numbers.formatDecimal(carga.precoFrete, 1, 'POINT', 2, 'COMMA')}">0,00</td>
-                        <td th:text="${carga.empresaCarga != null ? carga.empresaCarga.nome : '-'}">Empresa</td>
+                        <td th:text="${carga.empresaCarga != null ? carga.empresaCarga.nomeFantasia : '-'}">Empresa</td>
                         <td th:text="${carga.tipoEstadoCarga}">Status</td>
                         <td th:text="${carga.dataColeta}">Data Coleta</td>
                         <td th:text="${carga.dataEntrega}">Data Entrega</td>
