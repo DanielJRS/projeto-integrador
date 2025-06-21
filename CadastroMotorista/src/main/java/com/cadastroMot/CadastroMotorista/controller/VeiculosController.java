@@ -109,7 +109,7 @@ public class VeiculosController {
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
         Object tipoUsuario = session.getAttribute("tipoUsuario");
 
-        // Permite ADMIN fixo (sem usuarioLogado)
+
         if ("ADMIN".equals(String.valueOf(tipoUsuario))) {
             veiculo.setTipos(tipos != null ? Arrays.asList(tipos) : List.of());
             veiculo.setFretesFechados(freteFechado != null ? Arrays.asList(freteFechado) : List.of());
