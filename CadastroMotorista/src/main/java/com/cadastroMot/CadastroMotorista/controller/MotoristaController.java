@@ -38,7 +38,10 @@ public class MotoristaController {
     }
 
     @GetMapping("/novo")
-    public String formulario (Model model) {
+    public String formulario (Model model, HttpSession session) {
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+
+        model.addAttribute("tipoUsuario", tipoUsuario);
         model.addAttribute("motorista", new Motorista());
         model.addAttribute("edicao", false);
         return "/motoristas/formulario-motorista";

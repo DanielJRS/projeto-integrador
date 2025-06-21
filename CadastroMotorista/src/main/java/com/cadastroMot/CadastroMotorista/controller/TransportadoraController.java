@@ -32,7 +32,10 @@ public class TransportadoraController {
     }
 
     @GetMapping ("/novo")
-    public String novaEmpresa (Model model){
+    public String novaEmpresa (Model model, HttpSession session){
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+
+        model.addAttribute("tipoUsuario", tipoUsuario);
         model.addAttribute("transportadora", new Transportadora());
         model.addAttribute("edicao", false);
         return "/transportadoras/formulario-transportadora";
