@@ -8,6 +8,7 @@ import com.cadastroMot.CadastroMotorista.domain.Usuario;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,7 +43,10 @@ class TransportadoraTest {
                 7,
                 LocalDate.of(2029, 2, 2),
                 "E",
-                usuario
+                usuario,
+                Collections.emptyList(), // motoristas
+                Collections.emptyList(), // veiculos
+                Collections.emptyList()  // fretes
         );
 
         assertEquals(1L, transp.getId());

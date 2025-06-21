@@ -47,4 +47,16 @@ public class VeiculoService {
     public List<Veiculo> buscarPorTransportadoraId(Long transportadoraId) {
         return veiculoRepository.findByTransportadoraId(transportadoraId);
     }
+
+    public List<Veiculo> buscarVeiculos(String placa, String modelo) {
+    if ((placa == null || placa.isEmpty()) && (modelo == null || modelo.isEmpty())) {
+        return veiculoRepository.findAll();
+    }
+    
+    return veiculoRepository.findByPlacaContainingIgnoreCaseAndModeloContainingIgnoreCase(
+        placa == null ? "" : placa,
+        modelo == null ? "" : modelo
+    );
+}
+
 }
