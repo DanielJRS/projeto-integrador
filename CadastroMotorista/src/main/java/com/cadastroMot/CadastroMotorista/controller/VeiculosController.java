@@ -67,6 +67,8 @@ public class VeiculosController {
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
         Object tipoUsuario = session.getAttribute("tipoUsuario");
 
+        model.addAttribute("tipoUsuario", tipoUsuario);
+
         if ("ADMIN".equals(String.valueOf(tipoUsuario))) {
             model.addAttribute("veiculo", new Veiculo());
             model.addAttribute("isMotorista", false);
@@ -109,7 +111,7 @@ public class VeiculosController {
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
         Object tipoUsuario = session.getAttribute("tipoUsuario");
 
-        // Permite ADMIN fixo (sem usuarioLogado)
+
         if ("ADMIN".equals(String.valueOf(tipoUsuario))) {
             veiculo.setTipos(tipos != null ? Arrays.asList(tipos) : List.of());
             veiculo.setFretesFechados(freteFechado != null ? Arrays.asList(freteFechado) : List.of());
@@ -152,7 +154,10 @@ public class VeiculosController {
     }
 
     @GetMapping("/show/{id}")
-    public String showVeiculo(@PathVariable Long id, Model model) {
+    public String showVeiculo(@PathVariable Long id, Model model,  HttpSession session) {
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+
+        model.addAttribute("tipoUsuario", tipoUsuario);
         Veiculo veiculo = veiculoService.buscarPorId(id);
         if (veiculo == null) {
             return "redirect:/veiculos";

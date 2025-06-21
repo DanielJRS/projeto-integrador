@@ -36,9 +36,11 @@ public class MotoristaController {
 
     @GetMapping("/novo")
     public String formulario (Model model, HttpSession session) {
-        Motorista motorista = new Motorista();
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
 
-        model.addAttribute("motorista", motorista);
+        model.addAttribute("tipoUsuario", tipoUsuario);
+        model.addAttribute("motorista", new Motorista());
+        model.addAttribute("edicao", false);
         return "/motoristas/formulario-motorista";
     }
 
@@ -51,7 +53,7 @@ public class MotoristaController {
                          @RequestParam(required = false) Long transportadora,
                          RedirectAttributes redirectAttributes, HttpSession session) throws IOException {
         try {
-            // Processar a foto se enviada
+
             if (!arquivoFoto.isEmpty()) {
                 motorista.setFoto(arquivoFoto.getBytes());
                 motorista.setTipoFoto(arquivoFoto.getContentType());
@@ -69,7 +71,19 @@ public class MotoristaController {
             }
 
 
-            // Usar o método do service que cuida da transação
+            Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
+
+            if(usuarioLogado != null && usuarioLogado.getTipo() == TipoUsuario.TRANSPORTADORA){
+
+                motorista.setTransportadoraMotorista(usuarioLogado.getTransportadora());
+
+                Motorista motoristaSalvo = motoristaService.salvar(motorista);
+
+                return "redirect:/transportadora/dashboard";
+            } 
+
+
+
             Motorista motoristaSalvo = motoristaService.salvarComUsuario(motorista, email, senha);
 
             redirectAttributes.addFlashAttribute("mensagemSucesso",

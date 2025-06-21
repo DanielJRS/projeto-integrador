@@ -4,46 +4,53 @@ import java.time.LocalDate;
 
 public class CargaFiltro {
 
-    // FILTRO POR EMPRESA - CAMPO PRINCIPAL PARA SEU CASO
+
     private Empresa empresa;
 
-    // FILTROS DE LOCALIZAÇÃO
+    private String nomeEmpresa;
     private String origemCidade;
     private String origemEstado;
     private String destinoCidade;
     private String destinoEstado;
 
-    // FILTROS DE PRODUTO
+
     private String produto;
     private String especie;
 
-    // FILTROS DE TIPO
+
     private TipoCarga tipoCarga;
     private TipoEstadoCarga tipoEstadoCarga;
 
-    // FILTROS DE DATA
+
     private LocalDate dataColetaDe;
     private LocalDate dataColetaAte;
     private LocalDate dataEntregaDe;
     private LocalDate dataEntregaAte;
 
-    // FILTROS DE PREÇO
+
     private Double precoMinimo;
     private Double precoMaximo;
 
-    // FILTROS DE PESO
+
     private Double pesoMinimo;
     private Double pesoMaximo;
 
-    // FILTROS ADICIONAIS
+
     private Boolean possuiLona;
     private Double volumeMinimo;
     private Double volumeMaximo;
 
-    // CONSTRUTORES
+
     public CargaFiltro() {}
 
-    // GETTERS E SETTERS
+
+    public String getNomeEmpresa() {
+        return nomeEmpresa;
+    }
+
+    public void setNomeEmpresa(String nomeEmpresa) {
+        this.nomeEmpresa = nomeEmpresa;
+    }
 
     public Empresa getEmpresa() {
         return empresa;

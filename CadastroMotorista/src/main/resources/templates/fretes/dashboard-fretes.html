@@ -86,20 +86,20 @@
 
         <div class="detalhes-card">
             <div class="card-header">
-                <h3>📦 Especificações da carga</h3>
+                <h3>Especificações da carga</h3>
             </div>
             <div class="card-content">
                 <div class="info-grid">
                     <div class="info-item">
-                        <span class="info-label">🏷️ Produto</span>
+                        <span class="info-label">Produto</span>
                         <span class="info-value" th:text="${frete.produto}">Computador</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">⚖️ Peso total</span>
+                        <span class="info-label">Peso total</span>
                         <span class="info-value" th:text="|${frete.pesoTotal} kg|">1.200 kg</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">💸 Avaliação da carga</span>
+                        <span class="info-label">Avaliação da carga</span>
                         <span class="info-value" th:text="|R$ ${#numbers.formatDecimal(frete.valorCarga, 1, 2)}|">300 reais</span>
                     </div>
                 </div>
@@ -108,24 +108,24 @@
 
         <div class="detalhes-card" style="grid-column: 1 / -1;">
             <div class="card-header">
-                <h3>🏢 Informações do contratante</h3>
+                <h3>Informações do contratante</h3>
             </div>
             <div class="card-content">
                 <div class="info-grid">
                     <div class="info-item">
-                        <span class="info-label">🏭 Razão Social</span>
+                        <span class="info-label">Razão Social</span>
                         <span class="info-value" th:text="${frete.nomeFantasia}">Empresa ABC Ltda</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">📞 Telefone de Contato</span>
+                        <span class="info-label">Telefone de Contato</span>
                         <span class="info-value" th:text="${frete.telefone}">+55 11 99999-9999</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">📧 E-mail Corporativo</span>
+                        <span class="info-label">E-mail Corporativo</span>
                         <span class="info-value" th:text="${frete.email}">contato@empresaabc.com</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">🏛️ CNPJ</span>
+                        <span class="info-label">CNPJ</span>
                         <span class="info-value" th:text="${frete.cnpj}">12.345.678/0001-90</span>
                     </div>
                 </div>
@@ -134,12 +134,12 @@
 
         <div class="detalhes-card" style="grid-column: 1 / -1;">
             <div class="card-header">
-                <h3>⚙️ Centro de controle do frete</h3>
+                <h3>Centro de controle do frete</h3>
             </div>
             <div class="card-content">
                 <div class="acoes-container">
                     <div class="acoes-info">
-                        <h4>🎛️ Painel de gerenciamento</h4>
+                        <h4>Painel de gerenciamento</h4>
                         <p>Utilize as opções ao lado para gerenciar o status do seu frete de forma eficiente e segura.</p>
                         <div class="status-atual">
                             <strong>Status atual:</strong>
@@ -148,13 +148,13 @@
                     </div>
                     <div class="acoes-buttons">
                         <button class="btn btn-danger" th:if="${frete.status.toString() == 'ATIVO'}" onclick="confirmarCancelamento()">
-                            ❌ Cancelar frete
+                            Cancelar frete
                         </button>
                         <button class="btn btn-success" th:if="${frete.status.toString() == 'ATIVO'}" onclick="return confirmarFinalizacao()">
-                            ✅ Finalizar entrega
+                            Finalizar entrega
                         </button>
-                        <a th:href="@{/motorista/dashboard}" class="btn btn-secondary">
-                            🏠 Voltar ao dashboard
+                        <a th:href="@{/dashboard}" class="btn btn-secondary">
+                            Voltar ao dashboard
                         </a>
                     </div>
                 </div>

@@ -1,10 +1,11 @@
 package com.cadastroMot.CadastroMotorista.controller;
 
-import com.cadastroMot.CadastroMotorista.domain.Empresa;
-import com.cadastroMot.CadastroMotorista.domain.TipoUsuario;
-import com.cadastroMot.CadastroMotorista.domain.Usuario;
+import com.cadastroMot.CadastroMotorista.domain.*;
+import com.cadastroMot.CadastroMotorista.service.CargaService;
 import com.cadastroMot.CadastroMotorista.service.EmpresaService;
+import com.cadastroMot.CadastroMotorista.service.FreteService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,21 +16,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/empresa")
 
 public class EmpresaController {
 
+    @Autowired
+    private final CargaService cargaService;
+
     private final EmpresaService empresaService;
 
-    public EmpresaController(EmpresaService empresaService) {
+    private final FreteService freteService;
 
+    public EmpresaController(CargaService cargaService, EmpresaService empresaService, FreteService freteService) {
+        this.cargaService = cargaService;
         this.empresaService = empresaService;
+        this.freteService = freteService;
     }
 
     @GetMapping("/novo")
-    public String novaEmpresa(Model model){
+    public String novaEmpresa(Model model, HttpSession session) {
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        model.addAttribute("tipoUsuario", tipoUsuario);
         model.addAttribute("empresa", new Empresa());
         return "/empresas/formulario-empresa";
     }
@@ -53,7 +63,8 @@ public class EmpresaController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboardDeEmpresa (HttpSession session, Model model){
+    public String dashboardDeEmpresa (HttpSession session,
+                                      Model model){
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 
         if (usuarioLogado == null || usuarioLogado.getTipo() != TipoUsuario.EMPRESA){
@@ -62,6 +73,21 @@ public class EmpresaController {
 
         Empresa empresa = usuarioLogado.getEmpresa();
         model.addAttribute("empresa", empresa);
+
+        List <Frete> fretes = freteService.buscarFretesPorEmpresa(empresa);
+        model.addAttribute("fretes", fretes);
+
+        List <Carga> cargas = cargaService.buscarCargasPorEmpresa(empresa);
+        model.addAttribute("cargas", cargas);
+
+        Long numeroFretesAtivosEmpresa = freteService.buscarFretesPorEmpresa(empresa, TipoEstadoFrete.ATIVO);
+        model.addAttribute("totalFretes", numeroFretesAtivosEmpresa);
+
+        Long numeroFretesFinalizadosEmpresa = freteService.buscarFretesPorEmpresa(empresa, TipoEstadoFrete.FINALIZADO);
+        model.addAttribute("fretesFinalizados", numeroFretesFinalizadosEmpresa);
+
+        Long numeroCargasEmpresa = cargaService.contarCargasPorEmpresa(empresa.getId());
+        model.addAttribute("totalCargas", numeroCargasEmpresa);
 
         return "/empresas/dashboard-empresa";
     }
