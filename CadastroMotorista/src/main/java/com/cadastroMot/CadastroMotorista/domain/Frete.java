@@ -27,7 +27,6 @@ public class Frete {
     private String destinoCidade;
     private String produto;
     private Double pesoTotal;
-//    private Long fretesAtivos;
     private String valorCarga;
 
     @Enumerated(EnumType.STRING)

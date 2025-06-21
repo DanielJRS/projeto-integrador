@@ -12,7 +12,7 @@ import java.util.Map;
 @Controller
 public class HomeController {
 
-    @GetMapping("/")  // ← MUDANÇA AQUI
+    @GetMapping("/")
     public String home(Model model) {
         return "index";
     }

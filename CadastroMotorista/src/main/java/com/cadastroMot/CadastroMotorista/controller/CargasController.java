@@ -31,7 +31,7 @@ public class CargasController {
         TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuario");
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 
-        // Verificação de permissão no início
+
         if (tipoUsuario != TipoUsuario.EMPRESA) {
             return "redirect:/cargas/listar";
         }
@@ -75,7 +75,7 @@ public class CargasController {
                                            @RequestParam(required = false) String produto,
                                            @RequestParam(required = false) String especie) {
 
-        // Verificação de permissão
+
         TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuario");
         if (tipoUsuario != TipoUsuario.EMPRESA) {
             return "redirect:/cargas/listar";
@@ -84,7 +84,7 @@ public class CargasController {
         Carga cargaFinal;
 
         if (carga.getId() != null) {
-            // Editando carga existente
+
             Carga existente = cargaService.buscarPorId(carga.getId());
             if (existente == null) {
                 return "redirect:/cargas/listar";
@@ -94,13 +94,13 @@ public class CargasController {
                     freteFechado, freteAberto, freteEspecial, pesoTotal,
                     limiteAltura, volume, preco, precoFrete, produto, especie);
         } else {
-            // Nova carga
+
             cargaFinal = carga;
             atualizarCamposCarga(cargaFinal, carga, tipoCarga, possuiLona, veiculo,
                     freteFechado, freteAberto, freteEspecial, pesoTotal,
                     limiteAltura, volume, preco, precoFrete, produto, especie);
 
-            // Definir empresa para nova carga
+
             Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
             if (cargaFinal.getEmpresaCarga() == null && usuarioLogado != null && usuarioLogado.getEmpresa() != null) {
                 cargaFinal.setEmpresaCarga(usuarioLogado.getEmpresa());
@@ -116,7 +116,7 @@ public class CargasController {
                                       String[] freteEspecial, Double pesoTotal, Double limiteAltura,
                                       Double volume, Double preco, Double precoFrete, String produto, String especie) {
 
-        // Atualizar campos básicos do formulário
+
         carga.setOrigemCidade(formData.getOrigemCidade());
         carga.setOrigemEstado(formData.getOrigemEstado());
         carga.setDestinoCidade(formData.getDestinoCidade());
@@ -124,9 +124,8 @@ public class CargasController {
         carga.setDataColeta(formData.getDataColeta());
         carga.setDataEntrega(formData.getDataEntrega());
 
-        // Atualizar campos específicos
+
         carga.setTipoCarga(tipoCarga != null && !tipoCarga.isEmpty() ? TipoCarga.valueOf(tipoCarga) : null);
-        carga.setPossuiLona("on".equalsIgnoreCase(possuiLona));
         carga.setPesoTotal(pesoTotal);
         carga.setLimiteAltura(limiteAltura);
         carga.setVolume(volume);
@@ -162,7 +161,7 @@ public class CargasController {
         TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuario");
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 
-        // Filtrar por empresa se usuário for do tipo EMPRESA
+
         if (usuarioLogado != null && tipoUsuario == TipoUsuario.EMPRESA) {
             Empresa empresa = usuarioLogado.getEmpresa();
             if (empresa != null) {
@@ -196,14 +195,14 @@ public class CargasController {
             return "redirect:/cargas/listar";
         }
 
-        // Verificar se a carga pertence à empresa do usuário
+
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
         if (usuarioLogado != null && usuarioLogado.getEmpresa() != null &&
                 !usuarioLogado.getEmpresa().equals(carga.getEmpresaCarga())) {
             return "redirect:/cargas/listar";
         }
 
-        // Inicializar listas se forem nulas
+
         inicializarListasCarga(carga);
 
         model.addAttribute("carga", carga);
@@ -235,7 +234,7 @@ public class CargasController {
                                  HttpSession session,
                                  RedirectAttributes redirectAttributes) {
 
-        // Verificar permissão
+
         TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuario");
         if (tipoUsuario != TipoUsuario.EMPRESA) {
             return "redirect:/cargas/listar";
@@ -246,14 +245,14 @@ public class CargasController {
             return "redirect:/cargas/listar";
         }
 
-        // Verificar se a carga pertence à empresa do usuário
+
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
         if (usuarioLogado != null && usuarioLogado.getEmpresa() != null &&
                 !usuarioLogado.getEmpresa().equals(cargaExistente.getEmpresaCarga())) {
             return "redirect:/cargas/listar";
         }
 
-        // Atualizar campos
+
         atualizarCargaExistente(cargaExistente, carga, tipoCarga, tipoEstadoCarga, possuiLona,
                 veiculosLeves, veiculosMedios, veiculosPesados, fretesFechados,
                 fretesAbertos, fretesEspeciais, pesoTotal, limiteAltura, volume,
@@ -270,7 +269,7 @@ public class CargasController {
                                          Double limiteAltura, Double volume, Double preco, Double precoFrete,
                                          String produto, String especie) {
 
-        // Atualizar campos básicos
+
         cargaExistente.setOrigemCidade(formData.getOrigemCidade());
         cargaExistente.setOrigemEstado(formData.getOrigemEstado());
         cargaExistente.setDestinoCidade(formData.getDestinoCidade());
@@ -278,7 +277,7 @@ public class CargasController {
         cargaExistente.setDataColeta(formData.getDataColeta());
         cargaExistente.setDataEntrega(formData.getDataEntrega());
 
-        // Atualizar campos específicos
+
         cargaExistente.setProduto(produto);
         cargaExistente.setEspecie(especie);
         cargaExistente.setPesoTotal(pesoTotal);
@@ -297,7 +296,7 @@ public class CargasController {
 
         cargaExistente.setPossuiLona("on".equalsIgnoreCase(possuiLona));
 
-        // Atualizar coleções
+
         cargaExistente.setVeiculosLeves(veiculosLeves != null ? new ArrayList<>(Arrays.asList(veiculosLeves)) : new ArrayList<>());
         cargaExistente.setVeiculosMedios(veiculosMedios != null ? new ArrayList<>(Arrays.asList(veiculosMedios)) : new ArrayList<>());
         cargaExistente.setVeiculosPesados(veiculosPesados != null ? new ArrayList<>(Arrays.asList(veiculosPesados)) : new ArrayList<>());
@@ -334,7 +333,7 @@ public class CargasController {
             return "redirect:/cargas/listar";
         }
 
-        // Se for empresa, verificar se pode ver a carga
+
         TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuario");
         if (tipoUsuario == TipoUsuario.EMPRESA) {
             Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
@@ -350,7 +349,7 @@ public class CargasController {
 
     @GetMapping("/deletar/{id}")
     public String deletarCarga(@PathVariable Long id, HttpSession session) {
-        // Verificar permissão
+
         TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuario");
         if (tipoUsuario != TipoUsuario.EMPRESA) {
             return "redirect:/cargas/listar";

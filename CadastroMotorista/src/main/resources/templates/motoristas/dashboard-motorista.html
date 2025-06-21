@@ -6,30 +6,35 @@
   <title>Dashboard de Motorista - Global Transportes</title>
   <script th:src="@{/img/js/motorista/dashboard-motorista.js}" defer></script>
   <link rel="stylesheet" th:href="@{/img/css/motorista/dashboard-motorista.css}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
 </head>
 <body>
+
 <nav class="sidebar">
   <div class="sidebar-header">
-    <div class="sidebar-logo">Global Transportes</div>
+    <div class="sidebar-logo">
+      <i data-lucide="truck"></i> Global Transportes
+    </div>
   </div>
   <div class="sidebar-menu">
     <div class="sidebar-item">
       <a th:href="@{/motorista}" class="sidebar-link">
-        <span class="sidebar-icon">🏠</span>
+        <span class="sidebar-icon"><i data-lucide="home"></i></span>
         <span class="sidebar-text">Dashboard</span>
       </a>
       <div class="sidebar-tooltip">Dashboard</div>
     </div>
     <div class="sidebar-item">
       <a th:href="@{/cargas/listar}" class="sidebar-link">
-        <span class="sidebar-icon">🔍</span>
+        <span class="sidebar-icon"><i data-lucide="search"></i></span>
         <span class="sidebar-text">Explorar Cargas</span>
       </a>
       <div class="sidebar-tooltip">Explorar Cargas</div>
     </div>
     <div class="sidebar-item">
       <a th:href="@{/veiculos/novo}" class="sidebar-link">
-        <span class="sidebar-icon">🚗</span>
+        <span class="sidebar-icon"><i data-lucide="car"></i></span>
         <span class="sidebar-text">Cadastrar Veículo</span>
       </a>
       <div class="sidebar-tooltip">Cadastrar Veículo</div>
@@ -41,91 +46,179 @@
 
 <div class="dashboard-container">
   <div class="dashboard-welcome">
-    <h2 th:text="|Bem-vindo, ${motorista.nome}!|">Bem-vindo, Motorista!</h2>
-    <p>Gerencie seus fretes de forma eficiente e acompanhe suas entregas em tempo real. Sua jornada começa aqui.</p>
+    <h2>
+      <i data-lucide="user-check"></i>
+      <span th:text="|Bem-vindo, ${motorista.nome}!|">Bem-vindo, Motorista!</span>
+    </h2>
+    <p>
+      <i data-lucide="map"></i>
+      Gerencie seus fretes de forma eficiente e acompanhe suas entregas em tempo real. Sua jornada começa aqui.
+    </p>
     <div class="welcome-actions">
-      <a th:href="@{/motorista/cargas}" class="btn btn-primary">🔍 Explorar todas as cargas</a>
-      <a th:href="@{/veiculos/novo}" class="btn btn-secondary">🚗 Cadastrar veículo</a>
+      <a th:href="@{/motorista/cargas}" class="btn btn-primary">
+        <i data-lucide="search"></i> Explorar todas as cargas
+      </a>
+      <a th:href="@{/veiculos/novo}" class="btn btn-secondary">
+        <i data-lucide="car"></i> Cadastrar veículo
+      </a>
     </div>
   </div>
 
   <div class="stats-grid">
     <div class="stat-card stat-card-highlight">
-      <div class="stat-icon">🚛</div>
+      <div class="stat-icon"><i data-lucide="truck"></i></div>
       <div class="stat-content">
-        <div class="stat-number" th:text="${fretesAtivosMotorista ?: 0}">3</div>
-        <div class="stat-label">Fretes ativos</div>
-        <div class="stat-description">Em andamento</div>
+        <div class="stat-number" th:text="${fretesAtivosMotorista ?: 0}">2</div>
+        <div class="stat-label">
+          <i data-lucide="play-circle"></i> Fretes ativos
+        </div>
+        <div class="stat-description">
+          <i data-lucide="clock"></i> Em andamento
+        </div>
       </div>
     </div>
     <div class="stat-card stat-card-success">
-      <div class="stat-icon">✅</div>
+      <div class="stat-icon"><i data-lucide="check-circle"></i></div>
       <div class="stat-content">
-        <div class="stat-number" th:text="${fretesFinalizados ?: 0}">27</div>
-        <div class="stat-label">Fretes finalizados</div>
-        <div class="stat-description">Concluídos com sucesso</div>
+        <div class="stat-number" th:text="${fretesFinalizados ?: 0}">0</div>
+        <div class="stat-label">
+          <i data-lucide="check-circle-2"></i> Fretes finalizados
+        </div>
+        <div class="stat-description">
+          <i data-lucide="thumbs-up"></i> Concluídos com sucesso
+        </div>
       </div>
     </div>
     <div class="stat-card stat-card-highlight-cancelado">
-      <div class="stat-icon">❌</div>
+      <div class="stat-icon"><i data-lucide="x-circle"></i></div>
       <div class="stat-content">
-        <div class="stat-number" th:text="${fretesCancelados ?: 0}">3</div>
-        <div class="stat-label">Fretes cancelados</div>
-        <div class="stat-description">Cancelados</div>
+        <div class="stat-number" th:text="${fretesCancelados ?: 0}">0</div>
+        <div class="stat-label">
+          <i data-lucide="x-circle"></i> Fretes cancelados
+        </div>
+        <div class="stat-description">
+          <i data-lucide="ban"></i> Cancelados
+        </div>
       </div>
     </div>
   </div>
 
-  <h2 class="section-title">📦 Meus Fretes</h2>
+  <h2 class="section-title">
+    <i data-lucide="package"></i> Meus Fretes
+  </h2>
   <div class="fretes-list">
     <div th:if="${#lists.isEmpty(fretes)}" class="empty-state">
-      <p>Você ainda não possui fretes atribuídos.</p>
-      <p>Explore nossa lista de cargas disponíveis e comece sua próxima viagem!</p>
-      <a th:href="@{/cargas/listar}" class="btn btn-primary">🚛 Buscar Fretes Disponíveis</a>
+      <div style="text-align: center; margin-bottom: 20px;">
+        <i data-lucide="inbox" style="width: 48px; height: 48px; color: #6b7280;"></i>
+      </div>
+      <p>
+        <i data-lucide="info"></i>
+        Você ainda não possui fretes atribuídos.
+      </p>
+      <p>
+        <i data-lucide="compass"></i>
+        Explore nossa lista de cargas disponíveis e comece sua próxima viagem!
+      </p>
+      <a th:href="@{/cargas/listar}" class="btn btn-primary">
+        <i data-lucide="truck"></i> Buscar Fretes Disponíveis
+      </a>
     </div>
 
     <div th:each="frete : ${fretes}" class="frete-item">
       <div class="frete-info">
-        <div class="frete-origem-destino" th:text="|${frete.origemCidade} → ${frete.destinoCidade}|">Origem → Destino</div>
+        <div class="frete-origem-destino">
+          <i data-lucide="map-pin"></i>
+          <span th:text="|${frete.origemCidade} → ${frete.destinoCidade}|">Origem → Destino</span>
+        </div>
         <div class="frete-detalhes">
-          <span th:if="${frete.produto != null}" th:text="|📦 ${frete.produto}|">📦 Eletrônicos</span>
-          <span th:if="${frete.pesoTotal != null}" th:text="|⚖️ ${frete.pesoTotal} kg|">⚖️ 1200 kg</span>
+          <span th:if="${frete.produto != null}">
+            <i data-lucide="package"></i> <span th:text="${frete.produto}">Eletrônicos</span>
+          </span>
+          <span th:if="${frete.pesoTotal != null}">
+            <i data-lucide="weight"></i> <span th:text="|${frete.pesoTotal} kg|">1200 kg</span>
+          </span>
         </div>
       </div>
       <div class="frete-acoes">
-        <a th:href="@{/frete/{id}(id=${frete.id})}" class="btn btn-primary">📋 Ver detalhes</a>
+        <a th:href="@{/frete/{id}(id=${frete.id})}" class="btn btn-primary">
+          <i data-lucide="clipboard"></i> Ver detalhes
+        </a>
       </div>
     </div>
   </div>
 
-  <h2 class="section-title">🚗 Meus Veículos</h2>
+  <h2 class="section-title">
+    <i data-lucide="car"></i> Meus Veículos
+  </h2>
   <div class="veiculos-list">
     <div th:if="${#lists.isEmpty(veiculos)}" class="empty-state">
-      <p>Você ainda não cadastrou veículos.</p>
-      <p>Cadastre seus veículos para poder aceitar fretes e começar a trabalhar!</p>
-      <a th:href="@{/veiculos/novo}" class="btn btn-secondary">🚗 Cadastrar primeiro veículo</a>
+      <div style="text-align: center; margin-bottom: 20px;">
+        <i data-lucide="car-front" style="width: 48px; height: 48px; color: #6b7280;"></i>
+      </div>
+      <p>
+        <i data-lucide="alert-circle"></i>
+        Você ainda não cadastrou veículos.
+      </p>
+      <p>
+        <i data-lucide="plus-circle"></i>
+        Cadastre seus veículos para poder aceitar fretes e começar a trabalhar!
+      </p>
+      <a th:href="@{/veiculos/novo}" class="btn btn-secondary">
+        <i data-lucide="car"></i> Cadastrar primeiro veículo
+      </a>
     </div>
 
     <div th:each="veiculo : ${veiculos}" class="veiculo-item">
       <div class="veiculo-info">
         <div class="veiculo-principal">
-          <span class="veiculo-placa" th:text="${veiculo.placa}">ABC-1234</span>
-          <span class="veiculo-modelo" th:text="|${veiculo.marca} ${veiculo.modelo}|">Marca Modelo</span>
+          <span class="veiculo-placa">
+            <i data-lucide="hash"></i>
+            <span th:text="${veiculo.placa}">ABC-1234</span>
+          </span>
+          <span class="veiculo-modelo">
+            <i data-lucide="car"></i>
+            <span th:text="|${veiculo.marca} ${veiculo.modelo}|">Marca Modelo</span>
+          </span>
         </div>
         <div class="veiculo-detalhes">
-          <span th:text="|⚖️ Capacidade: ${veiculo.capacidadeCarga} kg|">⚖️ Capacidade: 1000 kg</span>
-          <span th:text="|📄 Renavam: ${veiculo.renavam}|">📄 Renavam: 123456789</span>
+          <span>
+            <i data-lucide="weight"></i> Capacidade: <span th:text="|${veiculo.capacidadeCarga} kg|">1000 kg</span>
+          </span>
+          <span>
+            <i data-lucide="file-text"></i> Renavam: <span th:text="${veiculo.renavam}">123456789</span>
+          </span>
         </div>
       </div>
       <div class="veiculo-acoes">
-        <a th:href="@{/veiculos/show/{id}(id=${veiculo.id})}" class="btn btn-primary">📋 Ver detalhes</a>
+        <a th:href="@{/veiculos/show/{id}(id=${veiculo.id})}" class="btn btn-primary">
+          <i data-lucide="clipboard"></i> Ver detalhes
+        </a>
       </div>
     </div>
   </div>
 </div>
 
 <footer>
-  <p>&copy; 2024 Global Transportes. Conectando o Brasil com eficiência e segurança.</p>
+  <p>
+    <i data-lucide="copyright"></i>
+    2024 Global Transportes.
+    <i data-lucide="shield-check"></i>
+    Conectando o Brasil com eficiência e segurança.
+  </p>
 </footer>
+
+<script>
+  // Inicializa os ícones do Lucide após o carregamento da página
+  document.addEventListener('DOMContentLoaded', function() {
+    // Aguarda um pouco para garantir que o Lucide esteja carregado
+    setTimeout(() => {
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      } else {
+        console.error('Lucide não foi carregado corretamente');
+      }
+    }, 100);
+  });
+</script>
 </body>
 </html>

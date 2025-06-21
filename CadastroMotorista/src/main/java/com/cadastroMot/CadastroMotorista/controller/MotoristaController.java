@@ -52,13 +52,13 @@ public class MotoristaController {
                          RedirectAttributes redirectAttributes) throws IOException {
 
         try {
-            // Processar a foto se enviada
+
             if (!arquivoFoto.isEmpty()) {
                 motorista.setFoto(arquivoFoto.getBytes());
                 motorista.setTipoFoto(arquivoFoto.getContentType());
             }
 
-            // Usar o método do service que cuida da transação
+
             Motorista motoristaSalvo = motoristaService.salvarComUsuario(motorista, email, senha);
 
             redirectAttributes.addFlashAttribute("mensagemSucesso",

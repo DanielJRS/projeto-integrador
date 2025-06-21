@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CargaRepository extends JpaRepository<Carga, Long>, JpaSpecificationExecutor<Carga>
-       {  // <- Adicionada interface customizada
+       {
 
-    // Todos os seus métodos existentes permanecem os mesmos
+
     List<Carga> findByOrigemCidadeAndDestinoCidadeAndProduto(String origemCidade, String destinoCidade, String produto);
 
     List<Carga> findByOrigemCidade(String origemCidade);
@@ -62,7 +62,6 @@ public interface CargaRepository extends JpaRepository<Carga, Long>, JpaSpecific
     @Query("SELECT c FROM Carga c JOIN FETCH c.empresaCarga WHERE c.empresaCarga = :empresa")
     List<Carga> findByEmpresa(@Param("empresa") Empresa empresa);
 
-    // Métodos para popular selects dos filtros - melhorados
     @Query("SELECT DISTINCT c.origemCidade FROM Carga c WHERE c.origemCidade IS NOT NULL ORDER BY c.origemCidade")
     List<String> findDistinctOrigemCidade();
 
@@ -81,7 +80,7 @@ public interface CargaRepository extends JpaRepository<Carga, Long>, JpaSpecific
     @Query("SELECT DISTINCT c.produto FROM Carga c WHERE c.produto IS NOT NULL ORDER BY c.produto")
     List<String> findDistinctProdutos();
 
-    // Método para buscar todas as cidades (origem e destino) - útil para autocomplete
+
     @Query("SELECT DISTINCT cidade FROM " +
             "(SELECT c.origemCidade as cidade FROM Carga c WHERE c.origemCidade IS NOT NULL " +
             "UNION " +
@@ -89,7 +88,7 @@ public interface CargaRepository extends JpaRepository<Carga, Long>, JpaSpecific
             "ORDER BY cidade")
     List<String> findAllDistinctCidades();
 
-    // Método para buscar todos os estados (origem e destino)
+
     @Query("SELECT DISTINCT estado FROM " +
             "(SELECT c.origemEstado as estado FROM Carga c WHERE c.origemEstado IS NOT NULL " +
             "UNION " +
@@ -98,4 +97,13 @@ public interface CargaRepository extends JpaRepository<Carga, Long>, JpaSpecific
     List<String> findAllDistinctEstados();
 
     Optional<Carga> findByFreteId(Long freteId);
+
+           List<Carga> findByEmpresaCargaRazaoSocialContainingIgnoreCaseOrEmpresaCargaNomeFantasiaContainingIgnoreCase(
+                   String razaoSocial, String nomeFantasia);
+
+           @Query("SELECT DISTINCT e.razaoSocial FROM Carga c JOIN c.empresaCarga e WHERE e.razaoSocial IS NOT NULL ORDER BY e.razaoSocial")
+           List<String> findDistinctEmpresaCargaRazaoSocial();
+
+           @Query("SELECT DISTINCT e.nomeFantasia FROM Carga c JOIN c.empresaCarga e WHERE e.nomeFantasia IS NOT NULL ORDER BY e.nomeFantasia")
+           List<String> findDistinctEmpresaCargaNomeFantasia();
        }

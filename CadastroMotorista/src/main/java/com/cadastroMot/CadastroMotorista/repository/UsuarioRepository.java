@@ -13,7 +13,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     Optional<Usuario> findByEmail(String email);
 
-    // Consulta para buscar o usuário com todos os relacionamentos carregados
     @Query("SELECT u FROM Usuario u " +
             "LEFT JOIN FETCH u.motorista " +
             "LEFT JOIN FETCH u.empresa " +

@@ -14,10 +14,6 @@ public interface FreteRepository extends JpaRepository<Frete, Long> {
 
         public List<Frete> findByMotoristaFrete(Motorista motorista);
 
-//        public Long countByMotoristaFrete(Motorista motorista);
-//
-//        public Long countByMotoristaFreteAndStatus(Motorista motorista, String status);
-
         public Long countByMotoristaFreteAndStatus(Motorista motorista, TipoEstadoFrete status);
 
     Long countByMotoristaFrete(Motorista motorista);
