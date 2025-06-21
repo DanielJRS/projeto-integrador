@@ -32,10 +32,6 @@ public class FreteService {
     public List<Frete> buscarFretesPorMotorista(Motorista motorista) {
         return freteRepository.findByMotoristaFrete(motorista);
     }
-//
-//    public Long contarFretesAtivosEStatus(Motorista motorista){
-//        return freteRepository.countByMotoristaFreteAndStatus(motorista, TipoEstadoFrete.ATIVO.toString());
-//    }
 
     public Long contarFretesEStatus(Motorista motorista, TipoEstadoFrete status){
         return freteRepository.countByMotoristaFreteAndStatus(motorista, status);

@@ -48,7 +48,17 @@ public class CargaService {
             return Arrays.asList(TipoEstadoCarga.values());
         }
 
-        // Método para estatísticas de filtros
+    public List<Carga> buscarPorNomeEmpresa(String nomeEmpresa) {
+        return cargaRepository.findByEmpresaCargaRazaoSocialContainingIgnoreCaseOrEmpresaCargaNomeFantasiaContainingIgnoreCase(
+                nomeEmpresa, nomeEmpresa);
+    }
+    public List<String> listarRazoesSociais() {
+        return cargaRepository.findDistinctEmpresaCargaRazaoSocial();
+    }
+
+    public List<String> listarNomesFantasia() {
+        return cargaRepository.findDistinctEmpresaCargaNomeFantasia();
+    }
 
         public List<String> listarCidades() {
             List<String> cidades = new ArrayList<>();
@@ -117,7 +127,6 @@ public class CargaService {
 
         @Transactional
         public Carga salvar(Carga carga) {
-//            validarCarga(carga);
             return cargaRepository.saveAndFlush(carga);
         }
 
@@ -234,7 +243,7 @@ public class CargaService {
                 Double limiteAltura,
                 Double volume) {
 
-            // Campos básicos de localização e datas
+
             if (origemCidade != null && !origemCidade.isEmpty()) {
                 carga.setOrigemCidade(origemCidade);
             }
@@ -254,7 +263,7 @@ public class CargaService {
                 carga.setDataEntrega(dataEntrega);
             }
 
-            // Campos de produto
+
             if (produto != null && !produto.isEmpty()) {
                 carga.setProduto(produto);
             }
@@ -265,7 +274,7 @@ public class CargaService {
                 carga.setVeiculo(veiculo);
             }
 
-            // Campos financeiros
+
             if (preco != null) {
                 carga.setPreco(preco);
             }
@@ -273,16 +282,16 @@ public class CargaService {
                 carga.setPrecoFrete(precoFrete);
             }
 
-            // Enums
+
             if (tipoCarga != null && !tipoCarga.isEmpty()) {
                 try {
                     carga.setTipoCarga(TipoCarga.valueOf(tipoCarga));
                 } catch (IllegalArgumentException e) {
-                    // Tentar usar método fromDescricao se existir
+
                     try {
                         carga.setTipoCarga(TipoCarga.fromDescricao(tipoCarga));
                     } catch (Exception ex) {
-                        // Log do erro ou definir valor padrão
+
                         System.err.println("Erro ao definir tipo de carga: " + tipoCarga);
                     }
                 }
@@ -296,15 +305,15 @@ public class CargaService {
                 }
             }
 
-            // Campo boolean
+
             carga.setPossuiLona("on".equalsIgnoreCase(possuiLona) || "true".equalsIgnoreCase(possuiLona));
 
-            // Campos numéricos
+
             carga.setPesoTotal(pesoTotal);
             carga.setLimiteAltura(limiteAltura);
             carga.setVolume(volume);
 
-            // Listas de veículos
+
             if (veiculosLeves != null) {
                 carga.setVeiculosLeves(new ArrayList<>(Arrays.asList(veiculosLeves)));
             }
@@ -315,7 +324,7 @@ public class CargaService {
                 carga.setVeiculosPesados(new ArrayList<>(Arrays.asList(veiculosPesados)));
             }
 
-            // Listas de fretes
+
             if (freteFechado != null) {
                 carga.setFretesFechados(new ArrayList<>(Arrays.asList(freteFechado)));
             }
@@ -395,10 +404,8 @@ public class CargaService {
             if (carga == null) {
                 throw new RuntimeException("Carga não encontrada");
             }
-            // Assumindo que você tem um método para buscar motorista
-            // Motorista motorista = motoristaService.buscarPorId(motoristaId);
-            // carga.setMotorista(motorista);
-            carga.setTipoEstadoCarga(TipoEstadoCarga.DISPONIVEL); // ou outro status apropriado
+
+            carga.setTipoEstadoCarga(TipoEstadoCarga.DISPONIVEL);
             salvar(carga);
         }
 
@@ -469,7 +476,7 @@ public class CargaService {
             estatisticas.put("totalCargas", cargaRepository.count());
             estatisticas.put("cargasDisponiveis", contarCargasDisponiveis());
 
-            // Outras estatísticas podem ser adicionadas conforme necessário
+
             return estatisticas;
         }
 

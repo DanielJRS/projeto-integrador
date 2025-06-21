@@ -7,7 +7,7 @@ public class CargaFiltro {
 
     private Empresa empresa;
 
-
+    private String nomeEmpresa;
     private String origemCidade;
     private String origemEstado;
     private String destinoCidade;
@@ -44,6 +44,13 @@ public class CargaFiltro {
     public CargaFiltro() {}
 
 
+    public String getNomeEmpresa() {
+        return nomeEmpresa;
+    }
+
+    public void setNomeEmpresa(String nomeEmpresa) {
+        this.nomeEmpresa = nomeEmpresa;
+    }
 
     public Empresa getEmpresa() {
         return empresa;

@@ -26,7 +26,6 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipo;
 
-    // Remover cascade para evitar conflitos de relacionamento circular
     @OneToOne(mappedBy = "usuario")
     @EqualsAndHashCode.Exclude
     private Motorista motorista;

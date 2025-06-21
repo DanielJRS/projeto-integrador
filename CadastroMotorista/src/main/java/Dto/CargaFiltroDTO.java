@@ -11,27 +11,29 @@ import java.util.List;
 
 
 public class CargaFiltroDTO {
-    // Localização
+
+
+    private String nomeEmpresa;
     private String origemCidade;
     private String origemEstado;
     private String destinoCidade;
     private String destinoEstado;
 
-    // Datas
+
     private LocalDate dataColetaDe;
     private LocalDate dataColetaAte;
     private LocalDate dataEntregaDe;
     private LocalDate dataEntregaAte;
 
-    // Produto
+
     private String produto;
     private String especie;
 
-    // Transporte
+
     private TipoCarga tipoCarga;
     private Boolean possuiLona;
 
-    // Valores
+
     private Double precoMinimo;
     private Double precoMaximo;
     private Double pesoMinimo;
@@ -39,19 +41,28 @@ public class CargaFiltroDTO {
     private Double volumeMinimo;
     private Double volumeMaximo;
 
-    // Status
+
+
     private TipoEstadoCarga tipoEstadoCarga;
 
-    // Empresa (opcional)
+
     private Long empresaId;
 
-    // Construtores
+
     public CargaFiltroDTO() {
     }
 
-    // Getters e Setters
+
     public String getOrigemCidade() {
         return origemCidade;
+    }
+
+    public String getNomeEmpresa() {
+        return nomeEmpresa;
+    }
+
+    public void setNomeEmpresa(String nomeEmpresa) {
+        this.nomeEmpresa = nomeEmpresa;
     }
 
     public void setOrigemCidade(String origemCidade) {
