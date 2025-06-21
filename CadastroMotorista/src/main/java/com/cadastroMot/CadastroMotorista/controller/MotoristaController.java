@@ -117,8 +117,14 @@ public class MotoristaController {
 //        Long fretesAtivosStatus = freteService.contarFretesAtivosEStatus(motorista);
 //        model.addAttribute("fretesAtivosStatus", fretesAtivosStatus);
 
-        Long numeroFretesAtivosMotorista = freteService.contarFretesAtivosEStatus(motorista, TipoEstadoFrete.ATIVO.toString());
+        Long numeroFretesAtivosMotorista = freteService.contarFretesEStatus(motorista, TipoEstadoFrete.ATIVO);
         model.addAttribute("fretesAtivosMotorista", numeroFretesAtivosMotorista);
+
+        Long numeroFretesFinalizadosMotorista = freteService.contarFretesEStatus(motorista, TipoEstadoFrete.FINALIZADO);
+        model.addAttribute("fretesFinalizados", numeroFretesFinalizadosMotorista);
+
+        Long numeroFretesCanceladosMotorista = freteService.contarFretesEStatus(motorista, TipoEstadoFrete.CANCELADO);
+        model.addAttribute("fretesCancelados", numeroFretesCanceladosMotorista);
 
         return "/motoristas/dashboard-motorista";
     }

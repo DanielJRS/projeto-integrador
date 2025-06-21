@@ -703,6 +703,10 @@
         border-left: 4px solid #3b82f6;
       }
 
+      .stat-card-highlight-cancelado {
+        border-left: 4px solid #B91C1C
+      }
+
       .stat-card-success {
         border-left: 4px solid #10b981;
       }

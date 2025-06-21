@@ -41,35 +41,43 @@
 
 <div class="dashboard-container">
     <div class="breadcrumb">
-        <a th:href="@{/motorista}">Dashboard</a>
+        <a th:href="@{/motorista}">🏠 Dashboard</a>
         <span class="breadcrumb-separator">›</span>
-        <span class="breadcrumb-current">Detalhes do Frete</span>
+        <span class="breadcrumb-current">📋 Detalhes do frete</span>
     </div>
 
     <div class="frete-detalhes-header">
         <div class="frete-title">
-            <h1>📦 Frete #<span th:text="${frete.id}">001</span></h1>
-            <div class="frete-status" th:classappend="${frete.status == 'ATIVO' ? 'status-ativo' : 'status-finalizado'}" th:text="${frete.status}">ATIVO</div>
+            <h1>
+                🚛 Frete
+                <span class="frete-numero" th:text="${frete.id}">001</span>
+            </h1>
+            <div class="frete-status" th:classappend="${frete.status == 'ATIVO' ? 'status-ativo' : 'status-finalizado'}">
+                <span th:if="${frete.status == 'ATIVO'}">🟢</span>
+                <span th:if="${frete.status != 'ATIVO'}">⚫</span>
+                <span th:text="${frete.status}">ATIVO</span>
+            </div>
         </div>
         <div class="frete-valor-principal">
-            <span class="valor-label">Valor do Frete</span>
+            <span class="valor-label">Valor do frete</span>
+            <div class="valor-amount" th:text="|R$ ${frete.valor}|">R$ 2.450,00</div>
         </div>
     </div>
 
     <div class="frete-detalhes-grid">
         <div class="detalhes-card">
             <div class="card-header">
-                <h3>🗺️ Origem e Destino</h3>
+                <h3>🗺️ Rota de transporte</h3>
             </div>
             <div class="card-content">
                 <div class="origem-destino-container">
                     <div class="local-info">
-                        <div class="local-label">Origem</div>
+                        <div class="local-label">🏭 Origem</div>
                         <div class="local-cidade" th:text="${frete.origemCidade}">São Paulo - SP</div>
                     </div>
-                    <div class="rota-separator">→</div>
+                    <div class="rota-separator">➤</div>
                     <div class="local-info">
-                        <div class="local-label">Destino</div>
+                        <div class="local-label">🏢 Destino</div>
                         <div class="local-cidade" th:text="${frete.destinoCidade}">Rio de Janeiro - RJ</div>
                     </div>
                 </div>
@@ -78,69 +86,75 @@
 
         <div class="detalhes-card">
             <div class="card-header">
-                <h3>📋 Informações da Carga</h3>
+                <h3>📦 Especificações da carga</h3>
             </div>
             <div class="card-content">
                 <div class="info-grid">
                     <div class="info-item">
-                        <span class="info-label">Produto</span>
-                        <span class="info-value" th:text="${frete.produto}">Eletrônicos</span>
+                        <span class="info-label">🏷️ Produto</span>
+                        <span class="info-value" th:text="${frete.produto}">Computador</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Peso Total</span>
+                        <span class="info-label">⚖️ Peso total</span>
                         <span class="info-value" th:text="|${frete.pesoTotal} kg|">1.200 kg</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">💸 Avaliação da carga</span>
+                        <span class="info-value" th:text="|R$ ${#numbers.formatDecimal(frete.valorCarga, 1, 2)}|">300 reais</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="detalhes-card">
+        <div class="detalhes-card" style="grid-column: 1 / -1;">
             <div class="card-header">
-                <h3>🏢 Contratante</h3>
+                <h3>🏢 Informações do contratante</h3>
             </div>
             <div class="card-content">
                 <div class="info-grid">
                     <div class="info-item">
-                        <span class="info-label">Empresa</span>
+                        <span class="info-label">🏭 Razão Social</span>
                         <span class="info-value" th:text="${frete.nomeFantasia}">Empresa ABC Ltda</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Contato</span>
+                        <span class="info-label">📞 Telefone de Contato</span>
                         <span class="info-value" th:text="${frete.telefone}">+55 11 99999-9999</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Email</span>
+                        <span class="info-label">📧 E-mail Corporativo</span>
                         <span class="info-value" th:text="${frete.email}">contato@empresaabc.com</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">CNPJ</span>
+                        <span class="info-label">🏛️ CNPJ</span>
                         <span class="info-value" th:text="${frete.cnpj}">12.345.678/0001-90</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="detalhes-card">
+        <div class="detalhes-card" style="grid-column: 1 / -1;">
             <div class="card-header">
-                <h3>⚙️ Ações do Frete</h3>
+                <h3>⚙️ Centro de controle do frete</h3>
             </div>
             <div class="card-content">
                 <div class="acoes-container">
                     <div class="acoes-info">
-                        <p>Gerencie o status do seu frete utilizando as opções abaixo:</p>
+                        <h4>🎛️ Painel de gerenciamento</h4>
+                        <p>Utilize as opções ao lado para gerenciar o status do seu frete de forma eficiente e segura.</p>
                         <div class="status-atual">
-                            Status atual: <span class="status-badge" th:classappend="${frete.status == 'ATIVO' ? 'status-ativo' : 'status-pendente'}" th:text="${frete.status}">ATIVO</span>
+                            <strong>Status atual:</strong>
+                            <span class="status-badge" th:classappend="${frete.status == 'ATIVO' ? 'status-ativo' : 'status-pendente'}" th:text="${frete.status}">ATIVO</span>
                         </div>
                     </div>
                     <div class="acoes-buttons">
-                        <button class="btn btn-danger" th:if="${frete.status == 'ATIVO'}" onclick="confirmarCancelamento()">
-                            ❌ Cancelar Frete
+                        <button class="btn btn-danger" th:if="${frete.status.toString() == 'ATIVO'}" onclick="confirmarCancelamento()">
+                            ❌ Cancelar frete
                         </button>
-                        <button class="btn btn-success" th:if="${frete.status == 'ATIVO'}" onclick="confirmarFinalizacao()">
-                            ✅ Finalizar Frete
+                        <button class="btn btn-success" th:if="${frete.status.toString() == 'ATIVO'}" onclick="return confirmarFinalizacao()">
+                            ✅ Finalizar entrega
                         </button>
-                        <a th:href="@{/motorista}" class="btn btn-secondary">
-                            🏠 Voltar ao Dashboard
+                        <a th:href="@{/motorista/dashboard}" class="btn btn-secondary">
+                            🏠 Voltar ao dashboard
                         </a>
                     </div>
                 </div>
@@ -152,36 +166,39 @@
 <div class="modal" id="cancelarModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>⚠️ Confirmar Cancelamento</h3>
+            <h3>⚠️ Confirmar cancelamento do frete</h3>
             <button class="modal-close" onclick="fecharModal()">&times;</button>
         </div>
         <div class="modal-body">
-            <p>Tem certeza que deseja cancelar este frete?</p>
-            <p><strong>Esta ação não pode ser desfeita.</strong></p>
+            <p><strong>⚠️ Atenção!</strong> Você está prestes a cancelar este frete.</p>
+            <p>Esta ação é <strong>irreversível</strong> e pode impactar sua avaliação como motorista.</p>
+            <p>Tem certeza que deseja prosseguir com o cancelamento?</p>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
-            <form th:action="@{/fretes/{id}/cancelar(id=${frete.id})}" method="post" style="display: inline;">
-                <button type="submit" class="btn btn-danger">Confirmar Cancelamento</button>
+            <button class="btn btn-secondary" onclick="fecharModal()">❌ Não, manter frete</button>
+            <form th:action="@{/frete/{id}/cancelar-frete(id=${frete.id})}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-danger">✅ Sim, cancelar frete</button>
             </form>
         </div>
     </div>
 </div>
 
+<!-- Modal de Finalização -->
 <div class="modal" id="finalizarModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>✅ Confirmar Finalização</h3>
+            <h3>✅ Confirmar finalização da entrega</h3>
             <button class="modal-close" onclick="fecharModal()">&times;</button>
         </div>
         <div class="modal-body">
-            <p>Confirma que este frete foi entregue com sucesso?</p>
-            <p>O frete será marcado como <strong>FINALIZADO</strong>.</p>
+            <p><strong>🎉 Parabéns!</strong> Você está finalizando mais uma entrega.</p>
+            <p>Confirme que a carga foi <strong>entregue com sucesso</strong> no destino correto.</p>
+            <p>O frete será marcado como <strong>FINALIZADO.</strong></p>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
-            <form th:action="@{/fretes/{id}/finalizar(id=${frete.id})}" method="post" style="display: inline;">
-                <button type="submit" class="btn btn-success">Confirmar Finalização</button>
+            <button class="btn btn-secondary" onclick="fecharModal()">❌ Ainda não</button>
+            <form th:action="@{/frete/{id}/finalizar-frete(id=${frete.id})}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-success">✅ Confirmar entrega</button>
             </form>
         </div>
     </div>

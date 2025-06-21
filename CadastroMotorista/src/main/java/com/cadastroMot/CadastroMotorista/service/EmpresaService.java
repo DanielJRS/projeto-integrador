@@ -56,8 +56,4 @@ public class EmpresaService {
     public List<Empresa> listarTodos() {
         return empresaRepository.findAll();
     }
-
-    public Empresa empresa() {
-        return null;
-    }
 }

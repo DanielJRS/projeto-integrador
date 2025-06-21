@@ -19,7 +19,6 @@ public class Frete {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String status;
     private String data_criacao;
     private String valor;
     private String origemCidade;
@@ -29,7 +28,11 @@ public class Frete {
     private String produto;
     private Double pesoTotal;
 //    private Long fretesAtivos;
-    private Long fretesFinalizados;
+    private String valorCarga;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private TipoEstadoFrete status;
 
     private String nomeFantasia;
     private String cnpj;
@@ -46,4 +49,8 @@ public class Frete {
     @ManyToOne
     @JoinColumn (name = "transportadora_id")
     private Transportadora transportadoraFrete;
+
+    @ManyToOne
+    @JoinColumn (name = "empresa_id")
+    private Empresa empresaFrete;
 }

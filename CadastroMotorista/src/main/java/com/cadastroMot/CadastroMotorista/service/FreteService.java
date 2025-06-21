@@ -37,7 +37,7 @@ public class FreteService {
 //        return freteRepository.countByMotoristaFreteAndStatus(motorista, TipoEstadoFrete.ATIVO.toString());
 //    }
 
-    public Long contarFretesAtivosEStatus(Motorista motorista, String status){
+    public Long contarFretesEStatus(Motorista motorista, TipoEstadoFrete status){
         return freteRepository.countByMotoristaFreteAndStatus(motorista, status);
     }
 }

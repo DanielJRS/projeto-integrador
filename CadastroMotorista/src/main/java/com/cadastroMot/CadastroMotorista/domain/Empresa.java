@@ -42,5 +42,8 @@ public class Empresa {
     @EqualsAndHashCode.Exclude
     private List<Carga> cargas;
 
+    @OneToMany (mappedBy = "empresaFrete")
+    private List<Frete> fretes;
+
 
 }

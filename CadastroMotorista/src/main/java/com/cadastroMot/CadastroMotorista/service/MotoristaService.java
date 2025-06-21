@@ -89,6 +89,6 @@ public class MotoristaService {
     }
 
     public Long contarFretesAtivosEStatus(Motorista motorista, TipoEstadoFrete status) {
-        return freteService.contarFretesAtivosEStatus(motorista, String.valueOf(status));
+        return freteService.contarFretesEStatus(motorista, TipoEstadoFrete.ATIVO);
     }
 }
