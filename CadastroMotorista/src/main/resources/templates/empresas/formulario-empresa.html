@@ -18,15 +18,14 @@
 
 <div class="content-container">
   <div class="page-title">
-    <h2>Cadastro de Empresa</h2>
-    <p>Junte-se à nossa plataforma de gestão de transportes</p>
+    <h2 th:text="${edicao} ? 'Editar Empresa' : 'Cadastro de Empresa'">Cadastro de Empresa</h2>    <p>Junte-se à nossa plataforma de gestão de transportes</p>
   </div>
 
   <div class="form-container">
-    <form th:action="@{/empresa/salvar}" th:object="${empresa}" method="post" enctype="multipart/form-data">
+    <form th:action="@{${edicao} ? '/empresa/editar/' + ${empresa.id} : '/empresa/salvar'}"
+        th:object="${empresa}" method="post" enctype="multipart/form-data">
       <input type="hidden" th:field="*{id}" />
 
-      <!-- Dados de Acesso -->
       <div class="login-section">
         <h5>Dados de Acesso ao Sistema</h5>
         <div class="form-row">

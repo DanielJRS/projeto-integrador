@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,5 +64,20 @@ public class EmpresaController {
         model.addAttribute("empresa", empresa);
 
         return "/empresas/dashboard-empresa";
+    }
+
+    @GetMapping("/detalhar/{id}")
+    public String detalhar(@PathVariable Long id, Model model) {
+        Empresa empresa = empresaService.buscarPorId(id);
+        model.addAttribute("empresa", empresa);
+        return "/empresas/detalhar-empresa";
+    }
+    
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        Empresa empresa = empresaService.buscarPorId(id);
+        model.addAttribute("empresa", empresa);
+        model.addAttribute("edicao", true);
+        return "/empresas/formulario-empresa";
     }
 }

@@ -97,4 +97,5 @@ public interface CargaRepository extends JpaRepository<Carga, Long>, JpaSpecific
             "ORDER BY estado")
     List<String> findAllDistinctEstados();
 
+    Optional<Carga> findByFreteId(Long freteId);
        }

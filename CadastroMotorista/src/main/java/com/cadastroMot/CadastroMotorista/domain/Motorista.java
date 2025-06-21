@@ -48,8 +48,6 @@ public class Motorista {
     @JoinColumn(name = "transportadora_id")
     private Transportadora transportadoraMotorista;
 
-
-
     @ManyToOne
     @JoinColumn(name = "transportadora_id", insertable = false, updatable = false)
     private Transportadora transportadora;

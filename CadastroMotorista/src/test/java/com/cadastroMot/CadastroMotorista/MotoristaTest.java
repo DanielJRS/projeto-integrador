@@ -34,6 +34,9 @@ class MotoristaTest {
                 "image/png",
                 Collections.emptyList(),
                 usuario,
+                Collections.emptyList(),
+                Collections.emptyList(),
+                null,
                 transportadora
         );
 

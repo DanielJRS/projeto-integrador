@@ -8,7 +8,6 @@
   <link rel="stylesheet" th:href="@{/img/css/motorista/dashboard-motorista.css}">
 </head>
 <body>
-<!-- Sidebar -->
 <nav class="sidebar">
   <div class="sidebar-header">
     <div class="sidebar-logo">Global Transportes</div>
@@ -35,116 +34,66 @@
       </a>
       <div class="sidebar-tooltip">Cadastrar Veículo</div>
     </div>
-    <div class="sidebar-item">
-      <a th:href="@{/motorista/fretes}" class="sidebar-link">
-        <span class="sidebar-icon">📦</span>
-        <span class="sidebar-text">Meus Fretes</span>
-      </a>
-      <div class="sidebar-tooltip">Meus Fretes</div>
-    </div>
-    <div class="sidebar-item">
-      <a th:href="@{/motorista/historico}" class="sidebar-link">
-        <span class="sidebar-icon">📋</span>
-        <span class="sidebar-text">Histórico</span>
-      </a>
-      <div class="sidebar-tooltip">Histórico</div>
-    </div>
-    <div class="sidebar-item">
-      <a th:href="@{/motorista/configuracoes}" class="sidebar-link">
-        <span class="sidebar-icon">⚙️</span>
-        <span class="sidebar-text">Configurações</span>
-      </a>
-      <div class="sidebar-tooltip">Configurações</div>
-    </div>
   </div>
 </nav>
 
 <div th:insert="~{shared-fragments/shared-header :: shared-header}"></div>
 
-<!-- Conteúdo Principal -->
 <div class="dashboard-container">
   <div class="dashboard-welcome">
     <h2 th:text="|Bem-vindo, ${motorista.nome}!|">Bem-vindo, Motorista!</h2>
     <p>Gerencie seus fretes de forma eficiente e acompanhe suas entregas em tempo real. Sua jornada começa aqui.</p>
     <div class="welcome-actions">
-      <a th:href="@{/motorista/cargas}" class="btn btn-primary">🔍 Explorar Todas as Cargas</a>
-      <a th:href="@{/veiculos/novo}" class="btn btn-secondary">🚗 Cadastrar Veículo</a>
+      <a th:href="@{/motorista/cargas}" class="btn btn-primary">🔍 Explorar todas as cargas</a>
+      <a th:href="@{/veiculos/novo}" class="btn btn-secondary">🚗 Cadastrar veículo</a>
     </div>
   </div>
 
-  <!-- Statistics Grid -->
   <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-number" th:text="${fretesAtivos ?: 0}">3</div>
-      <div class="stat-label">Fretes Ativos</div>
+    <div class="stat-card stat-card-highlight">
+      <div class="stat-icon">🚛</div>
+      <div class="stat-content">
+        <div class="stat-number" th:text="${fretesAtivosMotorista ?: 0}">3</div>
+        <div class="stat-label">Fretes ativos</div>
+        <div class="stat-description">Em andamento</div>
+      </div>
     </div>
-    <div class="stat-card">
-      <div class="stat-number" th:text="${fretesFinalizados ?: 0}">27</div>
-      <div class="stat-label">Fretes Finalizados</div>
+    <div class="stat-card stat-card-success">
+      <div class="stat-icon">✅</div>
+      <div class="stat-content">
+        <div class="stat-number" th:text="${fretesFinalizados ?: 0}">27</div>
+        <div class="stat-label">Fretes finalizados</div>
+        <div class="stat-description">Concluídos com sucesso</div>
+      </div>
     </div>
-    <div class="stat-card">
-      <div class="stat-number" th:text="|R$ ${receitaMensal ?: '0,00'}|">R$ 12.450</div>
-      <div class="stat-label">Receita (Mês)</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-number" th:text="${avaliacaoMedia ?: '5.0'}">4.9</div>
-      <div class="stat-label">Avaliação Média</div>
+    <div class="stat-card stat-card-highlight-cancelado">
+      <div class="stat-icon">❌</div>
+      <div class="stat-content">
+        <div class="stat-number" th:text="${fretesCancelados ?: 0}">3</div>
+        <div class="stat-label">Fretes cancelados</div>
+        <div class="stat-description">Cancelados</div>
+      </div>
     </div>
   </div>
 
   <h2 class="section-title">📦 Meus Fretes</h2>
   <div class="fretes-list">
-    <div th:if="${#lists.isEmpty(cargas)}" class="empty-state">
+    <div th:if="${#lists.isEmpty(fretes)}" class="empty-state">
       <p>Você ainda não possui fretes atribuídos.</p>
       <p>Explore nossa lista de cargas disponíveis e comece sua próxima viagem!</p>
       <a th:href="@{/cargas/listar}" class="btn btn-primary">🚛 Buscar Fretes Disponíveis</a>
     </div>
 
-    <div th:each="frete : ${cargas}" class="frete-item">
+    <div th:each="frete : ${fretes}" class="frete-item">
       <div class="frete-info">
-        <div class="frete-origem-destino" th:text="|${frete.origem} ${frete.destino}|">Origem Destino</div>
+        <div class="frete-origem-destino" th:text="|${frete.origemCidade} → ${frete.destinoCidade}|">Origem → Destino</div>
         <div class="frete-detalhes">
-          <span th:if="${frete.distancia != null}" th:text="|📍 ${frete.distancia} km|">📍 430 km</span>
           <span th:if="${frete.produto != null}" th:text="|📦 ${frete.produto}|">📦 Eletrônicos</span>
-          <span th:if="${frete.peso != null}" th:text="|⚖️ ${frete.peso} kg|">⚖️ 1200 kg</span>
+          <span th:if="${frete.pesoTotal != null}" th:text="|⚖️ ${frete.pesoTotal} kg|">⚖️ 1200 kg</span>
         </div>
-        <div class="frete-valor" th:text="|💰 R$ ${#numbers.formatDecimal(frete.valor, 1, 'POINT', 2, 'COMMA')}|">💰 R$ 2.500,00</div>
       </div>
       <div class="frete-acoes">
-        <a th:href="@{/cargas/{id}(id=${frete.id})}" class="btn btn-primary">📋 Ver Detalhes</a>
-      </div>
-    </div>
-
-    <!-- Exemplos estáticos caso não haja dados do backend -->
-    <div class="frete-item">
-      <div class="frete-info">
-        <div class="frete-origem-destino">São Paulo Rio de Janeiro</div>
-        <div class="frete-detalhes">
-          <span>📍 430 km</span>
-          <span>📦 Eletrônicos</span>
-          <span>⚖️ 1.200 kg</span>
-          <span>⏰ 2 dias</span>
-        </div>
-        <div class="frete-valor">💰 R$ 2.800,00</div>
-      </div>
-      <div class="frete-acoes">
-        <a href="#" class="btn btn-primary">📋 Ver Detalhes</a>
-      </div>
-    </div>
-
-    <div class="frete-item">
-      <div class="frete-info">
-        <div class="frete-origem-destino">Belo Horizonte Salvador</div>
-        <div class="frete-detalhes">
-          <span>📍 680 km</span>
-          <span>📦 Móveis</span>
-          <span>⚖️ 2.500 kg</span>
-          <span>⏰ 3 dias</span>
-        </div>
-        <div class="frete-valor">💰 R$ 4.200,00</div>
-      </div>
-      <div class="frete-acoes">
-        <a href="#" class="btn btn-primary">📋 Ver Detalhes</a>
+        <a th:href="@{/frete/{id}(id=${frete.id})}" class="btn btn-primary">📋 Ver detalhes</a>
       </div>
     </div>
   </div>
@@ -153,29 +102,28 @@
   <div class="veiculos-list">
     <div th:if="${#lists.isEmpty(veiculos)}" class="empty-state">
       <p>Você ainda não cadastrou veículos.</p>
-      <a th:href="@{/veiculos/novo}" class="btn btn-secondary">Cadastrar Veículo</a>
+      <p>Cadastre seus veículos para poder aceitar fretes e começar a trabalhar!</p>
+      <a th:href="@{/veiculos/novo}" class="btn btn-secondary">🚗 Cadastrar primeiro veículo</a>
     </div>
-    <div th:each="veiculo : ${veiculos}" class="veiculo-item stat-card">
+
+    <div th:each="veiculo : ${veiculos}" class="veiculo-item">
       <div class="veiculo-info">
-        <div class="veiculo-header">
+        <div class="veiculo-principal">
           <span class="veiculo-placa" th:text="${veiculo.placa}">ABC-1234</span>
-          <span class="veiculo-marca" th:text="${veiculo.marca}">Marca</span>
-          <span class="veiculo-modelo" th:text="${veiculo.modelo}">Modelo</span>
+          <span class="veiculo-modelo" th:text="|${veiculo.marca} ${veiculo.modelo}|">Marca Modelo</span>
         </div>
         <div class="veiculo-detalhes">
-          <span><b>Capacidade:</b> <span th:text="${veiculo.capacidadeCarga}">1000</span> kg</span>
-          <span><b>Renavam:</b> <span th:text="${veiculo.renavam}">123456789</span></span>
-          <span><b>Chassi:</b> <span th:text="${veiculo.chassi}">CHASSI123</span></span>
+          <span th:text="|⚖️ Capacidade: ${veiculo.capacidadeCarga} kg|">⚖️ Capacidade: 1000 kg</span>
+          <span th:text="|📄 Renavam: ${veiculo.renavam}|">📄 Renavam: 123456789</span>
         </div>
       </div>
       <div class="veiculo-acoes">
-        <a th:href="@{/veiculos/show/{id}(id=${veiculo.id})}" class="btn btn-primary">Detalhar</a>
+        <a th:href="@{/veiculos/show/{id}(id=${veiculo.id})}" class="btn btn-primary">📋 Ver detalhes</a>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Footer -->
 <footer>
   <p>&copy; 2024 Global Transportes. Conectando o Brasil com eficiência e segurança.</p>
 </footer>
