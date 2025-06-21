@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import java.util.Optional;
+
 @Service
 public class EmpresaService {
     private final EmpresaRepository empresaRepository;
@@ -49,6 +51,10 @@ public class EmpresaService {
         empresa.setUsuario(usuarioSalvo);
 
         return empresaRepository.save(empresa);
+    }
+
+    public Optional<Empresa> buscarEmpresaPorId(Long id) {
+        return empresaRepository.findById(id);
     }
 
     public List<Empresa> listarTodos() {

@@ -115,10 +115,10 @@ public class CargaService {
             return cargaRepository.findById(id).orElse(null);
         }
 
+        @Transactional
         public Carga salvar(Carga carga) {
-            // Validações antes de salvar
-            validarCarga(carga);
-            return cargaRepository.save(carga);
+//            validarCarga(carga);
+            return cargaRepository.saveAndFlush(carga);
         }
 
         public void deletar(Long id) {

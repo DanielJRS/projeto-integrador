@@ -1,9 +1,7 @@
 package com.cadastroMot.CadastroMotorista.service;
 
-import com.cadastroMot.CadastroMotorista.domain.Motorista;
-import com.cadastroMot.CadastroMotorista.domain.TipoUsuario;
-import com.cadastroMot.CadastroMotorista.domain.Usuario;
-import com.cadastroMot.CadastroMotorista.domain.Transportadora;
+import com.cadastroMot.CadastroMotorista.domain.*;
+import com.cadastroMot.CadastroMotorista.repository.FreteRepository;
 import com.cadastroMot.CadastroMotorista.repository.MotoristaRepository;
 import com.cadastroMot.CadastroMotorista.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +16,21 @@ public class MotoristaService {
     private final MotoristaRepository motoristaRepository;
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final FreteRepository freteRepository;
+    private final FreteService freteService;
 
     @Autowired
     public MotoristaService(MotoristaRepository motoristaRepository,
                             UsuarioRepository usuarioRepository,
-                            PasswordEncoder passwordEncoder) {
+                            PasswordEncoder passwordEncoder,
+                            FreteRepository freteRepository,
+                            FreteService freteService) {
+
         this.motoristaRepository = motoristaRepository;
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
+        this.freteRepository = freteRepository;
+        this.freteService = freteService;
     }
 
     public Motorista salvar(Motorista motorista){
@@ -66,7 +71,6 @@ public class MotoristaService {
     public List<Motorista> listarPorTransportadora(Transportadora transportadora) {
         return motoristaRepository.findByTransportadoraMotorista(transportadora);
     }
-
     public List<Motorista> buscarMotoristas(String nome, String nomeFantasia) {
         if ((nome == null || nome.isEmpty()) && (nomeFantasia == null || nomeFantasia.isEmpty())) {
             return motoristaRepository.findAll();
@@ -78,5 +82,13 @@ public class MotoristaService {
             return motoristaRepository.findByTransportadora_NomeFantasiaContainingIgnoreCase(nomeFantasia);
         }
         return motoristaRepository.findByNomeContainingIgnoreCaseAndTransportadora_NomeFantasiaContainingIgnoreCase(nome, nomeFantasia);
+    }
+
+    public Long contarFretesAtivos(Motorista motorista){
+        return freteRepository.countByMotoristaFrete(motorista);
+    }
+
+    public Long contarFretesAtivosEStatus(Motorista motorista, TipoEstadoFrete status) {
+        return freteService.contarFretesEStatus(motorista, TipoEstadoFrete.ATIVO);
     }
 }
