@@ -13,7 +13,7 @@
 <nav class="sidebar">
     <div class="sidebar-header">
         <div class="sidebar-logo">
-            <i class="fas fa-truck"></i> Global Transportes
+             Global Transportes
         </div>
     </div>
 
@@ -59,7 +59,6 @@
             <span th:text="|Bem-vinda, ${empresa.nomeFantasia}!|">Bem-vinda, Empresa!</span>
         </h2>
         <p>
-            <i class="fas fa-cogs me-2"></i>
             Gerencie suas cargas, acompanhe fretes e otimize sua logística com nossa plataforma completa de transportes.
         </p>
     </div>
@@ -71,10 +70,7 @@
             <div class="stat-content">
                 <div class="stat-number" th:text="${totalCargas}">12</div>
                 <div class="stat-label">
-                    <i class="fas fa-play-circle me-1"></i> Cargas Ativas
-                </div>
-                <div class="stat-description">
-                    <i class="fas fa-clock me-1"></i> Disponíveis
+                     Cargas Ativas
                 </div>
             </div>
         </div>
@@ -83,10 +79,7 @@
             <div class="stat-content">
                 <div class="stat-number" th:text="${totalFretes}">8</div>
                 <div class="stat-label">
-                    <i class="fas fa-route me-1"></i> Fretes em Andamento
-                </div>
-                <div class="stat-description">
-                    <i class="fas fa-spinner me-1"></i> Em transporte
+                     Fretes em Andamento
                 </div>
             </div>
         </div>
@@ -95,10 +88,7 @@
             <div class="stat-content">
                 <div class="stat-number" th:text="${fretesFinalizados}">45</div>
                 <div class="stat-label">
-                    <i class="fas fa-check-double me-1"></i> Fretes Finalizados
-                </div>
-                <div class="stat-description">
-                    <i class="fas fa-thumbs-up me-1"></i> Concluídos com sucesso
+                     Fretes Finalizados
                 </div>
             </div>
         </div>
@@ -111,11 +101,11 @@
                 <i class="fas fa-plus-circle"></i>
             </span>
             <h3>
-                <i class="fas fa-clipboard-list me-2"></i>
+
                 Crie uma nova demanda
             </h3>
             <p>
-                <i class="fas fa-handshake me-2"></i>
+
                 Cadastre uma nova demanda de transporte e receba propostas de motoristas qualificados para sua carga.
             </p>
             <a th:href="@{/cargas/novo}" class="btn btn-primary">

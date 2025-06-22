@@ -12,7 +12,7 @@
 <nav class="sidebar">
     <div class="sidebar-header">
         <div class="sidebar-logo">
-            <i class="fas fa-truck"></i> Global Transportes
+             Global Transportes
         </div>
     </div>
 
@@ -28,8 +28,15 @@
         </div>
 
         <div class="sidebar-item">
+
+
             <a th:href="@{/motorista/gerenciarmotorista}" class="sidebar-link">
-                <span class="sidebar-text">Gerenciar Motoristas</span>
+                <span class="sidebar-icon">
+                    <i class="fas fa-user-plus"></i>
+                </span>
+                <span class="sidebar-text">Gerenciar Motoristas
+
+                </span>
             </a>
             <div class="sidebar-tooltip">Cadastrar Motorista</div>
         </div>
@@ -115,7 +122,6 @@
             <span th:text="|Bem-vinda, ${transportadora.nomeFantasia}!|">Bem-vinda, Transportadora VIP!</span>
         </h2>
         <p>
-            <i class="fas fa-cogs me-2"></i>
             Gerencie sua frota, motoristas e fretes de forma inteligente. Controle total das suas operações em uma única plataforma.
         </p>
     </div>
@@ -126,10 +132,12 @@
             <div class="stat-content">
                 <div class="stat-number" th:text="${totalMotoristas}">24</div>
                 <div class="stat-label">
-                    <i class="fas fa-users me-1"></i> Motoristas Ativos
+                     Motoristas Ativos
+
                 </div>
+                <a> 0 </a>
                 <div class="stat-description">
-                    <i class="fas fa-check-circle me-1"></i> Disponíveis
+                     Disponíveis
                 </div>
             </div>
         </div>
@@ -138,10 +146,11 @@
             <div class="stat-content">
                 <div class="stat-number" th:text="${totalVeiculos}">18</div>
                 <div class="stat-label">
-                    <i class="fas fa-car me-1"></i> Veículos na Frota
+                     Veículos na Frota
                 </div>
+                <a> 0 </a>
                 <div class="stat-description">
-                    <i class="fas fa-tools me-1"></i> Operacionais
+                     Operacionais
                 </div>
             </div>
         </div>
@@ -150,48 +159,25 @@
             <div class="stat-content">
                 <div class="stat-number" th:text="${fretesAndamento}">12</div>
                 <div class="stat-label">
-                    <i class="fas fa-spinner me-1"></i> Fretes em Andamento
+                     Fretes em Andamento
                 </div>
+                <a> 0 </a>
                 <div class="stat-description">
-                    <i class="fas fa-clock me-1"></i> Em transporte
+                     Em transporte
                 </div>
             </div>
         </div>
         <div class="stat-card">
             <div class="stat-number" th:text="${fretesFinalizados}">156</div>
-            <div class="stat-label">Fretes Finalizados</div>
             <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
             <div class="stat-content">
                 <div class="stat-number" th:text="${fretesFinalizados}">156</div>
                 <div class="stat-label">
-                    <i class="fas fa-check-double me-1"></i> Fretes Finalizados
+                     Fretes Finalizados
                 </div>
+                <a> 0 </a>
                 <div class="stat-description">
-                    <i class="fas fa-thumbs-up me-1"></i> Concluídos
-                </div>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
-            <div class="stat-content">
-                <div class="stat-number" th:text="|R$ ${receita}|">R$ 89.450</div>
-                <div class="stat-label">
-                    <i class="fas fa-money-bill-wave me-1"></i> Receita (Mês)
-                </div>
-                <div class="stat-description">
-                    <i class="fas fa-trending-up me-1"></i> Faturamento
-                </div>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon"><i class="fas fa-star"></i></div>
-            <div class="stat-content">
-                <div class="stat-number" th:text="${mediaAvaliacao}">4.8</div>
-                <div class="stat-label">
-                    <i class="fas fa-star-half-alt me-1"></i> Avaliação Média
-                </div>
-                <div class="stat-description">
-                    <i class="fas fa-medal me-1"></i> Qualidade
+                    Concluídos
                 </div>
             </div>
         </div>
@@ -203,11 +189,10 @@
                 <i class="fas fa-user-plus"></i>
             </span>
             <h3>
-                <i class="fas fa-user-tie me-2"></i>
+
                 Cadastrar Motorista
             </h3>
             <p>
-                <i class="fas fa-handshake me-2"></i>
                 Adicione novos motoristas à sua equipe e expanda sua capacidade operacional.
             </p>
             <a th:href="@{/transportadora/motoristas/novo}" class="btn btn-primary">
@@ -220,15 +205,14 @@
                 <i class="fas fa-truck-moving"></i>
             </span>
             <h3>
-                <i class="fas fa-truck me-2"></i>
                 Cadastrar Veículo
             </h3>
             <p>
-                <i class="fas fa-plus-circle me-2"></i>
+
                 Adicione novos veículos à sua frota e aumente sua capacidade de transporte.
             </p>
             <a th:href="@{/veiculos/novo}" class="btn btn-primary">
-                <i class="fas fa-car me-2"></i> Cadastrar Veículo
+                 Cadastrar Veículo
             </a>
         </div>
 
@@ -237,11 +221,11 @@
                 <i class="fas fa-box"></i>
             </span>
             <h3>
-                <i class="fas fa-clipboard-list me-2"></i>
+
                 Gerenciar Fretes
             </h3>
             <p>
-                <i class="fas fa-tasks me-2"></i>
+
                 Visualize todos os fretes, atribua motoristas e acompanhe o progresso das entregas.
             </p>
             <a th:href="@{/transportadora/fretes}" class="btn btn-secondary">
@@ -254,11 +238,9 @@
                 <i class="fas fa-route"></i>
             </span>
             <h3>
-                <i class="fas fa-shipping-fast me-2"></i>
                 Fretes em Andamento
             </h3>
             <p>
-                <i class="fas fa-eye me-2"></i>
                 Monitore fretes ativos e acompanhe entregas em tempo real.
             </p>
             <a th:href="@{/transportadora/fretes/andamento}" class="btn btn-secondary">
@@ -267,188 +249,34 @@
         </div>
     </div>
 
-    <!-- Recent Activity Section -->
     <h2 class="section-title">
-        <i class="fas fa-chart-line me-2"></i> Atividade Recente
-    </h2>
-    <div class="recent-activity">
-        <div class="activity-header">
-            <h3>
-                <i class="fas fa-history me-2"></i>
-                Últimas Atividades
-            </h3>
-        </div>
-        <div class="activity-item">
-            <div class="activity-icon">
-                <i class="fas fa-box"></i>
-            </div>
-            <div class="activity-content">
-                <div class="activity-title">
-                    <i class="fas fa-check-circle me-1"></i>
-                    Novo frete aceito: São Paulo → Rio de Janeiro
-                </div>
-                <div class="activity-time">
-                    <i class="fas fa-clock me-1"></i>
-                    Há 2 horas
-                </div>
-            </div>
-        </div>
-        <div class="activity-item">
-            <div class="activity-icon">
-                <i class="fas fa-user-tie"></i>
-            </div>
-            <div class="activity-content">
-                <div class="activity-title">
-                    <i class="fas fa-user-plus me-1"></i>
-                    Motorista João Silva cadastrado
-                </div>
-                <div class="activity-time">
-                    <i class="fas fa-clock me-1"></i>
-                    Há 4 horas
-                </div>
-            </div>
-        </div>
-        <div class="activity-item">
-            <div class="activity-icon">
-                <i class="fas fa-truck"></i>
-            </div>
-            <div class="activity-content">
-                <div class="activity-title">
-                    <i class="fas fa-plus-circle me-1"></i>
-                    Veículo Mercedes-Benz Actros adicionado à frota
-                </div>
-                <div class="activity-time">
-                    <i class="fas fa-clock me-1"></i>
-                    Há 1 dia
-                </div>
-            </div>
-        </div>
-        <div class="activity-item">
-            <div class="activity-icon">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <div class="activity-content">
-                <div class="activity-title">
-                    <i class="fas fa-flag-checkered me-1"></i>
-                    Frete Brasília → Salvador finalizado
-                </div>
-                <div class="activity-time">
-                    <i class="fas fa-clock me-1"></i>
-                    Há 2 dias
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Fretes Section -->
-    <h2 class="section-title">
-        <i class="fas fa-box me-2"></i> Fretes Disponíveis
+        <i class="fas fa-box me-2"></i> Meus Fretes
     </h2>
     <div class="fretes-list">
-        <div class="frete-item" th:each="frete : ${fretes}">
-            <div class="frete-info">
-                <div class="frete-origem-destino">
-                    <i class="fas fa-map-marker-alt me-2"></i>
-                    <span th:text="|${frete.origem} ${frete.destino}|">São Paulo Rio de Janeiro</span>
-                </div>
-                <div class="frete-detalhes">
-                    <span>
-                        <i class="fas fa-weight-hanging me-1"></i>
-                        Peso: <span th:text="|${frete.peso}kg|">2.500kg</span>
-                    </span>
-                    <span>
-                        <i class="fas fa-route me-1"></i>
-                        Distância: <span th:text="|${frete.distancia}km|">450km</span>
-                    </span>
-                    <span>
-                        <i class="fas fa-calendar-alt me-1"></i>
-                        Prazo: <span th:text="|${frete.prazo} dias|">3 dias</span>
-                    </span>
-                    <span>
-                        <i class="fas fa-truck me-1"></i>
-                        Tipo: <span th:text="${frete.tipoVeiculo}">Caminhão</span>
-                    </span>
-                </div>
-                <div class="frete-valor">
-                    <i class="fas fa-dollar-sign me-1"></i>
-                    <span th:text="|R$ ${frete.valor}|">R$ 3.500,00</span>
-                </div>
-            </div>
-            <div class="frete-acoes">
-                <a th:href="@{/transportadora/fretes/{id}/aceitar(id=${frete.id})}" class="btn btn-primary">
-                    <i class="fas fa-check me-1"></i> Aceitar Frete
-                </a>
-            </div>
+        <div th:if="${#lists.isEmpty(fretes)}" class="empty-state">
+            <a th:href="@{/cargas/listar}" class="btn btn-primary">
+                <i class="fas fa-truck me-2"></i> Buscar Fretes Disponíveis
+            </a>
         </div>
 
-        <div class="frete-item">
+        <div th:each="frete : ${fretes}" class="frete-item">
             <div class="frete-info">
                 <div class="frete-origem-destino">
                     <i class="fas fa-map-marker-alt me-2"></i>
-                    Belo Horizonte Salvador
+                    <span th:text="|${frete.origemCidade} → ${frete.destinoCidade}|">São Paulo → Rio de Janeiro</span>
                 </div>
                 <div class="frete-detalhes">
-                    <span>
-                        <i class="fas fa-weight-hanging me-1"></i>
-                        Peso: 1.800kg
-                    </span>
-                    <span>
-                        <i class="fas fa-route me-1"></i>
-                        Distância: 680km
-                    </span>
-                    <span>
-                        <i class="fas fa-calendar-alt me-1"></i>
-                        Prazo: 4 dias
-                    </span>
-                    <span>
-                        <i class="fas fa-truck me-1"></i>
-                        Tipo: Caminhão
-                    </span>
-                </div>
-                <div class="frete-valor">
-                    <i class="fas fa-dollar-sign me-1"></i>
-                    R$ 4.200,00
+              <span th:if="${frete.produto != null}">
+                <i class="fas fa-box me-1"></i> <span th:text="${frete.produto}">Eletrônicos</span>
+              </span>
+                    <span th:if="${frete.pesoTotal != null}">
+                <i class="fas fa-weight-hanging me-1"></i> <span th:text="|${frete.pesoTotal} kg|">1200 kg</span>
+              </span>
                 </div>
             </div>
             <div class="frete-acoes">
-                <a href="#" class="btn btn-primary">
-                    <i class="fas fa-check me-1"></i> Aceitar Frete
-                </a>
-            </div>
-        </div>
-
-        <div class="frete-item">
-            <div class="frete-info">
-                <div class="frete-origem-destino">
-                    <i class="fas fa-map-marker-alt me-2"></i>
-                    Brasília Goiânia
-                </div>
-                <div class="frete-detalhes">
-                    <span>
-                        <i class="fas fa-weight-hanging me-1"></i>
-                        Peso: 900kg
-                    </span>
-                    <span>
-                        <i class="fas fa-route me-1"></i>
-                        Distância: 210km
-                    </span>
-                    <span>
-                        <i class="fas fa-calendar-alt me-1"></i>
-                        Prazo: 1 dia
-                    </span>
-                    <span>
-                        <i class="fas fa-truck me-1"></i>
-                        Tipo: Van
-                    </span>
-                </div>
-                <div class="frete-valor">
-                    <i class="fas fa-dollar-sign me-1"></i>
-                    R$ 1.200,00
-                </div>
-            </div>
-            <div class="frete-acoes">
-                <a href="#" class="btn btn-primary">
-                    <i class="fas fa-check me-1"></i> Aceitar Frete
+                <a th:href="@{/frete/{id}(id=${frete.id})}" class="btn btn-primary">
+                    <i class="fas fa-clipboard me-1"></i> Ver detalhes
                 </a>
             </div>
         </div>
@@ -461,12 +289,8 @@
     <div class="veiculos-list">
         <div th:if="${#lists.isEmpty(veiculos)}" class="empty-state">
             <div style="text-align: center; margin-bottom: 20px;">
-                <i class="fas fa-car" style="font-size: 48px; color: #6b7280;"></i>
+
             </div>
-            <p>
-                <i class="fas fa-info-circle me-2"></i>
-                Nenhum veículo cadastrado para esta transportadora.
-            </p>
             <a th:href="@{/veiculos/novo}" class="btn btn-secondary">
                 <i class="fas fa-plus-circle me-2"></i> Cadastrar Veículo
             </a>

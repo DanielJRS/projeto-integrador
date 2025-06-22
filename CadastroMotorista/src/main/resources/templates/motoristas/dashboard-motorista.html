@@ -23,7 +23,7 @@
   <nav class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="sidebar-logo">
-        <i class="fas fa-truck"></i> Global Transportes
+         Global Transportes
       </div>
     </div>
     <div class="sidebar-menu">
@@ -65,7 +65,7 @@
           <span th:text="|Bem-vindo, ${motorista.nome}!|">Bem-vindo</span>
         </h2>
         <p>
-          <i class="fas fa-map me-2"></i>
+
           Gerencie seus fretes de forma eficiente e acompanhe suas entregas em tempo real. Sua jornada começa aqui.
         </p>
         <div class="welcome-actions">
@@ -85,10 +85,10 @@
           <div class="stat-content">
             <div class="stat-number" th:text="${fretesAtivosMotorista ?: 0}">2</div>
             <div class="stat-label">
-              <i class="fas fa-play-circle me-1"></i> Fretes ativos
+               Fretes ativos
             </div>
             <div class="stat-description">
-              <i class="fas fa-clock me-1"></i> Em andamento
+               Em andamento
             </div>
           </div>
         </div>
@@ -97,10 +97,10 @@
           <div class="stat-content">
             <div class="stat-number" th:text="${fretesFinalizados ?: 0}">5</div>
             <div class="stat-label">
-              <i class="fas fa-check-double me-1"></i> Fretes finalizados
+               Fretes finalizados
             </div>
             <div class="stat-description">
-              <i class="fas fa-thumbs-up me-1"></i> Concluídos com sucesso
+               Concluídos com sucesso
             </div>
           </div>
         </div>
@@ -109,10 +109,10 @@
           <div class="stat-content">
             <div class="stat-number" th:text="${fretesCancelados ?: 0}">1</div>
             <div class="stat-label">
-              <i class="fas fa-times-circle me-1"></i> Fretes cancelados
+               Fretes cancelados
             </div>
             <div class="stat-description">
-              <i class="fas fa-ban me-1"></i> Cancelados
+               Cancelados
             </div>
           </div>
         </div>
@@ -173,15 +173,15 @@
             <i class="fas fa-car" style="font-size: 48px; color: #6b7280;"></i>
           </div>
           <p>
-            <i class="fas fa-exclamation-circle me-2"></i>
+
             Você ainda não cadastrou veículos.
           </p>
           <p>
-            <i class="fas fa-plus-circle me-2"></i>
+
             Cadastre seus veículos para poder aceitar fretes e começar a trabalhar!
           </p>
           <a th:href="@{/veiculos/novo}" class="btn btn-secondary">
-            <i class="fas fa-car me-2"></i> Cadastrar primeiro veículo
+             Cadastrar primeiro veículo
           </a>
         </div>
 
