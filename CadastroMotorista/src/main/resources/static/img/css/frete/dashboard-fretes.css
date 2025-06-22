@@ -1766,3 +1766,46 @@
         width: 100%;
     }
 }
+.icon {
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        .card-header h3 .icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        .sidebar-icon::before {
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 18px;
+        }
+        .sidebar-item:nth-child(1) .sidebar-icon::before {
+            content: "\f3fd"; /* dashboard */
+        }
+        .sidebar-item:nth-child(2) .sidebar-icon::before {
+            content: "\f468"; /* truck */
+        }
+        .sidebar-item:nth-child(3) .sidebar-icon::before {
+            content: "\f067"; /* plus */
+        }
+        .btn .icon {
+            margin-right: 6px;
+        }
+        .frete-status .icon {
+            margin-right: 6px;
+            width: 12px;
+            height: 12px;
+        }
+        .breadcrumb .icon {
+            margin: 0 4px;
+            width: 14px;
+            height: 14px;
+        }
+        .modal-header h3 .icon {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }

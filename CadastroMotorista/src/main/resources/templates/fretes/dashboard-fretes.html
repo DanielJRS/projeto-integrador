@@ -7,81 +7,6 @@
     <script th:src="@{/img/js/frete/dashboard-frete.js}" defer></script>
     <link rel="stylesheet" th:href="@{/img/css/frete/dashboard-fretes.css}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        .icon {
-            width: 16px;
-            height: 16px;
-            vertical-align: middle;
-            margin-right: 8px;
-        }
-        .card-header h3 .icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-        }
-        .sidebar-icon::before {
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            font-size: 18px;
-        }
-        .sidebar-item:nth-child(1) .sidebar-icon::before {
-            content: "\f3fd"; /* dashboard */
-        }
-        .sidebar-item:nth-child(2) .sidebar-icon::before {
-            content: "\f468"; /* truck */
-        }
-        .sidebar-item:nth-child(3) .sidebar-icon::before {
-            content: "\f067"; /* plus */
-        }
-        .btn .icon {
-            margin-right: 6px;
-        }
-        .frete-status .icon {
-            margin-right: 6px;
-            width: 12px;
-            height: 12px;
-        }
-        .breadcrumb .icon {
-            margin: 0 4px;
-            width: 14px;
-            height: 14px;
-        }
-        .modal-header h3 .icon {
-            margin-right: 10px;
-            width: 20px;
-            height: 20px;
-        }
-
-        /* Ícones CSS personalizados */
-        .icon-home::before { content: "\f015"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-chevron-right::before { content: "\f054"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-truck::before { content: "\f0d1"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-circle::before { content: "\f111"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-dollar::before { content: "\f155"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-map-pin::before { content: "\f3c5"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-play-circle::before { content: "\f144"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-arrow-right::before { content: "\f061"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-package::before { content: "\f466"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-box::before { content: "\f466"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-weight::before { content: "\f496"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-building::before { content: "\f1ad"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-building-2::before { content: "\f0f7"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-phone::before { content: "\f095"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-mail::before { content: "\f0e0"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-file-text::before { content: "\f15c"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-settings::before { content: "\f013"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-gauge::before { content: "\f624"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-info::before { content: "\f129"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-x-circle::before { content: "\f057"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-check-circle::before { content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-arrow-left::before { content: "\f060"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-alert-triangle::before { content: "\f071"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-alert-circle::before { content: "\f06a"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-shield::before { content: "\f132"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-party-popper::before { content: "\f389"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-clock::before { content: "\f017"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .icon-copyright::before { content: "\f1f9"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-    </style>
 </head>
 <body>
 <nav class="sidebar">
@@ -92,7 +17,11 @@
     </div>
     <div class="sidebar-menu">
         <div class="sidebar-item">
-            <a th:href="@{/motorista}" class="sidebar-link">
+            <a th:if="${TipoUsuario.name() == 'MOTORISTA'}" th:href="@{/motorista/dashboard}" class="sidebar-link">
+                <span class="sidebar-icon"></span>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+            <a th:if="${TipoUsuario.name() == 'TRANSPORTADORA'}" th:href="@{/transportadora/dashboard}" class="sidebar-link">
                 <span class="sidebar-icon"></span>
                 <span class="sidebar-text">Dashboard</span>
             </a>
@@ -101,16 +30,16 @@
         <div class="sidebar-item">
             <a th:href="@{/cargas/listar}" class="sidebar-link">
                 <span class="sidebar-icon"></span>
-                <span class="sidebar-text">Explorar Cargas</span>
+                <span class="sidebar-text">Explorar cargas</span>
             </a>
-            <div class="sidebar-tooltip">Explorar Cargas</div>
+            <div class="sidebar-tooltip">Explorar cargas</div>
         </div>
         <div class="sidebar-item">
             <a th:href="@{/veiculos/novo}" class="sidebar-link">
                 <span class="sidebar-icon"></span>
-                <span class="sidebar-text">Cadastrar Veículo</span>
+                <span class="sidebar-text">Cadastrar veículo</span>
             </a>
-            <div class="sidebar-tooltip">Cadastrar Veículo</div>
+            <div class="sidebar-tooltip">Cadastrar veículo</div>
         </div>
     </div>
 </nav>
@@ -267,6 +196,7 @@
                             <i class="fas fa-tachometer-alt icon"></i>
                             Painel de gerenciamento
                         </h4>
+                        <h4>Painel de gerenciamento</h4>
                         <p>Utilize as opções ao lado para gerenciar o status do seu frete de forma eficiente e segura.</p>
                         <div class="status-atual">
                             <strong>
@@ -287,6 +217,16 @@
                         </button>
                         <a th:href="@{/motorista/dashboard}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left icon"></i>
+                        <a th:if="${TipoUsuario == T(com.cadastroMot.CadastroMotorista.domain.TipoUsuario).MOTORISTA}"
+                           th:href="@{/motorista/dashboard}"
+                           class="btn btn-secondary">
+                            <i data-lucide="arrow-left" class="icon"></i>
+                            Voltar ao dashboard
+                        </a>
+                        <a th:if="${TipoUsuario == T(com.cadastroMot.CadastroMotorista.domain.TipoUsuario).TRANSPORTADORA}"
+                           th:href="@{/transportadora/dashboard}"
+                           class="btn btn-secondary">
+                            <i data-lucide="arrow-left" class="icon"></i>
                             Voltar ao dashboard
                         </a>
                     </div>

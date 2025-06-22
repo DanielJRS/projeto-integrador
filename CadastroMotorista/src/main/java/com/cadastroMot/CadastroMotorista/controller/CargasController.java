@@ -48,6 +48,7 @@ public class CargasController {
         model.addAttribute("cidades", cargaService.listarCidades());
         model.addAttribute("estados", cargaService.listarEstados());
         model.addAttribute("tiposCarga", TipoCarga.values());
+        model.addAttribute("TipoUsuario", usuarioLogado.getTipo());
 
         if ("ADMIN".equals(String.valueOf(tipoUsuario))) {
             return "cargas/novo";
@@ -210,10 +211,6 @@ public class CargasController {
 
 
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
-      //  if (usuarioLogado != null && usuarioLogado.getEmpresa() != null &&
-       //         !usuarioLogado.getEmpresa().equals(carga.getEmpresaCarga())) {
-      //      return "redirect:/cargas/listar";
-      //  }
 
 
         inicializarListasCarga(carga);
@@ -351,10 +348,6 @@ public class CargasController {
         TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuario");
         if (tipoUsuario == TipoUsuario.EMPRESA) {
             Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
-           // if (usuarioLogado != null && usuarioLogado.getEmpresa() != null &&
-          //          !usuarioLogado.getEmpresa().equals(carga.getEmpresaCarga())) {
-           //       return "redirect:/cargas/listar";
-            // }
         }
 
         List<Veiculo> veiculos = veiculoService.buscarPorTransportadoraId(id);
@@ -392,10 +385,9 @@ public class CargasController {
         Carga carga = cargaService.buscarPorId(id);
         if (carga != null) {
             Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
-           // if (usuarioLogado != null && usuarioLogado.getEmpresa() != null &&
-           //         usuarioLogado.getEmpresa().equals(carga.getEmpresaCarga())) {
+
             cargaService.deletar(id);
-           // }
+
         }
 
         return "redirect:/cargas/listar";

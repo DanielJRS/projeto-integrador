@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard de Motorista - Global Transportes</title>
-
-  <!-- Bootstrap CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" th:href="@{/img/css/motorista/dashboard-motorista.css}">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -19,7 +17,6 @@
 <body>
 
 <div class="main-layout">
-  <!-- Sidebar -->
   <nav class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="sidebar-logo">
@@ -30,39 +27,28 @@
       <div class="sidebar-item">
         <a th:href="@{/cargas/listar}" class="sidebar-link">
           <span class="sidebar-icon"><i class="fas fa-search"></i></span>
-          <span class="sidebar-text">Explorar Cargas</span>
+          <span class="sidebar-text">Explorar cargas</span>
         </a>
-        <div class="sidebar-tooltip">Explorar Cargas</div>
+        <div class="sidebar-tooltip">Explorar cargas</div>
       </div>
       <div class="sidebar-item">
         <a th:href="@{/veiculos/novo}" class="sidebar-link">
           <span class="sidebar-icon"><i class="fas fa-car"></i></span>
-          <span class="sidebar-text">Cadastrar Veículo</span>
+          <span class="sidebar-text">Cadastrar veículo</span>
         </a>
-        <div class="sidebar-tooltip">Cadastrar Veículo</div>
-      </div>
-      <div class="sidebar-item">
-        <a href="#" class="sidebar-link">
-          <span class="sidebar-icon"><i class="fas fa-user"></i></span>
-          <span class="sidebar-text">Perfil</span>
-        </a>
-        <div class="sidebar-tooltip">Perfil</div>
+        <div class="sidebar-tooltip">Cadastrar veículo</div>
       </div>
     </div>
   </nav>
 
-  <!-- Conteúdo Principal -->
   <div class="main-content">
-    <!-- Header -->
     <div th:insert="~{shared-fragments/shared-header :: shared-header}"></div>
 
-    <!-- Dashboard Container -->
     <div class="dashboard-container">
-      <!-- Welcome Section -->
       <div class="dashboard-welcome">
         <h2>
-          <i class="fas fa-user-check me-2"></i>
-          <span th:text="|Bem-vindo, ${motorista.nome}!|">Bem-vindo</span>
+          <i class="fas fa-user-trucker me-2"></i>
+          <span th:text="|Bem-vindo, ${motorista.nome}!|">Bem-vindo(a)</span>
         </h2>
         <p>
 
@@ -78,49 +64,41 @@
         </div>
       </div>
 
-      <!-- Statistics Grid -->
-      <div class="stats-grid">
-        <div class="stat-card stat-card-highlight">
-          <div class="stat-icon"><i class="fas fa-truck"></i></div>
-          <div class="stat-content">
-            <div class="stat-number" th:text="${fretesAtivosMotorista ?: 0}">2</div>
-            <div class="stat-label">
-               Fretes ativos
-            </div>
-            <div class="stat-description">
-               Em andamento
-            </div>
-          </div>
-        </div>
-        <div class="stat-card stat-card-success">
-          <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
-          <div class="stat-content">
-            <div class="stat-number" th:text="${fretesFinalizados ?: 0}">5</div>
-            <div class="stat-label">
-               Fretes finalizados
-            </div>
-            <div class="stat-description">
-               Concluídos com sucesso
+        <div class="stats-grid">
+          <div class="stat-card stat-card-highlight">
+            <i class="fas fa-truck me-2"></i>
+            <div class="stat-content">
+              <div class="stat-number" th:text="${fretesAtivosMotorista ?: 0}">2</div>
+              <div class="stat-label">
+                 Fretes ativos
+              </div>
+              <div class="stat-description">
+                 Em andamento
+              </div>
             </div>
           </div>
-        </div>
-        <div class="stat-card stat-card-highlight-cancelado">
-          <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
-          <div class="stat-content">
-            <div class="stat-number" th:text="${fretesCancelados ?: 0}">1</div>
-            <div class="stat-label">
+          <div class="stat-card stat-card-success">
+            <i class="fas fa-check me-2"></i>
+            <div class="stat-content">
+              <div class="stat-number" th:text="${fretesFinalizados ?: 0}">5</div>
+              <div class="stat-label">
+                 Fretes finalizados
+              </div>
+            </div>
+          </div>
+          <div class="stat-card stat-card-highlight-cancelado">
+            <i class="fas fa-times me-2"></i>
+            <div class="stat-content" >
+              <div class="stat-number" th:text="${fretesCancelados ?: 0}">1</div>
+              <div class="stat-label">
                Fretes cancelados
-            </div>
-            <div class="stat-description">
-               Cancelados
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Fretes Section -->
       <h2 class="section-title">
-        <i class="fas fa-box me-2"></i> Meus Fretes
+        <i class="fas fa-exclamation me-2"></i> Meus fretes
       </h2>
       <div class="fretes-list">
         <div th:if="${#lists.isEmpty(fretes)}" class="empty-state">
@@ -163,9 +141,8 @@
         </div>
       </div>
 
-      <!-- Veículos Section -->
       <h2 class="section-title">
-        <i class="fas fa-car me-2"></i> Meus Veículos
+        <i class="fas fa-car me-2"></i> Meus veículos
       </h2>
       <div class="veiculos-list">
         <div th:if="${#lists.isEmpty(veiculos)}" class="empty-state">
@@ -220,29 +197,12 @@
 <footer>
   <p>
     <i class="fas fa-copyright me-1"></i>
-    2024 Global Transportes.
-    <i class="fas fa-shield-alt me-1"></i>
-    Conectando o Brasil com eficiência e segurança.
+    2024 Global Transportes. Conectando o Brasil com eficiência e segurança.
   </p>
 </footer>
 
 <script>
-  // Inicializa os ícones do Lucide após o carregamento da página
-  document.addEventListener('DOMContentLoaded', function() {
-    // Aguarda um pouco para garantir que o Lucide esteja carregado
-    setTimeout(() => {
-      if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-      } else {
-        console.error('Lucide não foi carregado corretamente');
-      }
-    }, 100);
-  });
 
-  function toggleMobileMenu() {
-    const sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('sidebar-open');
-  }
 </script>
 </body>
 </html>

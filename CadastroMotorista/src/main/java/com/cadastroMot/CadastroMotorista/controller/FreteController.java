@@ -129,8 +129,14 @@ public class FreteController {
     }
 
     @GetMapping("/frete/{id}")
+    @Transactional
     public String detalheFrete(@PathVariable Long id,
-                               Model model) {
+                               Model model,
+                               HttpSession session) {
+
+        Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
+
+        model.addAttribute("TipoUsuario", usuarioLogado.getTipo());
 
         Frete frete = freteService.buscarPorId(id).orElse(null);
 
@@ -138,7 +144,6 @@ public class FreteController {
             return "redirect:/motorista";
         }
 
-//        Optional<Empresa> empresa = empresaService.buscarEmpresaPorId(empresaId);
         Empresa empresa = frete.getEmpresaFrete();
 
         frete.setNomeFantasia(empresa.getNomeFantasia());
