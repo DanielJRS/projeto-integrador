@@ -166,4 +166,31 @@ public class  MotoristaController {
         }
         return "redirect:/dashboard/motoristas-listartodos";
     }
+    @GetMapping("/gerenciarmotorista")
+    public String motorista(Model model, HttpSession session) {
+        Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
+
+        if (usuarioLogado == null || usuarioLogado.getTransportadora() == null) {
+            return "redirect:/login"; // ou alguma página de erro
+        }
+
+        Transportadora transportadora = usuarioLogado.getTransportadora();
+
+        // Envia a transportadora (empresa logada) para o model
+        model.addAttribute("empresaLogada", transportadora);
+
+        // Lista os motoristas vinculados à transportadora
+        List<Motorista> motoristas = motoristaService.listarPorTransportadora(transportadora);
+        model.addAttribute("motoristas", motoristas); // caso queira usar futuramente no thymeleaf
+
+        return "/transportadoras/gerenciarmotorista";
+    }
+
+    @GetMapping("/transp-novo")
+    public String formularioTransp (Model model, HttpSession session) {
+        Motorista motorista = new Motorista();
+
+        model.addAttribute("motorista", motorista);
+        return "motoristas/forms-motorista-transportadora";
+    }
 }
