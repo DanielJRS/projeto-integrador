@@ -1,58 +1,83 @@
 package com.cadastroMot.CadastroMotorista;
 
-
-//package com.cadastroMot.CadastroMotorista.domain;
-
 import com.cadastroMot.CadastroMotorista.domain.Motorista;
-import com.cadastroMot.CadastroMotorista.domain.TipoUsuario;
-import com.cadastroMot.CadastroMotorista.domain.Transportadora;
-import com.cadastroMot.CadastroMotorista.domain.Usuario;
+import com.cadastroMot.CadastroMotorista.repository.MotoristaRepository;
+import com.cadastroMot.CadastroMotorista.repository.UsuarioRepository;
+import com.cadastroMot.CadastroMotorista.service.MotoristaService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class MotoristaTest {
 
-    @Test
-    void testGettersAndSetters() {
-        Usuario usuario = new Usuario(2L, "motorista@email.com", "senha", TipoUsuario.MOTORISTA, null, null, null);
-        Transportadora transportadora = new Transportadora();
-        Motorista motorista = new Motorista(
-                1L,
-                "João Motorista",
-                "12345678901",
-                "Rua Y",
-                "51999999999",
-                "Porto Alegre",
-                "RS",
-                "Brasil",
-                "CNH123456",
-                "ANTT123",
-                new byte[]{1,2,3},
-                "image/png",
-                Collections.emptyList(),
-                usuario,
-                Collections.emptyList(),
-                Collections.emptyList(),
-                null,
-                transportadora
-        );
+    @Mock
+    private MotoristaRepository motoristaRepository;
 
-        assertEquals(1L, motorista.getId());
-        assertEquals("João Motorista", motorista.getNome());
-        assertEquals("12345678901", motorista.getCpf());
-        assertEquals("Rua Y", motorista.getEndereco());
-        assertEquals("51999999999", motorista.getCelular());
-        assertEquals("Porto Alegre", motorista.getCidade());
-        assertEquals("RS", motorista.getEstado());
-        assertEquals("Brasil", motorista.getPais());
-        assertEquals("CNH123456", motorista.getCnh());
-        assertEquals("ANTT123", motorista.getAntt());
-        assertArrayEquals(new byte[]{1,2,3}, motorista.getFoto());
-        assertEquals("image/png", motorista.getTipoFoto());
-        assertEquals(usuario, motorista.getUsuario());
-        assertEquals(transportadora, motorista.getTransportadora());
+    @Mock
+    private UsuarioRepository usuarioRepository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
+    @InjectMocks
+    private MotoristaService motoristaService;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void deveListarTodosOsMotoristas() {
+        Motorista motorista1 = new Motorista();
+        motorista1.setId(1L);
+        Motorista motorista2 = new Motorista();
+        motorista2.setId(2L);
+
+        when(motoristaRepository.findAll()).thenReturn(List.of(motorista1, motorista2));
+
+        var resultado = motoristaService.listarTodos();
+
+        assertEquals(2, resultado.size());
+        assertTrue(resultado.contains(motorista1));
+        assertTrue(resultado.contains(motorista2));
+
+        verify(motoristaRepository).findAll();
+    }
+
+    @Test
+    void deveBuscarMotoristaPorId_quandoExistir() {
+        Long id = 1L;
+        Motorista motorista = new Motorista();
+        motorista.setId(id);
+
+        when(motoristaRepository.findById(id)).thenReturn(Optional.of(motorista));
+
+        Motorista resultado = motoristaService.buscarPorId(id);
+
+        assertNotNull(resultado);
+        assertEquals(id, resultado.getId());
+        verify(motoristaRepository).findById(id);
+    }
+
+    @Test
+    void deveRetornarNull_quandoMotoristaNaoExistir() {
+        Long id = 999L;
+
+        when(motoristaRepository.findById(id)).thenReturn(Optional.empty());
+
+        Motorista resultado = motoristaService.buscarPorId(id);
+
+        assertNull(resultado);
+        verify(motoristaRepository).findById(id);
     }
 }
