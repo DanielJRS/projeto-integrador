@@ -65,6 +65,8 @@ public class CargaFiltroDTO {
         this.nomeEmpresa = nomeEmpresa;
     }
 
+
+
     public void setOrigemCidade(String origemCidade) {
         this.origemCidade = origemCidade;
     }

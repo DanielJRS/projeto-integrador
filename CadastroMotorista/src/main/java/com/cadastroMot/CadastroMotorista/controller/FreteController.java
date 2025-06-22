@@ -144,7 +144,6 @@ public class FreteController {
             return "redirect:/motorista";
         }
 
-//        Optional<Empresa> empresa = empresaService.buscarEmpresaPorId(empresaId);
         Empresa empresa = frete.getEmpresaFrete();
 
         frete.setNomeFantasia(empresa.getNomeFantasia());
