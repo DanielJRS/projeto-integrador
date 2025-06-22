@@ -74,4 +74,8 @@ public class TransportadoraService {
     public void excluirPorId(Long id) {
         transportadoraRepository.deleteById(id);
     }
+
+    public Transportadora buscarPorIdOuNull(Long id) {
+        return transportadoraRepository.findById(id).orElse(null);
+    }
 }

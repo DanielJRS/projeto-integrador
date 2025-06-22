@@ -77,4 +77,8 @@ public class EmpresaService {
     public void excluirPorId(Long id) {
         empresaRepository.deleteById(id);
     }
+
+    public Empresa buscarPorIdOuNull(Long id) {
+        return empresaRepository.findById(id).orElse(null);
+    }
 }
