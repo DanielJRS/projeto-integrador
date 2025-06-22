@@ -1,79 +1,79 @@
 package com.cadastroMot.CadastroMotorista;
 
-//package com.cadastroMot.CadastroMotorista.domain;
-
 import com.cadastroMot.CadastroMotorista.domain.TipoUsuario;
 import com.cadastroMot.CadastroMotorista.domain.Transportadora;
 import com.cadastroMot.CadastroMotorista.domain.Usuario;
+import com.cadastroMot.CadastroMotorista.repository.TransportadoraRepository;
+import com.cadastroMot.CadastroMotorista.repository.UsuarioRepository;
+import com.cadastroMot.CadastroMotorista.service.TransportadoraService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.LocalDate;
-import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class TransportadoraTest {
 
-    @Test
-    void testGettersAndSetters() {
-        Usuario usuario = new Usuario(3L, "transp@email.com", "senha", TipoUsuario.TRANSPORTADORA, null, null, null);
-        Transportadora transp = new Transportadora(
-                1L,
-                "RazaoTransp",
-                "FantasiaTransp",
-                "12345678000155",
-                "ISENTO",
-                "Rua Q",
-                "Cidade Q",
-                "SC",
-                "88300-100",
-                "4733333333",
-                "transp@email.com",
-                "senha",
-                LocalDate.of(2019,5,15),
-                true,
-                true,
-                "ANTT0001",
-                "Pesada",
-                12,
-                true,
-                "Perecíveis",
-                "30t",
-                true,
-                7,
-                LocalDate.of(2029, 2, 2),
-                "E",
-                usuario,
-                Collections.emptyList(), // motoristas
-                Collections.emptyList(), // veiculos
-                Collections.emptyList()  // fretes
-        );
+    @Mock
+    private TransportadoraRepository transportadoraRepository;
 
-        assertEquals(1L, transp.getId());
-        assertEquals("RazaoTransp", transp.getRazaoSocial());
-        assertEquals("FantasiaTransp", transp.getNomeFantasia());
-        assertEquals("12345678000155", transp.getCnpj());
-        assertEquals("ISENTO", transp.getInscricaoEstadual());
-        assertEquals("Rua Q", transp.getEndereco());
-        assertEquals("Cidade Q", transp.getCidade());
-        assertEquals("SC", transp.getEstado());
-        assertEquals("88300-100", transp.getCep());
-        assertEquals("4733333333", transp.getTelefone());
-        assertEquals("transp@email.com", transp.getEmail());
-        assertEquals("senha", transp.getSenha());
-        assertEquals(LocalDate.of(2019,5,15), transp.getDataFundacao());
-        assertTrue(transp.isAtivo());
-        assertTrue(transp.isSouTransportadora());
-        assertEquals("ANTT0001", transp.getNumeroRegistroANTT());
-        assertEquals("Pesada", transp.getTipoFrota());
-        assertEquals(12, transp.getQuantidadeVeiculos());
-        assertTrue(transp.getPossuiSeguroCarga());
-        assertEquals("Perecíveis", transp.getTiposMercadorias());
-        assertEquals("30t", transp.getCapacidadeCarga());
-        assertTrue(transp.getRastreamentoVeiculos());
-        assertEquals(7, transp.getPrazoPadraoEntrega());
-        assertEquals(LocalDate.of(2029, 2, 2), transp.getDataVencimentoLicenca());
-        assertEquals("E", transp.getCategoriasLicenca());
-        assertEquals(usuario, transp.getUsuario());
+    @Mock
+    private UsuarioRepository usuarioRepository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
+    @InjectMocks
+    private TransportadoraService transportadoraService;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
+
+    @Test
+    void deveSalvarTransportadoraComUsuario_quandoEmailNaoExiste() {
+        Transportadora transportadora = new Transportadora();
+        String email = "transp@empresa.com";
+        String senha = "senha123";
+
+        when(usuarioRepository.findByEmail(email)).thenReturn(Optional.empty());
+        when(passwordEncoder.encode(senha)).thenReturn("senha123_criptografada");
+        when(transportadoraRepository.save(any(Transportadora.class))).thenAnswer(i -> i.getArgument(0));
+
+        Transportadora resultado = transportadoraService.salvarComUsuario(transportadora, email, senha);
+
+        assertNotNull(resultado.getUsuario());
+        assertEquals(email, resultado.getUsuario().getEmail());
+        assertEquals("senha123_criptografada", resultado.getUsuario().getSenha());
+        assertEquals(TipoUsuario.TRANSPORTADORA, resultado.getUsuario().getTipo());
+
+        verify(usuarioRepository).save(any(Usuario.class));
+        verify(transportadoraRepository).save(any(Transportadora.class));
+    }
+
+    @Test
+    void deveLancarExcecao_quandoEmailJaExiste() {
+        Transportadora transportadora = new Transportadora();
+        String email = "existe@empresa.com";
+        String senha = "senha123";
+
+        when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(new Usuario()));
+
+        RuntimeException excecao = assertThrows(RuntimeException.class, () -> {
+            transportadoraService.salvarComUsuario(transportadora, email, senha);
+        });
+
+        assertEquals("Já existe uma transportadora cadastrada com este e-mail", excecao.getMessage());
+        verify(usuarioRepository, never()).save(any());
+        verify(transportadoraRepository, never()).save(any());
+    }
+
 }
