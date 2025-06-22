@@ -355,6 +355,23 @@ public class CargasController {
         return "cargas/detalhar";
     }
 
+    @GetMapping("/detalhar-admin/{id}")
+    public String detalharCargaAdmin(@PathVariable Long id, Model model, HttpSession session) {
+        Carga carga = cargaService.buscarPorId(id);
+        if (carga == null) {
+            return "redirect:/cargas/listar";
+        }
+
+        TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuario");
+        if (tipoUsuario != TipoUsuario.ADMIN) {
+            return "redirect:/cargas/listar";
+        }
+
+        model.addAttribute("carga", carga);
+        model.addAttribute("tipoUsuario", tipoUsuario);
+        return "cargas/detalhar-cargas";
+    }
+
     @GetMapping("/deletar/{id}")
     public String deletarCarga(@PathVariable Long id, HttpSession session) {
 

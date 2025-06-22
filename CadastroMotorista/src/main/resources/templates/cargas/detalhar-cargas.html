@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Global Transportes - Detalhes da Carga</title>
+  <link rel="stylesheet" th:href="@{/img/css/empresa/formulario-empresa.css}">
+</head>
+<body>
+<nav class="navbar">
+  <div class="container">
+    <a class="navbar-brand" th:href="@{/login}">
+      <img th:src="@{/img/GlobalTransportes.png}" alt="Global Transportes" class="logo">
+    </a>
+  </div>
+</nav>
+
+<div class="content-container">
+  <div class="page-title">
+    <h2>Detalhes da Carga</h2>
+  </div>
+
+  <div class="form-container readonly" th:if="${carga != null}">
+    <h5 class="section-header">Informações da Carga</h5>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Origem:</label>
+        <p th:text="${carga.origemCidade} + ' - ' + ${carga.origemEstado}">Cidade - Estado</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Destino:</label>
+        <p th:text="${carga.destinoCidade} + ' - ' + ${carga.destinoEstado}">Cidade - Estado</p>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Produto:</label>
+        <p th:text="${carga.produto}">Produto</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Espécie:</label>
+        <p th:text="${carga.especie}">Espécie</p>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Peso Total:</label>
+        <p th:text="${carga.pesoTotal}">0</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Volume:</label>
+        <p th:text="${carga.volume}">0</p>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Preço:</label>
+        <p th:text="${carga.preco}">0.00</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Preço Frete:</label>
+        <p th:text="${carga.precoFrete}">0.00</p>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Data Coleta:</label>
+        <p th:text="${carga.dataColeta != null ? #temporals.format(carga.dataColeta, 'dd/MM/yyyy') : 'Não informada'}">01/01/2024</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Data Entrega:</label>
+        <p th:text="${carga.dataEntrega != null ? #temporals.format(carga.dataEntrega, 'dd/MM/yyyy') : 'Não informada'}">02/01/2024</p>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Tipo de Carga:</label>
+        <p th:text="${carga.tipoCarga}">Tipo</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Status:</label>
+        <p th:text="${carga.tipoEstadoCarga}">Status</p>
+      </div>
+    </div>
+
+    <div class="button-container">
+      <a th:href="@{/dashboard/cargas-listartodos}" class="btn btn-secondary">Voltar</a>
+      <a th:href="@{'/cargas/editar/' + ${carga.id}}" class="btn btn-primary">Editar</a>
+      <form th:if="${tipoUsuario != null and tipoUsuario.name() == 'ADMIN'}"
+            th:action="@{/cargas/deletar/{id}(id=${carga.id})}"
+            method="post" style="display:inline;">
+        <button type="submit" class="btn"
+                style="background-color: brown !important; color: white; border: none;"
+                onclick="return confirm('Tem certeza que deseja excluir esta carga?');">
+          Excluir
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div th:if="${carga == null}">
+    <p>Carga não encontrada.</p>
+  </div>
+</div>
+
+</body>
+</html>
