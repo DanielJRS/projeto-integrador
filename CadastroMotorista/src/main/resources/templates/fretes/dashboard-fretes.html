@@ -8,51 +8,6 @@
     <link rel="stylesheet" th:href="@{/img/css/frete/dashboard-fretes.css}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        .icon {
-            width: 16px;
-            height: 16px;
-            vertical-align: middle;
-            margin-right: 8px;
-        }
-        .card-header h3 .icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-        }
-        .sidebar-icon::before {
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            font-size: 18px;
-        }
-        .sidebar-item:nth-child(1) .sidebar-icon::before {
-            content: "\f3fd"; /* dashboard */
-        }
-        .sidebar-item:nth-child(2) .sidebar-icon::before {
-            content: "\f468"; /* truck */
-        }
-        .sidebar-item:nth-child(3) .sidebar-icon::before {
-            content: "\f067"; /* plus */
-        }
-        .btn .icon {
-            margin-right: 6px;
-        }
-        .frete-status .icon {
-            margin-right: 6px;
-            width: 12px;
-            height: 12px;
-        }
-        .breadcrumb .icon {
-            margin: 0 4px;
-            width: 14px;
-            height: 14px;
-        }
-        .modal-header h3 .icon {
-            margin-right: 10px;
-            width: 20px;
-            height: 20px;
-        }
-    </style>
 </head>
 <body>
 <nav class="sidebar">
@@ -63,7 +18,11 @@
     </div>
     <div class="sidebar-menu">
         <div class="sidebar-item">
-            <a th:href="@{/motorista}" class="sidebar-link">
+            <a th:if="${TipoUsuario.name() == 'MOTORISTA'}" th:href="@{/motorista/dashboard}" class="sidebar-link">
+                <span class="sidebar-icon"></span>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+            <a th:if="${TipoUsuario.name() == 'TRANSPORTADORA'}" th:href="@{/transportadora/dashboard}" class="sidebar-link">
                 <span class="sidebar-icon"></span>
                 <span class="sidebar-text">Dashboard</span>
             </a>
@@ -72,16 +31,16 @@
         <div class="sidebar-item">
             <a th:href="@{/cargas/listar}" class="sidebar-link">
                 <span class="sidebar-icon"></span>
-                <span class="sidebar-text">Explorar Cargas</span>
+                <span class="sidebar-text">Explorar cargas</span>
             </a>
-            <div class="sidebar-tooltip">Explorar Cargas</div>
+            <div class="sidebar-tooltip">Explorar cargas</div>
         </div>
         <div class="sidebar-item">
             <a th:href="@{/veiculos/novo}" class="sidebar-link">
                 <span class="sidebar-icon"></span>
-                <span class="sidebar-text">Cadastrar Veículo</span>
+                <span class="sidebar-text">Cadastrar veículo</span>
             </a>
-            <div class="sidebar-tooltip">Cadastrar Veículo</div>
+            <div class="sidebar-tooltip">Cadastrar veículo</div>
         </div>
     </div>
 </nav>
@@ -99,13 +58,12 @@
     <div class="frete-detalhes-header">
         <div class="frete-title">
             <h1>
-                <i data-lucide="truck" class="icon"></i>
-                Frete
+                🚛 Frete
                 <span class="frete-numero" th:text="${frete.id}">001</span>
             </h1>
             <div class="frete-status" th:classappend="${frete.status == 'ATIVO' ? 'status-ativo' : 'status-finalizado'}">
-                <i data-lucide="circle" class="icon" th:if="${frete.status == 'ATIVO'}" style="color: #22c55e;"></i>
-                <i data-lucide="circle" class="icon" th:if="${frete.status != 'ATIVO'}" style="color: #6b7280;"></i>
+                <i th:if="${frete.status == 'ATIVO'}" style="color: #22c55e;"></i>
+                <i  th:if="${frete.status != 'ATIVO'}" style="color: #6b7280;"></i>
                 <span th:text="${frete.status}">ATIVO</span>
             </div>
         </div>
@@ -122,26 +80,23 @@
         <div class="detalhes-card">
             <div class="card-header">
                 <h3>
-                    <i data-lucide="map-pin" class="icon"></i>
-                    Rota de transporte
+                    🗺️ Rota de transporte
                 </h3>
             </div>
             <div class="card-content">
                 <div class="origem-destino-container">
                     <div class="local-info">
                         <div class="local-label">
-                            <i data-lucide="play-circle" class="icon"></i>
-                            Origem
+                            🏭 Origem
                         </div>
                         <div class="local-cidade" th:text="${frete.origemCidade}">São Paulo - SP</div>
                     </div>
                     <div class="rota-separator">
-                        <i data-lucide="arrow-right" style="width: 24px; height: 24px;"></i>
+                        ➡️
                     </div>
                     <div class="local-info">
                         <div class="local-label">
-                            <i data-lucide="map-pin" class="icon"></i>
-                            Destino
+                            🏢 Destino
                         </div>
                         <div class="local-cidade" th:text="${frete.destinoCidade}">Rio de Janeiro - RJ</div>
                     </div>
@@ -152,29 +107,25 @@
         <div class="detalhes-card">
             <div class="card-header">
                 <h3>
-                    <i data-lucide="package" class="icon"></i>
-                    Especificações da carga
+                    📦 Especificações da carga
                 </h3>
             </div>
             <div class="card-content">
                 <div class="info-grid">
                     <div class="info-item">
                         <span class="info-label">
-                            <i data-lucide="box" class="icon"></i>
                             Produto
                         </span>
                         <span class="info-value" th:text="${frete.produto}">Computador</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">
-                            <i data-lucide="weight" class="icon"></i>
                             Peso total
                         </span>
                         <span class="info-value" th:text="|${frete.pesoTotal} kg|">1.200 kg</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">
-                            <i data-lucide="dollar-sign" class="icon"></i>
                             Avaliação da carga
                         </span>
                         <span class="info-value" th:text="|R$ ${#numbers.formatDecimal(frete.valorCarga, 1, 2)}|">300 reais</span>
@@ -186,37 +137,32 @@
         <div class="detalhes-card" style="grid-column: 1 / -1;">
             <div class="card-header">
                 <h3>
-                    <i data-lucide="building" class="icon"></i>
-                    Informações do contratante
+                    🏢 Informações do contratante
                 </h3>
             </div>
             <div class="card-content">
                 <div class="info-grid">
                     <div class="info-item">
                         <span class="info-label">
-                            <i data-lucide="building-2" class="icon"></i>
-                            Razão Social
+                            🏭 Razão Social
                         </span>
                         <span class="info-value" th:text="${frete.nomeFantasia}">Empresa ABC Ltda</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">
-                            <i data-lucide="phone" class="icon"></i>
-                            Telefone de Contato
+                            ☎️ Telefone para contato
                         </span>
                         <span class="info-value" th:text="${frete.telefone}">+55 11 99999-9999</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">
-                            <i data-lucide="mail" class="icon"></i>
-                            E-mail Corporativo
+                            📧 E-mail Corporativo
                         </span>
                         <span class="info-value" th:text="${frete.email}">contato@empresaabc.com</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">
-                            <i data-lucide="file-text" class="icon"></i>
-                            CNPJ
+                            🪪 CNPJ
                         </span>
                         <span class="info-value" th:text="${frete.cnpj}">12.345.678/0001-90</span>
                     </div>
@@ -227,17 +173,13 @@
         <div class="detalhes-card" style="grid-column: 1 / -1;">
             <div class="card-header">
                 <h3>
-                    <i data-lucide="settings" class="icon"></i>
-                    Centro de controle do frete
+                    ⚙️ Centro de controle do frete
                 </h3>
             </div>
             <div class="card-content">
                 <div class="acoes-container">
                     <div class="acoes-info">
-                        <h4>
-                            <i data-lucide="gauge" class="icon"></i>
-                            Painel de gerenciamento
-                        </h4>
+                        <h4>Painel de gerenciamento</h4>
                         <p>Utilize as opções ao lado para gerenciar o status do seu frete de forma eficiente e segura.</p>
                         <div class="status-atual">
                             <strong>
@@ -256,7 +198,15 @@
                             <i data-lucide="check-circle" class="icon"></i>
                             Finalizar entrega
                         </button>
-                        <a th:href="@{/motorista/dashboard}" class="btn btn-secondary">
+                        <a th:if="${TipoUsuario == T(com.cadastroMot.CadastroMotorista.domain.TipoUsuario).MOTORISTA}"
+                           th:href="@{/motorista/dashboard}"
+                           class="btn btn-secondary">
+                            <i data-lucide="arrow-left" class="icon"></i>
+                            Voltar ao dashboard
+                        </a>
+                        <a th:if="${TipoUsuario == T(com.cadastroMot.CadastroMotorista.domain.TipoUsuario).TRANSPORTADORA}"
+                           th:href="@{/transportadora/dashboard}"
+                           class="btn btn-secondary">
                             <i data-lucide="arrow-left" class="icon"></i>
                             Voltar ao dashboard
                         </a>
@@ -344,24 +294,5 @@
         2024 Global Transportes. Conectando o Brasil com eficiência e segurança.
     </p>
 </footer>
-
-<script>
-    // Inicializa os ícones do Lucide
-    lucide.createIcons();
-
-    // Suas funções JavaScript existentes aqui
-    function confirmarCancelamento() {
-        document.getElementById('cancelarModal').style.display = 'flex';
-    }
-
-    function confirmarFinalizacao() {
-        document.getElementById('finalizarModal').style.display = 'flex';
-    }
-
-    function fecharModal() {
-        document.getElementById('cancelarModal').style.display = 'none';
-        document.getElementById('finalizarModal').style.display = 'none';
-    }
-</script>
 </body>
 </html>

@@ -33,20 +33,11 @@
                 <span class="sidebar-icon">
                     <i class="fas fa-plus-circle"></i>
                 </span>
-                <span class="sidebar-text">Nova Carga</span>
+                <span class="sidebar-text">Nova carga</span>
             </a>
-            <div class="sidebar-tooltip">Nova Carga</div>
+            <div class="sidebar-tooltip">Nova carga</div>
         </div>
 
-        <div class="sidebar-item">
-            <a th:href="@{/fretes/lista}" class="sidebar-link">
-                <span class="sidebar-icon">
-                    <i class="fas fa-truck"></i>
-                </span>
-                <span class="sidebar-text">Fretes</span>
-            </a>
-            <div class="sidebar-tooltip">Fretes</div>
-        </div>
     </div>
 </nav>
 
@@ -63,45 +54,42 @@
         </p>
     </div>
 
-    <!-- Statistics Grid -->
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="stat-icon"><i class="fas fa-box"></i></div>
+<!--            <div class="stat-icon">📦</div>-->
             <div class="stat-content">
                 <div class="stat-number" th:text="${totalCargas}">12</div>
                 <div class="stat-label">
-                     Cargas Ativas
+                     Cargas ativas
                 </div>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon"><i class="fas fa-truck"></i></div>
+<!--            <div class="stat-icon">🚛</div>-->
             <div class="stat-content">
                 <div class="stat-number" th:text="${totalFretes}">8</div>
                 <div class="stat-label">
-                     Fretes em Andamento
+                     Fretes em andamento
                 </div>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+<!--            <div class="stat-icon">✅</div>-->
             <div class="stat-content">
                 <div class="stat-number" th:text="${fretesFinalizados}">45</div>
                 <div class="stat-label">
-                     Fretes Finalizados
+                     Fretes finalizados
                 </div>
             </div>
         </div>
     </div>
 
     <div class="action-cards">
-        <!-- Card para Nova Carga - Ocupa toda a largura -->
         <div class="action-card nova-carga">
             <span class="action-card-icon">
                 <i class="fas fa-plus-circle"></i>
             </span>
             <h3>
-
                 Crie uma nova demanda
             </h3>
             <p>
@@ -113,7 +101,6 @@
             </a>
         </div>
 
-        <!-- Card para Fretes - Ocupa toda a largura -->
         <div class="action-card fretes-lista">
             <h3>
                 <i class="fas fa-truck me-2"></i> Meus fretes

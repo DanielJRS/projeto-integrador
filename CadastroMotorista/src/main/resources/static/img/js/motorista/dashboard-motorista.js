@@ -3,7 +3,6 @@ xfunction toggleSidebar() {
       sidebar.classList.toggle('mobile-open');
   }
 
-  // Fechar sidebar ao clicar fora (mobile)
   document.addEventListener('click', function(event) {
       const sidebar = document.querySelector('.sidebar');
       const menuToggle = document.querySelector('.mobile-menu-toggle');
@@ -15,7 +14,6 @@ xfunction toggleSidebar() {
       }
   });
 
-  // Animação de entrada para cards
   function animateCards() {
       const cards = document.querySelectorAll('.stat-card, .frete-item');
 
@@ -31,12 +29,10 @@ xfunction toggleSidebar() {
       });
   }
 
-  // Executar animação quando a página carregar
   document.addEventListener('DOMContentLoaded', function() {
       setTimeout(animateCards, 300);
   });
 
-  // Efeito de typing para o título de boas-vindas
   function typeWriter(element, text, speed = 50) {
       let i = 0;
       element.innerHTML = '';
@@ -51,7 +47,6 @@ xfunction toggleSidebar() {
       type();
   }
 
-  // Aplicar efeito de typing no título principal
     document.addEventListener('DOMContentLoaded', function() {
         const welcomeTitle = document.querySelector('.dashboard-welcome h2');
         if (welcomeTitle) {
@@ -60,7 +55,6 @@ xfunction toggleSidebar() {
         }
     });
 
-    // Animação de entrada para cards
     function animateCards() {
         const cards = document.querySelectorAll('.stat-card, .frete-item');
 
@@ -76,7 +70,21 @@ xfunction toggleSidebar() {
         });
     }
 
-    // Executar animações quando a página carregar
     document.addEventListener('DOMContentLoaded', function() {
         setTimeout(animateCards, 300);
     });
+
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+          if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+          } else {
+            console.error('Lucide não foi carregado corretamente');
+          }
+        }, 100);
+      });
+
+      function toggleMobileMenu() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('sidebar-open');
+      }

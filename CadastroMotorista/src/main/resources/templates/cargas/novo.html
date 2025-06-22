@@ -401,9 +401,9 @@
             </div>
         </div>
 
-        <!-- BOTÕES -->
         <div class="d-flex justify-content-end mt-4 btn-group">
-            <a th:href="@{/cargas/listar}" class="btn btn-secondary">
+            <a th:if="${TipoUsuario == T(com.cadastroMot.CadastroMotorista.domain.TipoUsuario).EMPRESA}"
+               th:href="@{/empresa/dashboard}" class="btn btn-secondary">
                 <i class="fas fa-times"></i> Cancelar
             </a>
             <button type="submit" class="btn btn-primary">
