@@ -82,6 +82,10 @@ public class FreteController {
             cargaService.salvar(carga);
         }
 
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        if (tipoUsuario != null && tipoUsuario.toString().equals("ADMIN")) {
+            return "redirect:/dashboard/fretes-listartodos";
+        }
         return "redirect:/motorista/dashboard";
     }
 
@@ -127,6 +131,10 @@ public class FreteController {
             freteService.salvar(frete); // Salva só o frete
         }
 
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        if (tipoUsuario != null && tipoUsuario.toString().equals("ADMIN")) {
+            return "redirect:/dashboard/fretes-listartodos";
+        }
         return "redirect:/motorista/dashboard";
     }
 

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Global Transportes - Detalhes do Frete</title>
+  <link rel="stylesheet" th:href="@{/img/css/empresa/formulario-empresa.css}">
+</head>
+<body>
+<nav class="navbar">
+  <div class="container">
+    <a class="navbar-brand" th:href="@{/login}">
+      <img th:src="@{/img/GlobalTransportes.png}" alt="Global Transportes" class="logo">
+    </a>
+  </div>
+</nav>
+
+<div class="content-container">
+  <div class="page-title">
+    <h2>Detalhes do Frete</h2>
+  </div>
+
+  <div class="form-container readonly" th:if="${frete != null}">
+    <h5 class="section-header">Informações do Frete</h5>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Origem:</label>
+        <p th:text="${frete.origemCidade} + ' - ' + ${frete.origemEstado}">Cidade - Estado</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Destino:</label>
+        <p th:text="${frete.destinoCidade} + ' - ' + ${frete.destinoEstado}">Cidade - Estado</p>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Produto:</label>
+        <p th:text="${frete.produto}">Produto</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Peso Total:</label>
+        <p th:text="${frete.pesoTotal}">0</p>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Valor:</label>
+        <p th:text="${frete.valor}">0.00</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Status:</label>
+        <p th:text="${frete.status}">Status</p>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Empresa:</label>
+        <p th:text="${frete.empresaFrete != null ? frete.empresaFrete.nomeFantasia : '-'}">Empresa</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Motorista:</label>
+        <p th:text="${frete.motoristaFrete != null ? frete.motoristaFrete.nome : '-'}">Motorista</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Transportadora:</label>
+        <p th:text="${frete.transportadoraFrete != null ? frete.transportadoraFrete.nomeFantasia : '-'}">Transportadora</p>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Data de Criação:</label>
+        <p th:text="${frete.data_criacao}">01/01/2024</p>
+      </div>
+    </div>
+    <div class="button-container">
+      <a th:href="@{/dashboard/fretes-listartodos}" class="btn btn-secondary">Voltar</a>
+
+      <form th:action="@{'/frete/' + ${frete.id} + '/finalizar-frete'}"
+            method="post" style="display:inline;">
+        <button type="submit" class="btn" style="background-color: #a79b2d; color: white;"
+                onclick="return confirm('Tem certeza que deseja finalizar este frete?');">
+          Finalizar
+        </button>
+      </form>
+
+      <form th:action="@{'/frete/' + ${frete.id} + '/cancelar-frete'}"
+            method="post" style="display:inline;">
+        <button type="submit" class="btn" style="background-color: #913a2a; color: white;"
+                onclick="return confirm('Tem certeza que deseja cancelar este frete?');">
+          Cancelar
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div th:if="${frete == null}">
+    <p>Frete não encontrado.</p>
+  </div>
+</div>
+
+</body>
+</html>

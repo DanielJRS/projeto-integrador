@@ -8,17 +8,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.cadastroMot.CadastroMotorista.domain.Carga;
 import com.cadastroMot.CadastroMotorista.domain.Empresa;
 import com.cadastroMot.CadastroMotorista.domain.Motorista;
 import com.cadastroMot.CadastroMotorista.domain.Transportadora;
 import com.cadastroMot.CadastroMotorista.domain.Veiculo;
+import com.cadastroMot.CadastroMotorista.domain.Frete;
 import com.cadastroMot.CadastroMotorista.service.CargaService;
 import com.cadastroMot.CadastroMotorista.service.EmpresaService;
 import com.cadastroMot.CadastroMotorista.service.MotoristaService;
 import com.cadastroMot.CadastroMotorista.service.TransportadoraService;
 import com.cadastroMot.CadastroMotorista.service.VeiculoService;
+import com.cadastroMot.CadastroMotorista.service.FreteService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -40,6 +43,9 @@ public class DashboardController {
 
     @Autowired
     private TransportadoraService transportadoraService;
+
+    @Autowired
+    private FreteService freteService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -86,6 +92,11 @@ public class DashboardController {
     @GetMapping("/transportadoras")
     public String dashboardTransportadoras() {
         return "dashboard/transportadora-index";
+    }
+
+    @GetMapping("/fretes")
+    public String dashboardFretes() {
+        return "dashboard/frete-index";
     }
 
     @GetMapping("/motoristas-listartodos")
@@ -183,6 +194,31 @@ public class DashboardController {
         model.addAttribute("cnpj", cnpj);
     
         return "dashboard/transportadoras-listartodos";
+    }
+
+    @GetMapping("/fretes-listartodos")
+    public String listarTodosFretes(Model model, HttpSession session) {
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        if (tipoUsuario == null || !"ADMIN".equals(tipoUsuario.toString())) {
+            return "redirect:/login";
+        }
+        List<Frete> fretes = freteService.listarTodos();
+        model.addAttribute("fretes", fretes);
+        return "dashboard/fretes-listartodos";
+    }
+
+    @GetMapping("/fretes-detalhar/{id}")
+    public String detalharFrete(@PathVariable Long id, Model model, HttpSession session) {
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        if (tipoUsuario == null || !"ADMIN".equals(tipoUsuario.toString())) {
+            return "redirect:/login";
+        }
+        Frete frete = freteService.buscarPorId(id).orElse(null);
+        if (frete == null) {
+            return "redirect:/dashboard/fretes-listartodos";
+        }
+        model.addAttribute("frete", frete);
+        return "dashboard/detalhar-frete";
     }
 
 }
