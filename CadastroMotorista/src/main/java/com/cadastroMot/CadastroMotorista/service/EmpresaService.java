@@ -74,4 +74,7 @@ public class EmpresaService {
                 .orElseThrow(() -> new IllegalArgumentException("Empresa não encontrada com ID: " + id));
     }
 
+    public void excluirPorId(Long id) {
+        empresaRepository.deleteById(id);
+    }
 }

@@ -2,6 +2,7 @@ package com.cadastroMot.CadastroMotorista.controller;
 
 import com.cadastroMot.CadastroMotorista.domain.*;
 import com.cadastroMot.CadastroMotorista.service.CargaService;
+import com.cadastroMot.CadastroMotorista.service.FreteService;
 import com.cadastroMot.CadastroMotorista.service.MotoristaService;
 import com.cadastroMot.CadastroMotorista.service.VeiculoService;
 import jakarta.servlet.http.HttpSession;
@@ -26,12 +27,14 @@ public class MotoristaController {
     private final MotoristaService motoristaService;
     private final CargaService cargaService;
     private final VeiculoService veiculoService;
+    private final FreteService freteService;
 
     @Autowired
-    public MotoristaController(MotoristaService motoristaService, CargaService cargaService, VeiculoService veiculoService){
+    public MotoristaController(MotoristaService motoristaService, CargaService cargaService, VeiculoService veiculoService, FreteService freteService){
         this.motoristaService = motoristaService;
         this.cargaService = cargaService;
         this.veiculoService = veiculoService;
+        this.freteService = freteService;
     }
 
     @GetMapping("/novo")
@@ -46,28 +49,16 @@ public class MotoristaController {
 
     @PostMapping("/salvar")
     public String salvar(Motorista motorista,
+                         @RequestParam("arquivoFoto") MultipartFile arquivoFoto,
+                         @RequestParam("email") String email,
+                         @RequestParam("senha") String senha,
+                         RedirectAttributes redirectAttributes) throws IOException {
 
-                         @RequestParam(required = false) MultipartFile arquivoFoto,
-                         @RequestParam(required = false) String email,
-                         @RequestParam(required = false) String senha,
-                         @RequestParam(required = false) Long transportadora,
-                         RedirectAttributes redirectAttributes, HttpSession session) throws IOException {
         try {
 
             if (!arquivoFoto.isEmpty()) {
                 motorista.setFoto(arquivoFoto.getBytes());
                 motorista.setTipoFoto(arquivoFoto.getContentType());
-            }
-
-            Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
-
-            if(usuarioLogado != null && usuarioLogado.getTipo() == TipoUsuario.TRANSPORTADORA){
-
-                motorista.setTransportadoraMotorista(usuarioLogado.getTransportadora());
-
-                Motorista motoristaSalvo = motoristaService.salvar(motorista);
-
-                return "redirect:/transportadora/dashboard";
             }
 
 
@@ -118,9 +109,63 @@ public class MotoristaController {
         List<Veiculo> veiculos = veiculoService.buscarPorMotoristaId(motorista.getId());
         model.addAttribute("veiculos", veiculos);
 
+        Motorista motoristaLista = motoristaService.buscarPorId(usuarioLogado.getId());
+
+        List<Frete> fretes = freteService.buscarFretesPorMotorista(motoristaLista);
+        model.addAttribute("fretes", fretes);
+        model.addAttribute("motoristaLista", motoristaLista);
+
+//        Long fretesAtivos = motoristaService.contarFretesAtivos(motorista);
+//        model.addAttribute("fretesAtivos", fretesAtivos);
+
+//        Long fretesAtivosStatus = freteService.contarFretesAtivosEStatus(motorista);
+//        model.addAttribute("fretesAtivosStatus", fretesAtivosStatus);
+
+        Long numeroFretesAtivosMotorista = freteService.contarFretesEStatus(motorista, TipoEstadoFrete.ATIVO);
+        model.addAttribute("fretesAtivosMotorista", numeroFretesAtivosMotorista);
+
+        Long numeroFretesFinalizadosMotorista = freteService.contarFretesEStatus(motorista, TipoEstadoFrete.FINALIZADO);
+        model.addAttribute("fretesFinalizados", numeroFretesFinalizadosMotorista);
+
+        Long numeroFretesCanceladosMotorista = freteService.contarFretesEStatus(motorista, TipoEstadoFrete.CANCELADO);
+        model.addAttribute("fretesCancelados", numeroFretesCanceladosMotorista);
+
         return "/motoristas/dashboard-motorista";
     }
 
+    @GetMapping("/detalhar/{id}")
+    public String detalharMotorista(@PathVariable Long id, Model model, HttpSession session) {
+        Motorista motorista = motoristaService.buscarPorId(id); 
+        model.addAttribute("motorista", motorista);
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        model.addAttribute("tipoUsuario", tipoUsuario);
+        return "motoristas/detalhar-motorista";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String exibirFormularioEdicao(@PathVariable Long id, Model model) {
+        Motorista motorista = motoristaService.buscarPorId(id);
+        model.addAttribute("motorista", motorista);
+        model.addAttribute("edicao", true);
+        return "motoristas/formulario-motorista";
+    }
+
+    @PostMapping("/excluir/{id}")
+    public String excluirMotorista(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        if (tipoUsuario == null ||
+            !(tipoUsuario.toString().equals("ADMIN") || tipoUsuario.toString().equals("TRANSPORTADORA"))) {
+            redirectAttributes.addFlashAttribute("falha", "Apenas administradores ou transportadoras podem excluir motoristas.");
+            return "redirect:/dashboard/motoristas-listartodos";
+        }
+        try {
+            motoristaService.excluirPorId(id);
+            redirectAttributes.addFlashAttribute("mensagemSucesso", "Motorista excluído com sucesso!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("falha", "Não foi possível excluir o motorista. Verifique se há vínculos ativos.");
+        }
+        return "redirect:/dashboard/motoristas-listartodos";
+    }
     @GetMapping("/gerenciarmotorista")
     public String motorista(Model model, HttpSession session) {
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
@@ -148,12 +193,4 @@ public class MotoristaController {
         model.addAttribute("motorista", motorista);
         return "motoristas/forms-motorista-transportadora";
     }
-
-    @GetMapping ("/deletar/{id}")
-    public String deletarmotorista (@PathVariable long id, HttpSession session){
-        Motorista motorista = motoristaService.buscarPorId(id);
-        motoristaService.deletar(id);
-        return "/transportadoras/gerenciarmotorista";
-    }
 }
-

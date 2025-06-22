@@ -1,7 +1,9 @@
 package com.cadastroMot.CadastroMotorista.service;
 
 import com.cadastroMot.CadastroMotorista.domain.*;
-import com.cadastroMot.CadastroMotorista.repository.*;
+import com.cadastroMot.CadastroMotorista.repository.FreteRepository;
+import com.cadastroMot.CadastroMotorista.repository.MotoristaRepository;
+import com.cadastroMot.CadastroMotorista.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,6 @@ public class MotoristaService {
     private final PasswordEncoder passwordEncoder;
     private final FreteRepository freteRepository;
     private final FreteService freteService;
-    private CargaRepository veiculoRepository;
 
     @Autowired
     public MotoristaService(MotoristaRepository motoristaRepository,
@@ -70,7 +71,6 @@ public class MotoristaService {
     public List<Motorista> listarPorTransportadora(Transportadora transportadora) {
         return motoristaRepository.findByTransportadoraMotorista(transportadora);
     }
-
     public List<Motorista> buscarMotoristas(String nome, String nomeFantasia) {
         if ((nome == null || nome.isEmpty()) && (nomeFantasia == null || nomeFantasia.isEmpty())) {
             return motoristaRepository.findAll();
@@ -92,27 +92,7 @@ public class MotoristaService {
         return freteService.contarFretesEStatus(motorista, TipoEstadoFrete.ATIVO);
     }
 
-    public void deletar(long id){
-        if (buscarPorId(id) == null){
-            throw new RuntimeException("Motorista não localizado");
-        }
+    public void excluirPorId(Long id) {
         motoristaRepository.deleteById(id);
     }
-
-   /* @Transactional
-    public void deletar(Long motoristaId) {
-        // Primeiro: buscar todos os veículos vinculados a este motorista
-        List<Veiculo> veiculos = veiculoRepository.findByMotoristaId(motoristaId);
-
-        // Segundo: remover a referência do motorista em cada veículo
-        for (Veiculo veiculo : veiculos) {
-            veiculo.setMotorista(null); // Remove a referência do motorista
-            veiculoRepository.save(veiculo); // Salva o veículo sem motorista
-        }
-
-        // Terceiro: agora pode deletar o motorista sem erro de chave estrangeira
-        motoristaRepository.deleteById(motoristaId);
-    }
-
-    */
 }
