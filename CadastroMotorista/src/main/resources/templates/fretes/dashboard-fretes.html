@@ -153,7 +153,14 @@
                         <button class="btn btn-success" th:if="${frete.status.toString() == 'ATIVO'}" onclick="return confirmarFinalizacao()">
                             Finalizar entrega
                         </button>
-                        <a th:href="@{/dashboard}" class="btn btn-secondary">
+                        <a th:if="${TipoUsuario == T(com.cadastroMot.CadastroMotorista.domain.TipoUsuario).MOTORISTA}"
+                           th:href="@{/motorista/dashboard}"
+                           class="btn btn-secondary">
+                            Voltar ao dashboard
+                        </a>
+                        <a th:if="${TipoUsuario == T(com.cadastroMot.CadastroMotorista.domain.TipoUsuario).TRANSPORTADORA}"
+                           th:href="@{/transportadora/dashboard}"
+                           class="btn btn-secondary">
                             Voltar ao dashboard
                         </a>
                     </div>

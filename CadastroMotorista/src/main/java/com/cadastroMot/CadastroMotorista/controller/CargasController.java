@@ -44,6 +44,7 @@ public class CargasController {
         model.addAttribute("cidades", cargaService.listarCidades());
         model.addAttribute("estados", cargaService.listarEstados());
         model.addAttribute("tiposCarga", TipoCarga.values());
+        model.addAttribute("TipoUsuario", usuarioLogado.getTipo());
 
         if ("ADMIN".equals(String.valueOf(tipoUsuario))) {
             return "cargas/novo";

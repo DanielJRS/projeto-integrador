@@ -124,15 +124,21 @@ public class FreteController {
             }
         } else {
             System.out.println("PROBLEMA: Nenhuma carga encontrada para o frete " + id);
-            freteService.salvar(frete); // Salva só o frete
+            freteService.salvar(frete);
         }
 
         return "redirect:/motorista/dashboard";
     }
 
     @GetMapping("/frete/{id}")
+    @Transactional
     public String detalheFrete(@PathVariable Long id,
-                               Model model) {
+                               Model model,
+                               HttpSession session) {
+
+        Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
+
+        model.addAttribute("TipoUsuario", usuarioLogado.getTipo());
 
         Frete frete = freteService.buscarPorId(id).orElse(null);
 
