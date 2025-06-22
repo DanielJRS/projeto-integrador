@@ -10,6 +10,14 @@
             min-height: 100vh;
             color: #333;
         }
+           .fretes-list {
+                background: white;
+                border-radius: 20px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+                overflow: hidden;
+                border: 1px solid #e9ecef;
+                margin-bottom: 40px;
+            }
 
         /* Sidebar Styles */
         .sidebar {
