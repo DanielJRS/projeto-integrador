@@ -31,7 +31,9 @@ public class Carga {
     private String produto;
     private String especie;
     private String veiculo;
+    @Column(name = "preco", columnDefinition = "DOUBLE PRECISION")
     private Double preco;
+    @Column(name = "preco_frete", columnDefinition = "DOUBLE PRECISION")
     private Double precoFrete;
 
 
