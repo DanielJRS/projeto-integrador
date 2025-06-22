@@ -22,7 +22,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/motorista")
-public class MotoristaController {
+public class  MotoristaController {
 
     private final MotoristaService motoristaService;
     private final CargaService cargaService;
