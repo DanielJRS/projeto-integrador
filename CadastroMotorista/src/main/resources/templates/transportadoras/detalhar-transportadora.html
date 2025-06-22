@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes da Transportadora</title>
+    <link rel="stylesheet" th:href="@{/img/css/transportadora/formulario-transportadora.css}">
+</head>
+<body>
+<nav class="navbar">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/login}">
+            <img th:src="@{/img/GlobalTransportes.png}" alt="Global Transportes" class="logo">
+        </a>
+    </div>
+</nav>
+
+<div class="content-container">
+    <div class="page-title">
+        <h2>Detalhes da Transportadora</h2>
+    </div>
+
+    <div class="form-container readonly" th:if="${transportadora != null}">
+        <h5 class="section-header">Informações Gerais</h5>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Nome Fantasia:</label>
+                <p th:text="${transportadora.nomeFantasia}">Nome comercial</p>
+            </div>
+            <div class="form-group">
+                <label>CNPJ:</label>
+                <p th:text="${transportadora.cnpj}">00.000.000/0000-00</p>
+            </div>
+        </div>
+
+        <div class="form-row single">
+            <div class="form-group">
+                <label>Razão Social:</label>
+                <p th:text="${transportadora.razaoSocial}">Razão social</p>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Telefone:</label>
+                <p th:text="${transportadora.telefone}">(00) 0000-0000</p>
+            </div>
+            <div class="form-group">
+                <label>Inscrição Estadual:</label>
+                <p th:text="${transportadora.inscricaoEstadual}">IE</p>
+            </div>
+        </div>
+
+        <h5 class="section-header">Endereço</h5>
+        <div class="form-row single">
+            <div class="form-group">
+                <label>Endereço:</label>
+                <p th:text="${transportadora.endereco}">Endereço completo</p>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Cidade:</label>
+                <p th:text="${transportadora.cidade}">Cidade</p>
+            </div>
+            <div class="form-group">
+                <label>Estado:</label>
+                <p th:text="${transportadora.estado}">Estado</p>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>CEP:</label>
+                <p th:text="${transportadora.cep}">00000-000</p>
+            </div>
+            <div class="form-group">
+                <label>Data de Fundação:</label>
+                <p th:text="${dataFundacaoFormatada}">01/01/2000</p>
+            </div>
+        </div>
+
+        <h5 class="section-header">Licenças e Registros</h5>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Registro ANTT:</label>
+                <p th:text="${transportadora.numeroRegistroANTT}">123456</p>
+            </div>
+            <div class="form-group">
+                <label>Vencimento da Licença:</label>
+                <p th:text="${dataVencimentoLicencaFormatada}">01/01/2025</p>
+            </div>
+        </div>
+
+        <div class="form-row single">
+            <div class="form-group">
+                <label>Categorias:</label>
+                <p th:text="${transportadora.categoriasLicenca != null ? transportadora.categoriasLicenca.join(', ') : '-'}">ETC, TCP</p>
+            </div>
+        </div>
+
+        <h5 class="section-header">Informações Operacionais</h5>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Tipo de Frota:</label>
+                <p th:text="${transportadora.tipoFrota}">Mista</p>
+            </div>
+            <div class="form-group">
+                <label>Capacidade de Carga:</label>
+                <p th:text="${transportadora.capacidadeCarga}">25 toneladas</p>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Prazo Padrão de Entrega:</label>
+                <p th:text="${transportadora.prazoPadraoEntrega}">5 dias</p>
+            </div>
+        </div>
+
+        <div class="form-row single">
+            <div class="form-group">
+                <label>Tipos de Mercadorias:</label>
+                <p th:text="${transportadora.tiposMercadorias}">Alimentos, eletrônicos</p>
+            </div>
+        </div>
+
+        <div class="checkbox-group">
+            <label>Rastreamento de Veículos:</label>
+            <p th:text="${transportadora.rastreamentoVeiculos} ? 'Sim' : 'Não'">Sim</p>
+        </div>
+
+        <div class="checkbox-group">
+            <label>Seguro de Carga:</label>
+            <p th:text="${transportadora.possuiSeguroCarga} ? 'Sim' : 'Não'">Sim</p>
+        </div>
+
+        <div class="button-container">
+            <a th:href="@{/dashboard/transportadoras-listartodos}" class="btn btn-secondary">Voltar</a>
+            <a th:href="@{/transportadora/editar/{id}(id=${transportadora.id})}" class="btn btn-primary">Editar</a>
+            <form th:if="${tipoUsuario.name() == 'ADMIN'}"
+                  th:action="@{/transportadora/excluir/{id}(id=${transportadora.id})}"
+                  method="post" style="display:inline;">
+                <button type="submit" class="btn" style="background-color: brown !important; color: white; border: none;"
+                        onclick="return confirm('Tem certeza que deseja excluir esta transportadora?');">
+                    Excluir
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div th:if="${transportadora == null}">
+        <p>Transportadora não encontrada.</p>
+    </div>
+</div>
+</body>
+</html>

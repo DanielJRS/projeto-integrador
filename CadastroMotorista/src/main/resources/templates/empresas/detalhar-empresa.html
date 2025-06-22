@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Global Transportes - Detalhes da Empresa</title>
+  <link rel="stylesheet" th:href="@{/img/css/empresa/formulario-empresa.css}">
+</head>
+<body>
+<nav class="navbar">
+  <div class="container">
+    <a class="navbar-brand" th:href="@{/login}">
+      <img th:src="@{/img/GlobalTransportes.png}" alt="Global Transportes" class="logo">
+    </a>
+  </div>
+</nav>
+
+<div class="content-container">
+  <div class="page-title">
+    <h2>Detalhes da Empresa</h2>
+  </div>
+
+  <div class="form-container readonly" th:if="${empresa != null}">
+
+    <h5 class="section-header">Informações da Empresa</h5>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Nome Fantasia:</label>
+        <p th:text="${empresa.nomeFantasia}">Nome Fantasia</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">CNPJ:</label>
+        <p th:text="${empresa.cnpj}">00.000.000/0000-00</p>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Razão Social:</label>
+        <p th:text="${empresa.razaoSocial}">Razão Social</p>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Inscrição Estadual:</label>
+        <p th:text="${empresa.inscricaoEstadual}">Inscrição Estadual</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Telefone:</label>
+        <p th:text="${empresa.telefone}">(00) 0000-0000</p>
+      </div>
+    </div>
+
+    <h5 class="section-header">Endereço</h5>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Endereço:</label>
+        <p th:text="${empresa.endereco}">Endereço completo</p>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Cidade:</label>
+        <p th:text="${empresa.cidade}">Cidade</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Estado:</label>
+        <p th:text="${empresa.estado}">Estado</p>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">CEP:</label>
+        <p th:text="${empresa.cep}">00000-000</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Data de Fundação:</label>
+        <p th:text="${empresa.dataFundacao != null ? #temporals.format(empresa.dataFundacao, 'dd/MM/yyyy') : 'Data não informada'}">01/01/2000</p>
+      </div>
+    </div>
+
+    <div class="button-container">
+      <a th:href="@{/dashboard/empresas-listartodos}" class="btn btn-secondary">Voltar</a>
+      <a th:href="@{'/empresa/editar/' + ${empresa.id}}" class="btn btn-primary">Editar</a>
+      <form th:if="${tipoUsuario != null and tipoUsuario.name() == 'ADMIN'}"
+            th:action="@{/empresa/excluir/{id}(id=${empresa.id})}"
+            method="post" style="display:inline;">
+        <button type="submit" class="btn"
+                style="background-color: brown !important; color: white; border: none;"
+                onclick="return confirm('Tem certeza que deseja excluir esta empresa?');">
+          Excluir
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div th:if="${empresa == null}">
+    <p>Empresa não encontrada.</p>
+  </div>
+</div>
+
+</body>
+</html>

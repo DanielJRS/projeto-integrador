@@ -3,22 +3,62 @@ package com.cadastroMot.CadastroMotorista.domain;
 import java.time.LocalDate;
 
 public class CargaFiltro {
+
+
+    private Empresa empresa;
+
+    private String nomeEmpresa;
     private String origemCidade;
     private String origemEstado;
-    private LocalDate dataColeta;
     private String destinoCidade;
     private String destinoEstado;
-    private LocalDate dataEntrega;
+
+
     private String produto;
     private String especie;
-    private String veiculo;
-    private Double preco;
+
+
     private TipoCarga tipoCarga;
     private TipoEstadoCarga tipoEstadoCarga;
+
+
+    private LocalDate dataColetaDe;
+    private LocalDate dataColetaAte;
+    private LocalDate dataEntregaDe;
+    private LocalDate dataEntregaAte;
+
+
+    private Double precoMinimo;
+    private Double precoMaximo;
+
+
+    private Double pesoMinimo;
+    private Double pesoMaximo;
+
+
     private Boolean possuiLona;
-    private Double pesoTotal;
-    private Double limiteAltura;
-    private Double volume;
+    private Double volumeMinimo;
+    private Double volumeMaximo;
+
+
+    public CargaFiltro() {}
+
+
+    public String getNomeEmpresa() {
+        return nomeEmpresa;
+    }
+
+    public void setNomeEmpresa(String nomeEmpresa) {
+        this.nomeEmpresa = nomeEmpresa;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
 
     public String getOrigemCidade() {
         return origemCidade;
@@ -28,100 +68,12 @@ public class CargaFiltro {
         this.origemCidade = origemCidade;
     }
 
-    public Double getVolume() {
-        return volume;
+    public String getOrigemEstado() {
+        return origemEstado;
     }
 
-    public void setVolume(Double volume) {
-        this.volume = volume;
-    }
-
-    public Double getLimiteAltura() {
-        return limiteAltura;
-    }
-
-    public void setLimiteAltura(Double limiteAltura) {
-        this.limiteAltura = limiteAltura;
-    }
-
-    public Double getPesoTotal() {
-        return pesoTotal;
-    }
-
-    public void setPesoTotal(Double pesoTotal) {
-        this.pesoTotal = pesoTotal;
-    }
-
-    public Boolean getPossuiLona() {
-        return possuiLona;
-    }
-
-    public void setPossuiLona(Boolean possuiLona) {
-        this.possuiLona = possuiLona;
-    }
-
-    public TipoEstadoCarga getTipoEstadoCarga() {
-        return tipoEstadoCarga;
-    }
-
-    public void setTipoEstadoCarga(TipoEstadoCarga tipoEstadoCarga) {
-        this.tipoEstadoCarga = tipoEstadoCarga;
-    }
-
-    public TipoCarga getTipoCarga() {
-        return tipoCarga;
-    }
-
-    public void setTipoCarga(TipoCarga tipoCarga) {
-        this.tipoCarga = tipoCarga;
-    }
-
-    public String getVeiculo() {
-        return veiculo;
-    }
-
-    public void setVeiculo(String veiculo) {
-        this.veiculo = veiculo;
-    }
-
-    public Double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(Double preco) {
-        this.preco = preco;
-    }
-
-    public String getEspecie() {
-        return especie;
-    }
-
-    public void setEspecie(String especie) {
-        this.especie = especie;
-    }
-
-    public String getProduto() {
-        return produto;
-    }
-
-    public void setProduto(String produto) {
-        this.produto = produto;
-    }
-
-    public LocalDate getDataEntrega() {
-        return dataEntrega;
-    }
-
-    public void setDataEntrega(LocalDate dataEntrega) {
-        this.dataEntrega = dataEntrega;
-    }
-
-    public String getDestinoEstado() {
-        return destinoEstado;
-    }
-
-    public void setDestinoEstado(String destinoEstado) {
-        this.destinoEstado = destinoEstado;
+    public void setOrigemEstado(String origemEstado) {
+        this.origemEstado = origemEstado;
     }
 
     public String getDestinoCidade() {
@@ -132,19 +84,131 @@ public class CargaFiltro {
         this.destinoCidade = destinoCidade;
     }
 
-    public LocalDate getDataColeta() {
-        return dataColeta;
+    public String getDestinoEstado() {
+        return destinoEstado;
     }
 
-    public void setDataColeta(LocalDate dataColeta) {
-        this.dataColeta = dataColeta;
+    public void setDestinoEstado(String destinoEstado) {
+        this.destinoEstado = destinoEstado;
     }
 
-    public String getOrigemEstado() {
-        return origemEstado;
+    public String getProduto() {
+        return produto;
     }
 
-    public void setOrigemEstado(String origemEstado) {
-        this.origemEstado = origemEstado;
+    public void setProduto(String produto) {
+        this.produto = produto;
+    }
+
+    public String getEspecie() {
+        return especie;
+    }
+
+    public void setEspecie(String especie) {
+        this.especie = especie;
+    }
+
+    public TipoCarga getTipoCarga() {
+        return tipoCarga;
+    }
+
+    public void setTipoCarga(TipoCarga tipoCarga) {
+        this.tipoCarga = tipoCarga;
+    }
+
+    public TipoEstadoCarga getTipoEstadoCarga() {
+        return tipoEstadoCarga;
+    }
+
+    public void setTipoEstadoCarga(TipoEstadoCarga tipoEstadoCarga) {
+        this.tipoEstadoCarga = tipoEstadoCarga;
+    }
+
+    public LocalDate getDataColetaDe() {
+        return dataColetaDe;
+    }
+
+    public void setDataColetaDe(LocalDate dataColetaDe) {
+        this.dataColetaDe = dataColetaDe;
+    }
+
+    public LocalDate getDataColetaAte() {
+        return dataColetaAte;
+    }
+
+    public void setDataColetaAte(LocalDate dataColetaAte) {
+        this.dataColetaAte = dataColetaAte;
+    }
+
+    public LocalDate getDataEntregaDe() {
+        return dataEntregaDe;
+    }
+
+    public void setDataEntregaDe(LocalDate dataEntregaDe) {
+        this.dataEntregaDe = dataEntregaDe;
+    }
+
+    public LocalDate getDataEntregaAte() {
+        return dataEntregaAte;
+    }
+
+    public void setDataEntregaAte(LocalDate dataEntregaAte) {
+        this.dataEntregaAte = dataEntregaAte;
+    }
+
+    public Double getPrecoMinimo() {
+        return precoMinimo;
+    }
+
+    public void setPrecoMinimo(Double precoMinimo) {
+        this.precoMinimo = precoMinimo;
+    }
+
+    public Double getPrecoMaximo() {
+        return precoMaximo;
+    }
+
+    public void setPrecoMaximo(Double precoMaximo) {
+        this.precoMaximo = precoMaximo;
+    }
+
+    public Double getPesoMinimo() {
+        return pesoMinimo;
+    }
+
+    public void setPesoMinimo(Double pesoMinimo) {
+        this.pesoMinimo = pesoMinimo;
+    }
+
+    public Double getPesoMaximo() {
+        return pesoMaximo;
+    }
+
+    public void setPesoMaximo(Double pesoMaximo) {
+        this.pesoMaximo = pesoMaximo;
+    }
+
+    public Boolean getPossuiLona() {
+        return possuiLona;
+    }
+
+    public void setPossuiLona(Boolean possuiLona) {
+        this.possuiLona = possuiLona;
+    }
+
+    public Double getVolumeMinimo() {
+        return volumeMinimo;
+    }
+
+    public void setVolumeMinimo(Double volumeMinimo) {
+        this.volumeMinimo = volumeMinimo;
+    }
+
+    public Double getVolumeMaximo() {
+        return volumeMaximo;
+    }
+
+    public void setVolumeMaximo(Double volumeMaximo) {
+        this.volumeMaximo = volumeMaximo;
     }
 }

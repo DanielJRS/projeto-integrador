@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Global Transportes - Detalhes do Motorista</title>
+    <link rel="stylesheet" th:href="@{/img/css/motorista/formulario-motorista.css}">
+</head>
+<body>
+<nav class="navbar">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/login}">
+            <img th:src="@{/img/GlobalTransportes.png}" alt="Global Transportes" class="logo">
+        </a>
+    </div>
+</nav>
+
+<div class="content-container">
+    <div class="page-title">
+        <h2>Detalhes do Motorista</h2>
+    </div>
+
+    <div class="form-container readonly" th:if="${motorista != null}">
+
+        <h5 class="section-header">Dados Pessoais</h5>
+        <div class="form-row single">
+            <div class="form-group">
+                <label class="form-label">Nome completo:</label>
+                <p th:text="${motorista.nome}">Nome do Motorista</p>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">CPF:</label>
+                <p th:text="${motorista.cpf}">000.000.000-00</p>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Celular:</label>
+                <p th:text="${motorista.celular}">(00) 00000-0000</p>
+            </div>
+        </div>
+
+        <h5 class="section-header">Endereço</h5>
+        <div class="form-row single">
+            <div class="form-group">
+                <label class="form-label">Endereço completo:</label>
+                <p th:text="${motorista.endereco}">Rua, número, bairro</p>
+            </div>
+        </div>
+
+        <div class="form-row triple">
+            <div class="form-group">
+                <label class="form-label">Cidade:</label>
+                <p th:text="${motorista.cidade}">Cidade</p>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Estado:</label>
+                <p th:text="${motorista.estado}">Estado</p>
+            </div>
+            <div class="form-group">
+                <label class="form-label">País:</label>
+                <p th:text="${motorista.pais}">Brasil</p>
+            </div>
+        </div>
+
+        <h5 class="section-header">Documentação Profissional</h5>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">CNH:</label>
+                <p th:text="${motorista.cnh}">Número da CNH</p>
+            </div>
+            <div class="form-group">
+                <label class="form-label">ANTT:</label>
+                <p th:text="${motorista.antt}">Registro ANTT</p>
+            </div>
+        </div>
+
+        <h5 class="section-header">Foto do Motorista</h5>
+        <div class="form-row single">
+            <div class="form-group">
+                <label class="form-label">Foto:</label><br>
+                <img th:if="${motorista.id != null}" th:src="@{/motorista/motoristas/foto/{id}(id=${motorista.id})}" alt="Foto do motorista" style="max-width: 200px; border-radius: 10px;">
+                <p th:if="${motorista.id == null}">Nenhuma foto enviada.</p>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <a th:href="@{/dashboard/motoristas-listartodos}" class="btn btn-secondary">Voltar</a>
+            <a th:href="@{/motorista/editar/{id}(id=${motorista.id})}" class="btn btn-primary">Editar</a>
+            <form th:if="${tipoUsuario != null and (tipoUsuario.name() == 'ADMIN' or tipoUsuario.name() == 'TRANSPORTADORA')}"
+                  th:action="@{/motorista/excluir/{id}(id=${motorista.id})}"
+                  method="post" style="display:inline;">
+                <button type="submit" class="btn" style="background-color: brown !important; color: white; border: none;"
+                        onclick="return confirm('Tem certeza que deseja excluir este motorista?');">
+                    Excluir
+                </button>
+            </form>
+        </div>
+    </div>
+    <div th:if="${motorista == null}">
+        <p>Motorista não encontrado.</p>
+    </div>
+</div>
+
+</body>
+</html>

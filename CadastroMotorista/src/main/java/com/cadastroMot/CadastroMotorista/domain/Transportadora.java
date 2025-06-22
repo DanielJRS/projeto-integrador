@@ -55,4 +55,6 @@ public class Transportadora {
 
     @OneToMany (mappedBy = "transportadoraFrete")
     private List<Frete> fretes;
+
+
 }

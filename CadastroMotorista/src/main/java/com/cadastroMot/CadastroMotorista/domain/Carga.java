@@ -1,6 +1,9 @@
 package com.cadastroMot.CadastroMotorista.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -9,6 +12,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "cargas")
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Carga {
 
     @Id
@@ -27,6 +33,7 @@ public class Carga {
     private String veiculo;
     private Double preco;
     private Double precoFrete;
+
 
     @Enumerated(EnumType.STRING)
     private TipoCarga tipoCarga;
@@ -84,6 +91,8 @@ public class Carga {
     public Double getPrecoFrete() {
         return precoFrete;
     }
+
+
     public String getTodosVeiculos() {
         List<String> todosVeiculos = new ArrayList<>();
         todosVeiculos.addAll(veiculosLeves);
@@ -308,5 +317,9 @@ public class Carga {
 
     public void setFretesEspeciais(List<String> fretesEspeciais) {
         this.fretesEspeciais = fretesEspeciais;
+    }
+
+    public double getPeso() {
+        return pesoTotal;
     }
 }

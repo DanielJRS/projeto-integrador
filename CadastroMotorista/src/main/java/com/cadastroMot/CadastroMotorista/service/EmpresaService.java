@@ -2,13 +2,21 @@ package com.cadastroMot.CadastroMotorista.service;
 
 import com.cadastroMot.CadastroMotorista.domain.Empresa;
 import com.cadastroMot.CadastroMotorista.domain.TipoUsuario;
+import com.cadastroMot.CadastroMotorista.domain.Transportadora;
 import com.cadastroMot.CadastroMotorista.domain.Usuario;
 import com.cadastroMot.CadastroMotorista.repository.EmpresaRepository;
 import com.cadastroMot.CadastroMotorista.repository.UsuarioRepository;
+
+import jakarta.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import java.util.Optional;
 
 @Service
 public class EmpresaService {
@@ -43,5 +51,30 @@ public class EmpresaService {
         empresa.setUsuario(usuarioSalvo);
 
         return empresaRepository.save(empresa);
+    }
+
+    public Optional<Empresa> buscarEmpresaPorId(Long id) {
+        return empresaRepository.findById(id);
+    }
+
+    public List<Empresa> listarTodos() {
+        return empresaRepository.findAll();
+    }
+
+    public List<Empresa> buscarEmpresas(String razaoSocial, String nomeFantasia, String cnpj) {
+        return empresaRepository.findByRazaoSocialContainingIgnoreCaseAndNomeFantasiaContainingIgnoreCaseAndCnpjContainingIgnoreCase(
+            razaoSocial == null ? "" : razaoSocial,
+            nomeFantasia == null ? "" : nomeFantasia,
+            cnpj == null ? "" : cnpj
+        );
+    }
+
+     public Empresa buscarPorId(Long id) {
+        return empresaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Empresa não encontrada com ID: " + id));
+    }
+
+    public void excluirPorId(Long id) {
+        empresaRepository.deleteById(id);
     }
 }

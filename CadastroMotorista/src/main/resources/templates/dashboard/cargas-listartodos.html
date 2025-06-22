@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Listar Todas as Cargas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/img/css/dashboardadmin/listar.css}">
+
+</head>
+<body>
+    <div th:insert="~{dashboard/fragments/sidebar :: sidebar}"></div>
+    <div th:insert="~{dashboard/fragments/header :: header}"></div>
+    <div class="content-container">
+        <div class="page-title">
+            <h2>Listagem de Cargas</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Origem</th>
+                        <th>Destino</th>
+                        <th>Produto</th>
+                        <th>Espécie</th>
+                        <th>Veículos</th>
+                        <th>Peso Total</th>
+                        <th>Volume</th>
+                        <th>Preço</th>
+                        <th>Preço Frete</th>
+                        <th>Empresa</th>
+                        <th>Status</th>
+                        <th>Data Coleta</th>
+                        <th>Data Entrega</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="carga : ${cargas}">
+                        <td th:text="${carga.id}">1</td>
+                        <td>
+                            <span th:text="${carga.origemCidade}">Cidade Origem</span> /
+                            <span th:text="${carga.origemEstado}">Estado Origem</span>
+                        </td>
+                        <td>
+                            <span th:text="${carga.destinoCidade}">Cidade Destino</span> /
+                            <span th:text="${carga.destinoEstado}">Estado Destino</span>
+                        </td>
+                        <td th:text="${carga.produto}">Produto</td>
+                        <td th:text="${carga.especie}">Espécie</td>
+                        <td th:text="${carga.todosVeiculos}">Veículos</td>
+                        <td th:text="${carga.pesoTotal}">0.0</td>
+                        <td th:text="${carga.volume}">0.0</td>
+                        <td th:text="${#numbers.formatDecimal(carga.preco, 1, 'POINT', 2, 'COMMA')}">0,00</td>
+                        <td th:text="${#numbers.formatDecimal(carga.precoFrete, 1, 'POINT', 2, 'COMMA')}">0,00</td>
+                        <td th:text="${carga.empresaCarga != null ? carga.empresaCarga.nomeFantasia : '-'}">Empresa</td>
+                        <td th:text="${carga.tipoEstadoCarga}">Status</td>
+                        <td th:text="${carga.dataColeta}">Data Coleta</td>
+                        <td th:text="${carga.dataEntrega}">Data Entrega</td>
+                         <td>
+                        <a th:href="@{/cargas/detalhar-admin/{id}(id=${carga.id})}" class="btn btn-sm btn-primary">
+                            Detalhar
+                        </a>
+                    </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="button-container">
+            <a th:href="@{/dashboard/cargas}" class="btn btn-secondary">Voltar</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Service
 public class TransportadoraService {
     private final TransportadoraRepository transportadoraRepository;
@@ -44,5 +46,32 @@ public class TransportadoraService {
         transportadora.setUsuario(usuarioSalvo);
 
         return transportadoraRepository.save(transportadora);
+    }
+
+    public List<Transportadora> listarTodos() {
+        return transportadoraRepository.findAll();
+    }
+
+    public List<Transportadora> buscarTransportadoras(String razaoSocial, String nomeFantasia, String cnpj) {
+        if ((razaoSocial == null || razaoSocial.isEmpty()) &&
+            (nomeFantasia == null || nomeFantasia.isEmpty()) &&
+            (cnpj == null || cnpj.isEmpty())) {
+            return transportadoraRepository.findAll();
+        }
+    
+        return transportadoraRepository.findByRazaoSocialContainingIgnoreCaseAndNomeFantasiaContainingIgnoreCaseAndCnpjContainingIgnoreCase(
+            razaoSocial == null ? "" : razaoSocial,
+            nomeFantasia == null ? "" : nomeFantasia,
+            cnpj == null ? "" : cnpj
+        );
+    }
+
+    public Transportadora buscarPorId(Long id) {
+        return transportadoraRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Transportadora não encontrada com ID: " + id));
+    }
+
+    public void excluirPorId(Long id) {
+        transportadoraRepository.deleteById(id);
     }
 }

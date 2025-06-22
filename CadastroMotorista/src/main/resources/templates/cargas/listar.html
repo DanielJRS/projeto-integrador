@@ -1,390 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Listar Cargas</title>
+    <title>Listar cargas</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/img/css/cargas/cargas-listar.css}">
     <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        .verde {
-            background-color: #d4edda;
-            color: #155724;
-            font-weight: bold;
-        }
 
-        .vermelho {
-            background-color: #f8d7da;
-            color: #721c24;
-            font-weight: bold;
-        }
-
-        .amarelo {
-            background-color: #fff3cd;
-            color: #856404;
-            font-weight: bold;
-        }
-
-        .main-container {
-            display: flex;
-            min-height: 100vh;
-            gap: 0;
-        }
-
-        /* Sidebar de Filtros */
-        .sidebar-filters {
-            width: 320px;
-            background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
-            padding: 25px;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            z-index: 1000;
-        }
-
-        .sidebar-title {
-            color: #ffffff;
-            font-weight: 600;
-            margin-bottom: 25px;
-            text-align: center;
-            font-size: 1.2rem;
-            border-bottom: 2px solid #f9b000;
-            padding-bottom: 15px;
-        }
-
-        .filter-section {
-            margin-bottom: 25px;
-        }
-
-        .filter-section h6 {
-            color: #f9b000;
-            font-weight: 600;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .sidebar-filters .form-label {
-            color: #e8eaf6;
-            font-weight: 500;
-            font-size: 0.85rem;
-            margin-bottom: 5px;
-        }
-
-        .sidebar-filters .form-control,
-        .sidebar-filters .form-select {
-            background-color: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #ffffff;
-            font-size: 0.85rem;
-            border-radius: 6px;
-            margin-bottom: 12px;
-        }
-
-        .sidebar-filters .form-control::placeholder {
-            color: rgba(255,255,255,0.6);
-        }
-
-        .sidebar-filters .form-control:focus,
-        .sidebar-filters .form-select:focus {
-            background-color: rgba(255,255,255,0.15);
-            border-color: #f9b000;
-            box-shadow: 0 0 0 0.2rem rgba(249, 176, 0, 0.25);
-            color: #ffffff;
-        }
-
-        .sidebar-filters .form-select option {
-            background-color: #1a237e;
-            color: #ffffff;
-        }
-
-        .btn-search {
-            background: linear-gradient(135deg, #f9b000 0%, #ff9800 100%);
-            border: none;
-            color: #1a237e;
-            font-weight: 600;
-            width: 100%;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-search:hover {
-            background: linear-gradient(135deg, #e6a200 0%, #f57c00 100%);
-            color: #1a237e;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(249, 176, 0, 0.3);
-        }
-
-        .btn-clear {
-            background-color: transparent;
-            border: 2px solid rgba(255,255,255,0.3);
-            color: #ffffff;
-            font-weight: 500;
-            width: 100%;
-            padding: 8px;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-clear:hover {
-            background-color: rgba(255,255,255,0.1);
-            border-color: #ffffff;
-            color: #ffffff;
-        }
-
-        /* Conteúdo Principal */
-        .content-area {
-            flex: 1;
-            margin-left: 320px;
-            padding: 30px;
-        }
-
-        .content-container {
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            padding: 30px;
-            margin-bottom: 30px;
-        }
-
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #f8f9fa;
-        }
-
-        .page-title {
-            color: #1a237e;
-            font-weight: 600;
-            margin: 0;
-            font-size: 1.8rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #f9b000 0%, #ff9800 100%);
-            border: none;
-            color: #1a237e;
-            font-weight: 600;
-            padding: 12px 24px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #e6a200 0%, #f57c00 100%);
-            color: #1a237e;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(249, 176, 0, 0.3);
-        }
-
-        .table {
-            background-color: #ffffff;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            border: none;
-        }
-
-        .table thead th {
-            background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
-            color: #ffffff;
-            font-weight: 600;
-            border: none;
-            padding: 18px 15px;
-            text-align: center;
-            vertical-align: middle;
-            font-size: 0.9rem;
-        }
-
-        .table tbody td {
-            padding: 15px;
-            vertical-align: middle;
-            border-color: #f8f9fa;
-            font-size: 0.9rem;
-        }
-
-        .table tbody tr:hover {
-            background-color: #f8f9fa;
-            transition: background-color 0.2s ease;
-        }
-
-        .btn-action {
-            padding: 8px 12px;
-            margin: 0 3px;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            display: inline-block;
-            text-align: center;
-            min-width: 40px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-ver {
-            background-color: #17a2b8;
-            color: white;
-            border: none;
-        }
-
-        .btn-ver:hover {
-            background-color: #138496;
-            color: white;
-            text-decoration: none;
-            transform: translateY(-1px);
-        }
-
-        .btn-editar {
-            background-color: #28a745;
-            color: white;
-            border: none;
-        }
-
-        .btn-editar:hover {
-            background-color: #218838;
-            color: white;
-            text-decoration: none;
-            transform: translateY(-1px);
-        }
-
-        .btn-excluir {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-        }
-
-        .btn-excluir:hover {
-            background-color: #c82333;
-            color: white;
-            text-decoration: none;
-            transform: translateY(-1px);
-        }
-
-        .table-responsive {
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 80px 20px;
-            color: #6c757d;
-        }
-
-        .empty-state i {
-            font-size: 5rem;
-            color: #dee2e6;
-            margin-bottom: 25px;
-        }
-
-        .actions-header {
-            width: 180px;
-        }
-
-        .price-cell {
-            font-weight: 600;
-            color: #28a745;
-        }
-
-        .badge-sim {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        .badge-nao {
-            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .sidebar-filters {
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-            }
-
-            .sidebar-filters.show {
-                transform: translateX(0);
-            }
-
-            .content-area {
-                margin-left: 0;
-            }
-
-            .mobile-filter-toggle {
-                display: block !important;
-            }
-        }
-
-        .mobile-filter-toggle {
-            display: none;
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1001;
-            background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        /* Scrollbar personalizada para sidebar */
-        .sidebar-filters::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .sidebar-filters::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.1);
-            border-radius: 3px;
-        }
-
-        .sidebar-filters::-webkit-scrollbar-thumb {
-            background: rgba(249, 176, 0, 0.6);
-            border-radius: 3px;
-        }
-
-        .sidebar-filters::-webkit-scrollbar-thumb:hover {
-            background: rgba(249, 176, 0, 0.8);
-        }
     </style>
 </head>
 <body>
 <div class="main-container">
-    <!-- Botão Mobile para Filtros -->
     <button class="mobile-filter-toggle" onclick="toggleSidebar()">
         <i class="fas fa-filter"></i>
     </button>
 
-    <!-- Sidebar de Filtros -->
     <div class="sidebar-filters" id="sidebarFilters">
         <h5 class="sidebar-title">
             <i class="fas fa-filter me-2"></i>Filtros de Busca
         </h5>
 
         <form th:action="@{/cargas/listar}" method="get" th:object="${filtro}">
-            <!-- Localização -->
+            <div class="filter-section">
+
+                <h6><i class="fas fa-building me-2"></i>Empresa</h6>
+
+                <label for="nomeEmpresa" class="form-label">Nome da Empresa</label>
+                <input type="text" class="form-control" id="nomeEmpresa" name="nomeEmpresa"
+                       th:value="*{nomeEmpresa}" placeholder="Ex: Transportes XYZ">
+            </div>
+
+
             <div class="filter-section">
                 <h6><i class="fas fa-map-marker-alt me-2"></i>Localização</h6>
 
@@ -429,20 +77,26 @@
                 </select>
             </div>
 
-            <!-- Datas -->
             <div class="filter-section">
                 <h6><i class="fas fa-calendar me-2"></i>Datas</h6>
 
-                <label for="dataColeta" class="form-label">Data Coleta</label>
-                <input type="date" class="form-control" id="dataColeta" name="dataColeta"
-                       th:value="*{dataColeta}">
+                <label for="dataColetaDe" class="form-label">Data Coleta - De</label>
+                <input type="date" class="form-control" id="dataColetaDe" name="dataColetaDe"
+                       th:value="*{dataColetaDe}">
 
-                <label for="dataEntrega" class="form-label">Data Entrega</label>
-                <input type="date" class="form-control" id="dataEntrega" name="dataEntrega"
-                       th:value="*{dataEntrega}">
+                <label for="dataColetaAte" class="form-label">Data Coleta - Até</label>
+                <input type="date" class="form-control" id="dataColetaAte" name="dataColetaAte"
+                       th:value="*{dataColetaAte}">
+
+                <label for="dataEntregaDe" class="form-label">Data Entrega - De</label>
+                <input type="date" class="form-control" id="dataEntregaDe" name="dataEntregaDe"
+                       th:value="*{dataEntregaDe}">
+
+                <label for="dataEntregaAte" class="form-label">Data Entrega - Até</label>
+                <input type="date" class="form-control" id="dataEntregaAte" name="dataEntregaAte"
+                       th:value="*{dataEntregaAte}">
             </div>
 
-            <!-- Produto -->
             <div class="filter-section">
                 <h6><i class="fas fa-box me-2"></i>Produto</h6>
 
@@ -455,60 +109,55 @@
                        th:value="*{especie}" placeholder="Ex: Frágil">
             </div>
 
-            <!-- Transporte -->
             <div class="filter-section">
                 <h6><i class="fas fa-truck me-2"></i>Transporte</h6>
-
-                <label for="veiculo" class="form-label">Veículo</label>
-                <select class="form-select" id="veiculo" name="veiculo">
-                    <option value="">Selecione o veículo...</option>
-                    <option th:each="veiculo : ${tiposVeiculo}"
-                            th:value="${veiculo}"
-                            th:text="${veiculo}"
-                            th:selected="*{veiculo} == ${veiculo}">
-                    </option>
-                </select>
 
                 <label for="tipoCarga" class="form-label">Tipo de Carga</label>
                 <select class="form-select" id="tipoCarga" name="tipoCarga">
                     <option value="">Selecione o tipo...</option>
                     <option th:each="tipo : ${tiposCarga}"
-                            th:value="${tipo}"
-                            th:text="${tipo}"
+                            th:value="${tipo.name()}"
+                            th:text="${tipo.descricao}"
                             th:selected="*{tipoCarga} == ${tipo}">
                     </option>
                 </select>
 
                 <label for="possuiLona" class="form-label">Possui Lona</label>
-                <select class="form-select" id="possuiLona" name="possuiLona" th:value="*{possuiLona}">
+                <select class="form-select" id="possuiLona" name="possuiLona">
                     <option value="">Selecione...</option>
                     <option value="true" th:selected="*{possuiLona} == true">Sim</option>
                     <option value="false" th:selected="*{possuiLona} == false">Não</option>
                 </select>
             </div>
 
-            <!-- Valores -->
             <div class="filter-section">
                 <h6><i class="fas fa-calculator me-2"></i>Valores</h6>
 
-                <label for="preco" class="form-label">Preço (R$)</label>
-                <input type="number" class="form-control" id="preco" name="preco" step="0.01"
-                       th:value="*{preco}" placeholder="0,00">
+                <label for="precoMinimo" class="form-label">Preço Mínimo (R$)</label>
+                <input type="number" class="form-control" id="precoMinimo" name="precoMinimo" step="0.01"
+                       th:value="*{precoMinimo}" placeholder="0,00">
 
-                <label for="pesoTotal" class="form-label">Peso Total (kg)</label>
-                <input type="number" class="form-control" id="pesoTotal" name="pesoTotal" step="0.01"
-                       th:value="*{pesoTotal}" placeholder="0,00">
+                <label for="precoMaximo" class="form-label">Preço Máximo (R$)</label>
+                <input type="number" class="form-control" id="precoMaximo" name="precoMaximo" step="0.01"
+                       th:value="*{precoMaximo}" placeholder="0,00">
 
-                <label for="limiteAltura" class="form-label">Altura Limite (m)</label>
-                <input type="number" class="form-control" id="limiteAltura" name="limiteAltura" step="0.01"
-                       th:value="*{limiteAltura}" placeholder="0,00">
+                <label for="pesoMinimo" class="form-label">Peso Mínimo (kg)</label>
+                <input type="number" class="form-control" id="pesoMinimo" name="pesoMinimo" step="0.01"
+                       th:value="*{pesoMinimo}" placeholder="0,00">
 
-                <label for="volume" class="form-label">Volume (m³)</label>
-                <input type="number" class="form-control" id="volume" name="volume" step="0.01"
-                       th:value="*{volume}" placeholder="0,00">
+                <label for="pesoMaximo" class="form-label">Peso Máximo (kg)</label>
+                <input type="number" class="form-control" id="pesoMaximo" name="pesoMaximo" step="0.01"
+                       th:value="*{pesoMaximo}" placeholder="0,00">
+
+                <label for="volumeMinimo" class="form-label">Volume Mínimo (m³)</label>
+                <input type="number" class="form-control" id="volumeMinimo" name="volumeMinimo" step="0.01"
+                       th:value="*{volumeMinimo}" placeholder="0,00">
+
+                <label for="volumeMaximo" class="form-label">Volume Máximo (m³)</label>
+                <input type="number" class="form-control" id="volumeMaximo" name="volumeMaximo" step="0.01"
+                       th:value="*{volumeMaximo}" placeholder="0,00">
             </div>
 
-            <!-- Status -->
             <div class="filter-section">
                 <h6><i class="fas fa-info-circle me-2"></i>Status</h6>
 
@@ -516,14 +165,14 @@
                 <select class="form-select" id="tipoEstadoCarga" name="tipoEstadoCarga">
                     <option value="">Selecione o status...</option>
                     <option th:each="status : ${statusCargas}"
-                            th:value="${status}"
-                            th:text="${status}"
+                            th:value="${status.name()}"
+                            th:text="${status.descricao}"
                             th:selected="*{tipoEstadoCarga} == ${status}">
                     </option>
+
                 </select>
             </div>
 
-            <!-- Botões de Ação -->
             <div class="filter-section">
                 <button type="submit" class="btn-search">
                     <i class="fas fa-search me-2"></i>Buscar Cargas
@@ -535,10 +184,26 @@
         </form>
     </div>
 
-    <!-- Área de Conteúdo Principal -->
     <div class="content-area">
         <div class="content-container">
             <div class="page-header">
+                <a th:if="${tipoUsuario != null and tipoUsuario.name() == 'MOTORISTA'}"
+                   th:href="@{/motorista/dashboard}" class="btn btn-secondary mb-3">
+                    <i class="fas fa-arrow-left me-2"></i>Voltar
+                </a>
+                <a th:if="${tipoUsuario != null and tipoUsuario.name() == 'EMPRESA'}"
+                   th:href="@{/empresa/dashboard}" class="btn btn-secondary mb-3">
+                    <i class="fas fa-arrow-left me-2"></i>Voltar
+                </a>
+                <a th:if="${tipoUsuario != null and tipoUsuario.name() == 'TRANSPORTADORA'}"
+                   th:href="@{/transportadora/dashboard}" class="btn btn-secondary mb-3">
+                    <i class="fas fa-arrow-left me-2"></i>Voltar
+                </a>
+                <a th:if="${tipoUsuario == null}"
+                   href="javascript:history.back()" class="btn btn-secondary mb-3">
+                    <i class="fas fa-arrow-left me-2"></i>Voltar
+                </a>
+
                 <h1 class="page-title">
                     <i class="fas fa-truck text-warning me-3"></i>Listagem de Cargas
                 </h1>
@@ -552,6 +217,7 @@
                 <table class="table table-hover">
                     <thead>
                     <tr>
+                        <th>Empresa</th>
                         <th>Origem</th>
                         <th>Data Coleta</th>
                         <th>Destino</th>
@@ -571,6 +237,11 @@
                     </thead>
                     <tbody>
                     <tr th:each="carga : ${cargas}">
+
+                        <td>
+                            <div class="fw-bold" th:text="${carga.empresaCarga != null ? carga.empresaCarga.nomeFantasia : 'N/A'}">Nome Empresa</div>
+                            <small class="text-muted" th:text="${carga.empresaCarga != null ? carga.empresaCarga.cnpj : ''}">CNPJ</small>
+                        </td>
                         <td>
                             <div class="fw-bold" th:text="${carga.origemCidade}">Origem Cidade</div>
                             <small class="text-muted" th:text="${carga.origemEstado}">Origem Estado</small>

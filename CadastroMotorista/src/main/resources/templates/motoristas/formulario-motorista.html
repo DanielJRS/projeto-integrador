@@ -18,12 +18,13 @@
 
 <div class="content-container">
     <div class="page-title">
-        <h2>Cadastro de Motorista</h2>
+        <h2 th:text="${edicao} ? 'Editar Motorista' : 'Cadastro de Motorista'">Cadastro de Motorista</h2>
         <p>Junte-se à nossa rede de motoristas profissionais</p>
     </div>
 
     <div class="form-container">
-        <form th:action="@{/motorista/salvar}" th:object="${motorista}" method="post" enctype="multipart/form-data">
+        <form th:action="@{${edicao} ? '/motorista/editar/' + ${motorista.id} : '/motorista/salvar'}"
+                th:object="${motorista}" method="post" enctype="multipart/form-data">
             <input type="hidden" th:field="*{id}" />
 
             <!-- Dados de Acesso -->
@@ -150,8 +151,22 @@
             </div>
 
             <div class="button-container">
-                <a th:href="@{/motorista/listar}" class="btn btn-secondary">Cancelar</a>
-                <button type="submit" class="btn btn-primary">Cadastrar Motorista</button>
+                <a th:if="${tipoUsuario == null}"
+                    th:href="@{/}" class="btn btn-secondary mb-3">
+                    <i class="fas fa-arrow-left me-2"></i>Voltar
+                </a>
+                <a th:if="${tipoUsuario != null and tipoUsuario.name() == 'ADMIN'}"
+                    th:href="@{/dashboard/transportadoras}" class="btn btn-secondary mb-3">
+                    <i class="fas fa-arrow-left me-2"></i>Voltar
+                </a>
+                <a th:if="${tipoUsuario != null and tipoUsuario.name() == 'TRANSPORTADORA'}"
+                    th:href="@{/transportadora/dashboard}" class="btn btn-secondary mb-3">
+                    <i class="fas fa-arrow-left me-2"></i>Voltar
+                </a>
+                <button type="submit" class="btn btn-primary" 
+                        th:text="${edicao} ? 'Salvar Alterações' : 'Cadastrar Motorista'">
+                    Cadastrar Motorista
+                </button>
             </div>
         </form>
     </div>

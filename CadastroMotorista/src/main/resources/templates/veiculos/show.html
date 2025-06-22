@@ -1,45 +1,124 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
-    <title>Detalhes do Veículo</title>
-    <link rel="stylesheet" th:href="@{/img/css/transportadora/formulario-transportadora.css}" />
+    <meta charset="UTF-8">
+    <title>Global Transportes - Detalhes do Veículo</title>
+    <link rel="stylesheet" th:href="@{/img/css/motorista/formulario-motorista.css}">
 </head>
 <body>
-    <div class="content-container">
-        <div class="form-container">
-            <div class="page-title">
-                <h2>Detalhes do Veículo</h2>
+<nav class="navbar">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/login}">
+            <img th:src="@{/img/GlobalTransportes.png}" alt="Global Transportes" class="logo">
+        </a>
+    </div>
+</nav>
+
+<div class="content-container">
+    <div class="page-title">
+        <h2>Detalhes do Veículo</h2>
+    </div>
+
+    <div class="form-container readonly" th:if="${veiculo != null}">
+        <h5 class="section-header">Informações do Veículo</h5>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Placa:</label>
+                <p th:text="${veiculo.placa}">Placa</p>
             </div>
-            <div>
-                <p><strong>Placa:</strong> <span th:text="${veiculo.placa}"></span></p>
-                <p><strong>Modelo:</strong> <span th:text="${veiculo.modelo}"></span></p>
-                <p><strong>Marca:</strong> <span th:text="${veiculo.marca}"></span></p>
-                <p><strong>Capacidade de Carga:</strong> <span th:text="${veiculo.capacidadeCarga}"></span></p>
-                <p><strong>Renavam:</strong> <span th:text="${veiculo.renavam}"></span></p>
-                <p><strong>Chassi:</strong> <span th:text="${veiculo.chassi}"></span></p>
-                <p><strong>Motorista:</strong> <span th:text="${veiculo.motorista != null ? veiculo.motorista.nome : 'Não vinculado'}"></span></p>
-                <p><strong>Tipos de Veículo:</strong>
+            <div class="form-group">
+                <label class="form-label">Modelo:</label>
+                <p th:text="${veiculo.modelo}">Modelo</p>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Marca:</label>
+                <p th:text="${veiculo.marca}">Marca</p>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Capacidade de Carga:</label>
+                <p th:text="${veiculo.capacidadeCarga}">Capacidade</p>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Renavam:</label>
+                <p th:text="${veiculo.renavam}">Renavam</p>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Chassi:</label>
+                <p th:text="${veiculo.chassi}">Chassi</p>
+            </div>
+        </div>
+        <div class="form-row single">
+            <div class="form-group">
+                <label class="form-label">Motorista:</label>
+                <p th:text="${veiculo.motorista != null ? veiculo.motorista.nome : 'Não vinculado'}">Motorista</p>
+            </div>
+        </div>
+        <h5 class="section-header">Tipos e Fretes</h5>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Tipos de Veículo:</label>
+                <p>
                     <span th:each="tipo : ${veiculo.tipos}" th:text="${tipo}" th:unless="${#lists.isEmpty(veiculo.tipos)}"></span>
                     <span th:if="${#lists.isEmpty(veiculo.tipos)}">Nenhum</span>
                 </p>
-                <p><strong>Fretes Fechados:</strong>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Fretes Fechados:</label>
+                <p>
                     <span th:each="f : ${veiculo.fretesFechados}" th:text="${f}" th:unless="${#lists.isEmpty(veiculo.fretesFechados)}"></span>
                     <span th:if="${#lists.isEmpty(veiculo.fretesFechados)}">Nenhum</span>
                 </p>
-                <p><strong>Fretes Abertos:</strong>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Fretes Abertos:</label>
+                <p>
                     <span th:each="f : ${veiculo.fretesAbertos}" th:text="${f}" th:unless="${#lists.isEmpty(veiculo.fretesAbertos)}"></span>
                     <span th:if="${#lists.isEmpty(veiculo.fretesAbertos)}">Nenhum</span>
                 </p>
-                <p><strong>Fretes Especiais:</strong>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Fretes Especiais:</label>
+                <p>
                     <span th:each="f : ${veiculo.fretesEspeciais}" th:text="${f}" th:unless="${#lists.isEmpty(veiculo.fretesEspeciais)}"></span>
                     <span th:if="${#lists.isEmpty(veiculo.fretesEspeciais)}">Nenhum</span>
                 </p>
             </div>
-            <div class="button-container">
-                <a th:href="@{/veiculos/editar/{id}(id=${veiculo.id})}" class="btn btn-primary">Editar</a>
-                <a th:href="@{/veiculos}" class="btn btn-secondary">Voltar</a>
-            </div>    
         </div>
+        <div class="button-container">
+            <a th:if="${tipoUsuario != null and tipoUsuario.name() == 'MOTORISTA'}"
+                th:href="@{/motorista/dashboard}" class="btn btn-secondary mb-3">
+                <i class="fas fa-arrow-left me-2"></i>Voltar
+            </a>
+            <a th:if="${tipoUsuario != null and tipoUsuario.name() == 'ADMIN'}"
+                th:href="@{/dashboard/veiculos-listartodos}" class="btn btn-secondary mb-3">
+                <i class="fas fa-arrow-left me-2"></i>Voltar
+            </a>
+            <a th:if="${tipoUsuario != null and tipoUsuario.name() == 'TRANSPORTADORA'}"
+                th:href="@{/transportadora/dashboard}" class="btn btn-secondary mb-3">
+                <i class="fas fa-arrow-left me-2"></i>Voltar
+            </a>
+            <a th:href="@{/veiculos/editar/{id}(id=${veiculo.id})}" class="btn btn-primary">Editar</a>
+            <form th:if="${tipoUsuario != null and (tipoUsuario.name() == 'ADMIN' or tipoUsuario.name() == 'MOTORISTA' or tipoUsuario.name() == 'TRANSPORTADORA')}"
+              th:action="@{/veiculos/excluir/{id}(id=${veiculo.id})}"
+              method="post" style="display:inline;">
+            <button type="submit" class="btn"
+                    style="background-color: brown !important; color: white; border: none;"
+                    onclick="return confirm('Tem certeza que deseja excluir este veículo?');">
+                Excluir
+            </button>
+        </form>
+        </div>
+        
     </div>
+    <div th:if="${veiculo == null}">
+        <p>Veículo não encontrado.</p>
+    </div>
+</div>
 </body>
 </html>
