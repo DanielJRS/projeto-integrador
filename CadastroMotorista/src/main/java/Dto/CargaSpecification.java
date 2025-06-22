@@ -15,12 +15,12 @@ public class CargaSpecification {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            // FILTRO POR EMPRESA - ADICIONADO PARA SEGURANÇA
+
             if (filtro.getEmpresa() != null) {
                 predicates.add(criteriaBuilder.equal(root.get("empresaCarga"), filtro.getEmpresa()));
             }
 
-            // Filtro por nome da empresa (para busca textual)
+
             if (filtro.getNomeEmpresa() != null && !filtro.getNomeEmpresa().trim().isEmpty()) {
                 String nomeEmpresaLower = filtro.getNomeEmpresa().toLowerCase().trim();
 
