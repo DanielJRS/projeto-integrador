@@ -136,10 +136,17 @@
             <p th:text="${transportadora.possuiSeguroCarga} ? 'Sim' : 'Não'">Sim</p>
         </div>
 
-        <!-- Botões -->
         <div class="button-container">
             <a th:href="@{/dashboard/transportadoras-listartodos}" class="btn btn-secondary">Voltar</a>
             <a th:href="@{/transportadora/editar/{id}(id=${transportadora.id})}" class="btn btn-primary">Editar</a>
+            <form th:if="${tipoUsuario.name() == 'ADMIN'}"
+                  th:action="@{/transportadora/excluir/{id}(id=${transportadora.id})}"
+                  method="post" style="display:inline;">
+                <button type="submit" class="btn" style="background-color: brown !important; color: white; border: none;"
+                        onclick="return confirm('Tem certeza que deseja excluir esta transportadora?');">
+                    Excluir
+                </button>
+            </form>
         </div>
     </div>
 
