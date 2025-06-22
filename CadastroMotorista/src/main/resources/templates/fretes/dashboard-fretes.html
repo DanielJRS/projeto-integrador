@@ -6,30 +6,34 @@
     <title>Detalhes do Frete - Global Transportes</title>
     <script th:src="@{/img/js/frete/dashboard-frete.js}" defer></script>
     <link rel="stylesheet" th:href="@{/img/css/frete/dashboard-fretes.css}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 <nav class="sidebar">
     <div class="sidebar-header">
-        <div class="sidebar-logo">Global Transportes</div>
+        <div class="sidebar-logo">
+            <i class="fas fa-truck"></i> Global Transportes
+        </div>
     </div>
     <div class="sidebar-menu">
         <div class="sidebar-item">
             <a th:href="@{/motorista}" class="sidebar-link">
-                <span class="sidebar-icon">🏠</span>
+                <span class="sidebar-icon"></span>
                 <span class="sidebar-text">Dashboard</span>
             </a>
             <div class="sidebar-tooltip">Dashboard</div>
         </div>
         <div class="sidebar-item">
             <a th:href="@{/cargas/listar}" class="sidebar-link">
-                <span class="sidebar-icon">🔍</span>
+                <span class="sidebar-icon"></span>
                 <span class="sidebar-text">Explorar Cargas</span>
             </a>
             <div class="sidebar-tooltip">Explorar Cargas</div>
         </div>
         <div class="sidebar-item">
             <a th:href="@{/veiculos/novo}" class="sidebar-link">
-                <span class="sidebar-icon">🚗</span>
+                <span class="sidebar-icon"></span>
                 <span class="sidebar-text">Cadastrar Veículo</span>
             </a>
             <div class="sidebar-tooltip">Cadastrar Veículo</div>
@@ -41,25 +45,30 @@
 
 <div class="dashboard-container">
     <div class="breadcrumb">
-        <a th:href="@{/motorista}">🏠 Dashboard</a>
-        <span class="breadcrumb-separator">›</span>
-        <span class="breadcrumb-current">📋 Detalhes do frete</span>
+        <i data-lucide="home" class="icon"></i>
+        <a th:href="@{/motorista}">Dashboard</a>
+        <i data-lucide="chevron-right" class="icon"></i>
+        <span class="breadcrumb-current">Detalhes do frete</span>
     </div>
 
     <div class="frete-detalhes-header">
         <div class="frete-title">
             <h1>
-                🚛 Frete
+                <i data-lucide="truck" class="icon"></i>
+                Frete
                 <span class="frete-numero" th:text="${frete.id}">001</span>
             </h1>
             <div class="frete-status" th:classappend="${frete.status == 'ATIVO' ? 'status-ativo' : 'status-finalizado'}">
-                <span th:if="${frete.status == 'ATIVO'}">🟢</span>
-                <span th:if="${frete.status != 'ATIVO'}">⚫</span>
+                <i data-lucide="circle" class="icon" th:if="${frete.status == 'ATIVO'}" style="color: #22c55e;"></i>
+                <i data-lucide="circle" class="icon" th:if="${frete.status != 'ATIVO'}" style="color: #6b7280;"></i>
                 <span th:text="${frete.status}">ATIVO</span>
             </div>
         </div>
         <div class="frete-valor-principal">
-            <span class="valor-label">Valor do frete</span>
+            <span class="valor-label">
+                <i data-lucide="dollar-sign" class="icon"></i>
+                Valor do frete
+            </span>
             <div class="valor-amount" th:text="|R$ ${frete.valor}|">R$ 2.450,00</div>
         </div>
     </div>
@@ -67,17 +76,28 @@
     <div class="frete-detalhes-grid">
         <div class="detalhes-card">
             <div class="card-header">
-                <h3>🗺️ Rota de transporte</h3>
+                <h3>
+                    <i data-lucide="map-pin" class="icon"></i>
+                    Rota de transporte
+                </h3>
             </div>
             <div class="card-content">
                 <div class="origem-destino-container">
                     <div class="local-info">
-                        <div class="local-label">🏭 Origem</div>
+                        <div class="local-label">
+                            <i data-lucide="play-circle" class="icon"></i>
+                            Origem
+                        </div>
                         <div class="local-cidade" th:text="${frete.origemCidade}">São Paulo - SP</div>
                     </div>
-                    <div class="rota-separator">➤</div>
+                    <div class="rota-separator">
+                        <i data-lucide="arrow-right" style="width: 24px; height: 24px;"></i>
+                    </div>
                     <div class="local-info">
-                        <div class="local-label">🏢 Destino</div>
+                        <div class="local-label">
+                            <i data-lucide="map-pin" class="icon"></i>
+                            Destino
+                        </div>
                         <div class="local-cidade" th:text="${frete.destinoCidade}">Rio de Janeiro - RJ</div>
                     </div>
                 </div>
@@ -86,20 +106,32 @@
 
         <div class="detalhes-card">
             <div class="card-header">
-                <h3>Especificações da carga</h3>
+                <h3>
+                    <i data-lucide="package" class="icon"></i>
+                    Especificações da carga
+                </h3>
             </div>
             <div class="card-content">
                 <div class="info-grid">
                     <div class="info-item">
-                        <span class="info-label">Produto</span>
+                        <span class="info-label">
+                            <i data-lucide="box" class="icon"></i>
+                            Produto
+                        </span>
                         <span class="info-value" th:text="${frete.produto}">Computador</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Peso total</span>
+                        <span class="info-label">
+                            <i data-lucide="weight" class="icon"></i>
+                            Peso total
+                        </span>
                         <span class="info-value" th:text="|${frete.pesoTotal} kg|">1.200 kg</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Avaliação da carga</span>
+                        <span class="info-label">
+                            <i data-lucide="dollar-sign" class="icon"></i>
+                            Avaliação da carga
+                        </span>
                         <span class="info-value" th:text="|R$ ${#numbers.formatDecimal(frete.valorCarga, 1, 2)}|">300 reais</span>
                     </div>
                 </div>
@@ -108,24 +140,39 @@
 
         <div class="detalhes-card" style="grid-column: 1 / -1;">
             <div class="card-header">
-                <h3>Informações do contratante</h3>
+                <h3>
+                    <i data-lucide="building" class="icon"></i>
+                    Informações do contratante
+                </h3>
             </div>
             <div class="card-content">
                 <div class="info-grid">
                     <div class="info-item">
-                        <span class="info-label">Razão Social</span>
+                        <span class="info-label">
+                            <i data-lucide="building-2" class="icon"></i>
+                            Razão Social
+                        </span>
                         <span class="info-value" th:text="${frete.nomeFantasia}">Empresa ABC Ltda</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Telefone de Contato</span>
+                        <span class="info-label">
+                            <i data-lucide="phone" class="icon"></i>
+                            Telefone de Contato
+                        </span>
                         <span class="info-value" th:text="${frete.telefone}">+55 11 99999-9999</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">E-mail Corporativo</span>
+                        <span class="info-label">
+                            <i data-lucide="mail" class="icon"></i>
+                            E-mail Corporativo
+                        </span>
                         <span class="info-value" th:text="${frete.email}">contato@empresaabc.com</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">CNPJ</span>
+                        <span class="info-label">
+                            <i data-lucide="file-text" class="icon"></i>
+                            CNPJ
+                        </span>
                         <span class="info-value" th:text="${frete.cnpj}">12.345.678/0001-90</span>
                     </div>
                 </div>
@@ -134,33 +181,46 @@
 
         <div class="detalhes-card" style="grid-column: 1 / -1;">
             <div class="card-header">
-                <h3>Centro de controle do frete</h3>
+                <h3>
+                    <i data-lucide="settings" class="icon"></i>
+                    Centro de controle do frete
+                </h3>
             </div>
             <div class="card-content">
                 <div class="acoes-container">
                     <div class="acoes-info">
-                        <h4>Painel de gerenciamento</h4>
+                        <h4>
+                            <i data-lucide="gauge" class="icon"></i>
+                            Painel de gerenciamento
+                        </h4>
                         <p>Utilize as opções ao lado para gerenciar o status do seu frete de forma eficiente e segura.</p>
                         <div class="status-atual">
-                            <strong>Status atual:</strong>
+                            <strong>
+                                <i data-lucide="info" class="icon"></i>
+                                Status atual:
+                            </strong>
                             <span class="status-badge" th:classappend="${frete.status == 'ATIVO' ? 'status-ativo' : 'status-pendente'}" th:text="${frete.status}">ATIVO</span>
                         </div>
                     </div>
                     <div class="acoes-buttons">
                         <button class="btn btn-danger" th:if="${frete.status.toString() == 'ATIVO'}" onclick="confirmarCancelamento()">
+                            <i data-lucide="x-circle" class="icon"></i>
                             Cancelar frete
                         </button>
                         <button class="btn btn-success" th:if="${frete.status.toString() == 'ATIVO'}" onclick="return confirmarFinalizacao()">
+                            <i data-lucide="check-circle" class="icon"></i>
                             Finalizar entrega
                         </button>
                         <a th:if="${TipoUsuario == T(com.cadastroMot.CadastroMotorista.domain.TipoUsuario).MOTORISTA}"
                            th:href="@{/motorista/dashboard}"
                            class="btn btn-secondary">
+                            <i data-lucide="arrow-left" class="icon"></i>
                             Voltar ao dashboard
                         </a>
                         <a th:if="${TipoUsuario == T(com.cadastroMot.CadastroMotorista.domain.TipoUsuario).TRANSPORTADORA}"
                            th:href="@{/transportadora/dashboard}"
                            class="btn btn-secondary">
+                            <i data-lucide="arrow-left" class="icon"></i>
                             Voltar ao dashboard
                         </a>
                     </div>
@@ -173,18 +233,33 @@
 <div class="modal" id="cancelarModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>⚠️ Confirmar cancelamento do frete</h3>
+            <h3>
+                <i data-lucide="alert-triangle" class="icon" style="color: #ef4444;"></i>
+                Confirmar cancelamento do frete
+            </h3>
             <button class="modal-close" onclick="fecharModal()">&times;</button>
         </div>
         <div class="modal-body">
-            <p><strong>⚠️ Atenção!</strong> Você está prestes a cancelar este frete.</p>
+            <p>
+                <strong>
+                    <i data-lucide="alert-circle" class="icon" style="color: #f59e0b;"></i>
+                    Atenção!
+                </strong>
+                Você está prestes a cancelar este frete.
+            </p>
             <p>Esta ação é <strong>irreversível</strong> e pode impactar sua avaliação como motorista.</p>
             <p>Tem certeza que deseja prosseguir com o cancelamento?</p>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="fecharModal()">❌ Não, manter frete</button>
+            <button class="btn btn-secondary" onclick="fecharModal()">
+                <i data-lucide="shield" class="icon"></i>
+                Não, manter frete
+            </button>
             <form th:action="@{/frete/{id}/cancelar-frete(id=${frete.id})}" method="post" style="display: inline;">
-                <button type="submit" class="btn btn-danger">✅ Sim, cancelar frete</button>
+                <button type="submit" class="btn btn-danger">
+                    <i data-lucide="x-circle" class="icon"></i>
+                    Sim, cancelar frete
+                </button>
             </form>
         </div>
     </div>
@@ -194,25 +269,62 @@
 <div class="modal" id="finalizarModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>✅ Confirmar finalização da entrega</h3>
+            <h3>
+                <i data-lucide="check-circle" class="icon" style="color: #22c55e;"></i>
+                Confirmar finalização da entrega
+            </h3>
             <button class="modal-close" onclick="fecharModal()">&times;</button>
         </div>
         <div class="modal-body">
-            <p><strong>🎉 Parabéns!</strong> Você está finalizando mais uma entrega.</p>
+            <p>
+                <strong>
+                    <i data-lucide="party-popper" class="icon" style="color: #22c55e;"></i>
+                    Parabéns!
+                </strong>
+                Você está finalizando mais uma entrega.
+            </p>
             <p>Confirme que a carga foi <strong>entregue com sucesso</strong> no destino correto.</p>
             <p>O frete será marcado como <strong>FINALIZADO.</strong></p>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="fecharModal()">❌ Ainda não</button>
+            <button class="btn btn-secondary" onclick="fecharModal()">
+                <i data-lucide="clock" class="icon"></i>
+                Ainda não
+            </button>
             <form th:action="@{/frete/{id}/finalizar-frete(id=${frete.id})}" method="post" style="display: inline;">
-                <button type="submit" class="btn btn-success">✅ Confirmar entrega</button>
+                <button type="submit" class="btn btn-success">
+                    <i data-lucide="check-circle" class="icon"></i>
+                    Confirmar entrega
+                </button>
             </form>
         </div>
     </div>
 </div>
 
 <footer>
-    <p>&copy; 2024 Global Transportes. Conectando o Brasil com eficiência e segurança.</p>
+    <p>
+        <i class="fas fa-copyright"></i>
+        2024 Global Transportes. Conectando o Brasil com eficiência e segurança.
+    </p>
 </footer>
+
+<script>
+    // Inicializa os ícones do Lucide
+    lucide.createIcons();
+
+    // Suas funções JavaScript existentes aqui
+    function confirmarCancelamento() {
+        document.getElementById('cancelarModal').style.display = 'flex';
+    }
+
+    function confirmarFinalizacao() {
+        document.getElementById('finalizarModal').style.display = 'flex';
+    }
+
+    function fecharModal() {
+        document.getElementById('cancelarModal').style.display = 'none';
+        document.getElementById('finalizarModal').style.display = 'none';
+    }
+</script>
 </body>
 </html>

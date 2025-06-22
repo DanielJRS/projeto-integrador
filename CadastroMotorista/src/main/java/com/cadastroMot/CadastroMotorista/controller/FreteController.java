@@ -82,13 +82,16 @@ public class FreteController {
             cargaService.salvar(carga);
         }
 
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        if (tipoUsuario != null && tipoUsuario.toString().equals("ADMIN")) {
+            return "redirect:/dashboard/fretes-listartodos";
+        }
         return "redirect:/motorista/dashboard";
     }
 
     @PostMapping("/frete/{id}/cancelar-frete")
     @Transactional
     public String cancelarFrete(@PathVariable Long id, HttpSession session){
-        System.out.println("=== MÉTODO CANCELAR FRETE CHAMADO - ID: " + id + " ===");
 
         Optional<Frete> freteOptional = freteService.buscarPorId(id);
 
@@ -97,36 +100,31 @@ public class FreteController {
         }
 
         Frete frete = freteOptional.get();
-        System.out.println("Frete encontrado: " + frete.getId());
-        System.out.println("frete.getCargas() é null? " + (frete.getCargas() == null));
 
         frete.setStatus(TipoEstadoFrete.CANCELADO);
 
         Optional<Carga> cargaOptional = cargaRepository.findByFreteId(id);
-        System.out.println("Busca direta por frete_id " + id + " encontrou: " + cargaOptional.isPresent());
 
-        if (cargaOptional.isPresent()) { // <- Mudança aqui
+        if (cargaOptional.isPresent()) {
             Carga carga = cargaOptional.get();
-            System.out.println("Carga encontrada: " + carga.getId());
-            System.out.println("Estado da carga ANTES: " + carga.getTipoEstadoCarga());
             carga.setTipoEstadoCarga(TipoEstadoCarga.DISPONIVEL);
             carga.setFrete(null);
-            System.out.println("Estado da carga DEPOIS: " + carga.getTipoEstadoCarga());
 
             try {
                 cargaService.salvar(carga);
                 freteService.salvar(frete);
-                System.out.println("Salvamento realizado com sucesso!");
             } catch (Exception e) {
-                System.out.println("Erro ao salvar: " + e.getMessage());
                 e.printStackTrace();
                 throw e;
             }
         } else {
-            System.out.println("PROBLEMA: Nenhuma carga encontrada para o frete " + id);
             freteService.salvar(frete);
         }
 
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        if (tipoUsuario != null && tipoUsuario.toString().equals("ADMIN")) {
+            return "redirect:/dashboard/fretes-listartodos";
+        }
         return "redirect:/motorista/dashboard";
     }
 

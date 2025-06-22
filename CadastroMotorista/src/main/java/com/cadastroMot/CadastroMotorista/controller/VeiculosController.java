@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/veiculos")
@@ -289,5 +290,31 @@ public class VeiculosController {
         } else {
             return "redirect:/login";
         }
+    }
+
+    @PostMapping("/excluir/{id}")
+    public String excluirVeiculo(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        if (tipoUsuario == null ||
+            !(tipoUsuario.toString().equals("ADMIN") ||
+              tipoUsuario.toString().equals("MOTORISTA") ||
+              tipoUsuario.toString().equals("TRANSPORTADORA"))) {
+            redirectAttributes.addFlashAttribute("falha", "Você não tem permissão para excluir veículos.");
+            return "redirect:/veiculos";
+        }
+        try {
+            veiculoService.deletar(id);
+            redirectAttributes.addFlashAttribute("mensagemSucesso", "Veículo excluído com sucesso!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("falha", "Não foi possível excluir o veículo.");
+        }
+        if ("ADMIN".equals(tipoUsuario.toString())) {
+            return "redirect:/dashboard/veiculos-listartodos";
+        } else if ("MOTORISTA".equals(tipoUsuario.toString())) {
+            return "redirect:/motorista/dashboard";
+        } else if ("TRANSPORTADORA".equals(tipoUsuario.toString())) {
+            return "redirect:/transportadora/dashboard";
+        }
+        return "redirect:/veiculos";
     }
 }

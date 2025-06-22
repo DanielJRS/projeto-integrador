@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Listar Cargas</title>
+    <title>Listar cargas</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
@@ -13,19 +13,16 @@
 </head>
 <body>
 <div class="main-container">
-    <!-- Botão Mobile para Filtros -->
     <button class="mobile-filter-toggle" onclick="toggleSidebar()">
         <i class="fas fa-filter"></i>
     </button>
 
-    <!-- Sidebar de Filtros -->
     <div class="sidebar-filters" id="sidebarFilters">
         <h5 class="sidebar-title">
             <i class="fas fa-filter me-2"></i>Filtros de Busca
         </h5>
 
         <form th:action="@{/cargas/listar}" method="get" th:object="${filtro}">
-            <!-- Localização -->
             <div class="filter-section">
 
                 <h6><i class="fas fa-building me-2"></i>Empresa</h6>
@@ -80,7 +77,6 @@
                 </select>
             </div>
 
-            <!-- Datas -->
             <div class="filter-section">
                 <h6><i class="fas fa-calendar me-2"></i>Datas</h6>
 
@@ -101,7 +97,6 @@
                        th:value="*{dataEntregaAte}">
             </div>
 
-            <!-- Produto -->
             <div class="filter-section">
                 <h6><i class="fas fa-box me-2"></i>Produto</h6>
 
@@ -114,7 +109,6 @@
                        th:value="*{especie}" placeholder="Ex: Frágil">
             </div>
 
-            <!-- Transporte -->
             <div class="filter-section">
                 <h6><i class="fas fa-truck me-2"></i>Transporte</h6>
 
@@ -136,7 +130,6 @@
                 </select>
             </div>
 
-            <!-- Valores -->
             <div class="filter-section">
                 <h6><i class="fas fa-calculator me-2"></i>Valores</h6>
 
@@ -165,7 +158,6 @@
                        th:value="*{volumeMaximo}" placeholder="0,00">
             </div>
 
-            <!-- Status -->
             <div class="filter-section">
                 <h6><i class="fas fa-info-circle me-2"></i>Status</h6>
 
@@ -181,7 +173,6 @@
                 </select>
             </div>
 
-            <!-- Botões de Ação -->
             <div class="filter-section">
                 <button type="submit" class="btn-search">
                     <i class="fas fa-search me-2"></i>Buscar Cargas

@@ -4,6 +4,7 @@ import  java.util.Collections;
 import com.cadastroMot.CadastroMotorista.domain.*;
 import com.cadastroMot.CadastroMotorista.service.CargaService;
 import com.cadastroMot.CadastroMotorista.service.UsuarioService;
+import com.cadastroMot.CadastroMotorista.service.VeiculoService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/cargas")
 public class CargasController {
+
+    @Autowired
+    private VeiculoService veiculoService;
 
     @Autowired
     private CargaService cargaService;
@@ -330,6 +334,7 @@ public class CargasController {
     @GetMapping("/detalhar/{id}")
     public String detalharCarga(@PathVariable Long id, Model model, HttpSession session) {
         Carga carga = cargaService.buscarPorId(id);
+
         if (carga == null) {
             return "redirect:/cargas/listar";
         }
@@ -344,8 +349,28 @@ public class CargasController {
             }
         }
 
+        List<Veiculo> veiculos = veiculoService.buscarPorTransportadoraId(id);
+        model.addAttribute("veiculo", veiculos);
+
         model.addAttribute("carga", carga);
         return "cargas/detalhar";
+    }
+
+    @GetMapping("/detalhar-admin/{id}")
+    public String detalharCargaAdmin(@PathVariable Long id, Model model, HttpSession session) {
+        Carga carga = cargaService.buscarPorId(id);
+        if (carga == null) {
+            return "redirect:/cargas/listar";
+        }
+
+        TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuario");
+        if (tipoUsuario != TipoUsuario.ADMIN) {
+            return "redirect:/cargas/listar";
+        }
+
+        model.addAttribute("carga", carga);
+        model.addAttribute("tipoUsuario", tipoUsuario);
+        return "cargas/detalhar-cargas";
     }
 
     @GetMapping("/deletar/{id}")

@@ -93,9 +93,11 @@ public class EmpresaController {
     }
 
     @GetMapping("/detalhar/{id}")
-    public String detalhar(@PathVariable Long id, Model model) {
+    public String detalhar(@PathVariable Long id, Model model, HttpSession session) {
         Empresa empresa = empresaService.buscarPorId(id);
         model.addAttribute("empresa", empresa);
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        model.addAttribute("tipoUsuario", tipoUsuario);
         return "/empresas/detalhar-empresa";
     }
     
@@ -105,5 +107,21 @@ public class EmpresaController {
         model.addAttribute("empresa", empresa);
         model.addAttribute("edicao", true);
         return "/empresas/formulario-empresa";
+    }
+
+    @PostMapping("/excluir/{id}")
+    public String excluirEmpresa(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        if (tipoUsuario == null || !"ADMIN".equals(tipoUsuario.toString())) {
+            redirectAttributes.addFlashAttribute("falha", "Apenas administradores podem excluir empresas.");
+            return "redirect:/dashboard/empresas-listartodos";
+        }
+        try {
+            empresaService.excluirPorId(id);
+            redirectAttributes.addFlashAttribute("mensagemSucesso", "Empresa excluída com sucesso!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("falha", "Não foi possível excluir a empresa. Verifique se há vínculos ativos.");
+        }
+        return "redirect:/dashboard/empresas-listartodos";
     }
 }

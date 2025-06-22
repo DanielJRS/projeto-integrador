@@ -35,6 +35,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                 uri.equals("/motoristas/dashboard-motorista") ||
                 uri.equals("/empresas/dashboard-empresa") ||
                 uri.equals("/transportadoras/dashboard-transportadora") ||
+                uri.equals("/veiculos/novo")||
                 uri.equals("/error")){
 
             System.out.println("Acesso permitido para: " + uri);

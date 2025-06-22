@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Cargas</title>
+  <title>Fretes</title>
   <link rel="stylesheet" th:href="@{../img/css/dashboardadmin/index.css}" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -13,32 +13,15 @@
   <main class="content">
 
    <div class="page-title">
-     <h1>Gerenciamento de Cargas</h1>
-      <div class="action-buttons">
-      <a th:href="@{/cargas/novo}" class="btn btn-success">
-        <i class="fas fa-plus"></i> Cadastrar Nova Carga
-      </a>
-
-      </div>
+     <h1>Gerenciamento de Fretes</h1>
    </div>
     <div class="card stat-card">
       <div class="icon blue">
         <i class="fas fa-list"></i>
       </div>
       <div class="stat-content">
-        <a th:href="@{/dashboard/cargas-listartodos}" style="text-decoration: none;">
-          <h3>Listar Cargas</h3>
-        </a>
-      </div>
-    </div>
-
-    <div class="card stat-card">
-      <div class="icon green">
-        <i class="fas fa-plus-circle"></i>
-      </div>
-      <div class="stat-content">
-        <a th:href="@{/cargas/novo}" style="text-decoration: none;">
-          <h3>Cadastrar Carga</h3>
+        <a th:href="@{/dashboard/fretes-listartodos}" style="text-decoration: none;">
+          <h3>Listar Fretes</h3>
         </a>
       </div>
     </div>
