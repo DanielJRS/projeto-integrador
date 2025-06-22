@@ -70,4 +70,8 @@ public class TransportadoraService {
         return transportadoraRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Transportadora não encontrada com ID: " + id));
     }
+
+    public void excluirPorId(Long id) {
+        transportadoraRepository.deleteById(id);
+    }
 }

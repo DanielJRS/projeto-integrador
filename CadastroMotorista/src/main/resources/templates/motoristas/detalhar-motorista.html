@@ -87,6 +87,14 @@
         <div class="button-container">
             <a th:href="@{/dashboard/motoristas-listartodos}" class="btn btn-secondary">Voltar</a>
             <a th:href="@{/motorista/editar/{id}(id=${motorista.id})}" class="btn btn-primary">Editar</a>
+            <form th:if="${tipoUsuario != null and (tipoUsuario.name() == 'ADMIN' or tipoUsuario.name() == 'TRANSPORTADORA')}"
+                  th:action="@{/motorista/excluir/{id}(id=${motorista.id})}"
+                  method="post" style="display:inline;">
+                <button type="submit" class="btn" style="background-color: brown !important; color: white; border: none;"
+                        onclick="return confirm('Tem certeza que deseja excluir este motorista?');">
+                    Excluir
+                </button>
+            </form>
         </div>
     </div>
     <div th:if="${motorista == null}">

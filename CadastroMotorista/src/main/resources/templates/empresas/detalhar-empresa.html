@@ -82,6 +82,15 @@
     <div class="button-container">
       <a th:href="@{/dashboard/empresas-listartodos}" class="btn btn-secondary">Voltar</a>
       <a th:href="@{'/empresa/editar/' + ${empresa.id}}" class="btn btn-primary">Editar</a>
+      <form th:if="${tipoUsuario != null and tipoUsuario.name() == 'ADMIN'}"
+            th:action="@{/empresa/excluir/{id}(id=${empresa.id})}"
+            method="post" style="display:inline;">
+        <button type="submit" class="btn"
+                style="background-color: brown !important; color: white; border: none;"
+                onclick="return confirm('Tem certeza que deseja excluir esta empresa?');">
+          Excluir
+        </button>
+      </form>
     </div>
   </div>
 

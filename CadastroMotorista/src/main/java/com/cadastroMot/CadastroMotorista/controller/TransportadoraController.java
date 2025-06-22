@@ -7,6 +7,7 @@ import com.cadastroMot.CadastroMotorista.domain.Veiculo;
 import com.cadastroMot.CadastroMotorista.service.TransportadoraService;
 import com.cadastroMot.CadastroMotorista.service.VeiculoService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -76,9 +77,11 @@ public class TransportadoraController {
     }
 
     @GetMapping("/detalhar/{id}")
-    public String detalharTransportadora(@PathVariable Long id, Model model) {
+    public String detalharTransportadora(@PathVariable Long id, Model model, HttpSession session) {
         Transportadora transportadora = transportadoraService.buscarPorId(id);
         model.addAttribute("transportadora", transportadora);
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        model.addAttribute("tipoUsuario", tipoUsuario);
         String dataFundacaoFormatada = null;
         if (transportadora.getDataFundacao() != null) {
             dataFundacaoFormatada = transportadora.getDataFundacao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -100,5 +103,21 @@ public class TransportadoraController {
         model.addAttribute("transportadora", transportadora);
         model.addAttribute("edicao", true);
         return "/transportadoras/formulario-transportadora";
+    }
+
+    @PostMapping("/excluir/{id}")
+    public String excluirTransportadora(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        if (tipoUsuario == null || !"ADMIN".equals(tipoUsuario.toString())) {
+            redirectAttributes.addFlashAttribute("falha", "Apenas administradores podem excluir transportadoras.");
+            return "redirect:/dashboard/transportadoras-listartodos";
+        }
+        try {
+            transportadoraService.excluirPorId(id);
+            redirectAttributes.addFlashAttribute("mensagemSucesso", "Transportadora excluída com sucesso!");
+        } catch (DataIntegrityViolationException e) {
+            redirectAttributes.addFlashAttribute("falha", "Não é possível excluir: existem veículos associados a esta transportadora.");
+        }
+        return "redirect:/dashboard/transportadoras-listartodos";
     }
 }
