@@ -104,7 +104,17 @@
                 <i class="fas fa-arrow-left me-2"></i>Voltar
             </a>
             <a th:href="@{/veiculos/editar/{id}(id=${veiculo.id})}" class="btn btn-primary">Editar</a>
+            <form th:if="${tipoUsuario != null and (tipoUsuario.name() == 'ADMIN' or tipoUsuario.name() == 'MOTORISTA' or tipoUsuario.name() == 'TRANSPORTADORA')}"
+              th:action="@{/veiculos/excluir/{id}(id=${veiculo.id})}"
+              method="post" style="display:inline;">
+            <button type="submit" class="btn"
+                    style="background-color: brown !important; color: white; border: none;"
+                    onclick="return confirm('Tem certeza que deseja excluir este veículo?');">
+                Excluir
+            </button>
+        </form>
         </div>
+        
     </div>
     <div th:if="${veiculo == null}">
         <p>Veículo não encontrado.</p>
