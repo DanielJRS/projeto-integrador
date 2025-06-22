@@ -17,13 +17,4 @@ public interface MotoristaRepository extends JpaRepository<Motorista, Long> {
     List<Motorista> findByTransportadora_NomeFantasiaContainingIgnoreCase(String nomeFantasia);
     List<Motorista> findByNomeContainingIgnoreCaseAndTransportadora_NomeFantasiaContainingIgnoreCase(String nome, String nomeFantasia);
 
-    boolean existsByCpf(String cpf);
-
-    // Verificar se existe motorista com a CNH
-    boolean existsByCnh(String cnh);
-
-    Optional<Motorista> findByCpf(String cpf);
-
-    // Buscar motorista por CNH
-    Optional<Motorista> findByCnh(String cnh);
 }

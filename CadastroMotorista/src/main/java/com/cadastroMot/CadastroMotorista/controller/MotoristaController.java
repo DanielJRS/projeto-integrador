@@ -71,19 +71,6 @@ public class MotoristaController {
             }
 
 
-            Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
-
-            if(usuarioLogado != null && usuarioLogado.getTipo() == TipoUsuario.TRANSPORTADORA){
-
-                motorista.setTransportadoraMotorista(usuarioLogado.getTransportadora());
-
-                Motorista motoristaSalvo = motoristaService.salvar(motorista);
-
-                return "redirect:/transportadora/dashboard";
-            } 
-
-
-
             Motorista motoristaSalvo = motoristaService.salvarComUsuario(motorista, email, senha);
 
             redirectAttributes.addFlashAttribute("mensagemSucesso",
@@ -135,9 +122,38 @@ public class MotoristaController {
     }
 
     @GetMapping("/gerenciarmotorista")
-    public String motorista(Model model){
-        return "redirect:/motorista/gerenciarmotorista";
+    public String motorista(Model model, HttpSession session) {
+        Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
+
+        if (usuarioLogado == null || usuarioLogado.getTransportadora() == null) {
+            return "redirect:/login"; // ou alguma página de erro
+        }
+
+        Transportadora transportadora = usuarioLogado.getTransportadora();
+
+        // Envia a transportadora (empresa logada) para o model
+        model.addAttribute("empresaLogada", transportadora);
+
+        // Lista os motoristas vinculados à transportadora
+        List<Motorista> motoristas = motoristaService.listarPorTransportadora(transportadora);
+        model.addAttribute("motoristas", motoristas); // caso queira usar futuramente no thymeleaf
+
+        return "/transportadoras/gerenciarmotorista";
     }
 
+    @GetMapping("/transp-novo")
+    public String formularioTransp (Model model, HttpSession session) {
+        Motorista motorista = new Motorista();
+
+        model.addAttribute("motorista", motorista);
+        return "motoristas/forms-motorista-transportadora";
+    }
+
+    @GetMapping ("/deletar/{id}")
+    public String deletarmotorista (@PathVariable long id, HttpSession session){
+        Motorista motorista = motoristaService.buscarPorId(id);
+        motoristaService.deletar(id);
+        return "/transportadoras/gerenciarmotorista";
+    }
 }
 
