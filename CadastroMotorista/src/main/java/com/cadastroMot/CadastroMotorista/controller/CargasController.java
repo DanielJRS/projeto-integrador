@@ -166,14 +166,23 @@ public class CargasController {
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 
 
-        if (usuarioLogado != null && tipoUsuario == TipoUsuario.EMPRESA) {
-            Empresa empresa = usuarioLogado.getEmpresa();
-            if (empresa != null) {
-                filtro.setEmpresa(empresa);
-            }
+        if (usuarioLogado == null) {
+            return "redirect:/login";
         }
 
+
+        if (tipoUsuario == TipoUsuario.EMPRESA) {
+            if (usuarioLogado.getEmpresa() == null) {
+                return "redirect:/login";
+            }
+
+
+            filtro.setEmpresa(usuarioLogado.getEmpresa());
+        }
+
+
         List<Carga> cargasFiltradas = cargaService.buscarComFiltro(filtro);
+
 
         model.addAttribute("cargas", cargasFiltradas);
         model.addAttribute("filtro", filtro != null ? filtro : new CargaFiltro());
@@ -201,10 +210,10 @@ public class CargasController {
 
 
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
-        if (usuarioLogado != null && usuarioLogado.getEmpresa() != null &&
-                !usuarioLogado.getEmpresa().equals(carga.getEmpresaCarga())) {
-            return "redirect:/cargas/listar";
-        }
+      //  if (usuarioLogado != null && usuarioLogado.getEmpresa() != null &&
+       //         !usuarioLogado.getEmpresa().equals(carga.getEmpresaCarga())) {
+      //      return "redirect:/cargas/listar";
+      //  }
 
 
         inicializarListasCarga(carga);
@@ -342,10 +351,10 @@ public class CargasController {
         TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuario");
         if (tipoUsuario == TipoUsuario.EMPRESA) {
             Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
-            if (usuarioLogado != null && usuarioLogado.getEmpresa() != null &&
-                    !usuarioLogado.getEmpresa().equals(carga.getEmpresaCarga())) {
-                return "redirect:/cargas/listar";
-            }
+           // if (usuarioLogado != null && usuarioLogado.getEmpresa() != null &&
+          //          !usuarioLogado.getEmpresa().equals(carga.getEmpresaCarga())) {
+           //       return "redirect:/cargas/listar";
+            // }
         }
 
         List<Veiculo> veiculos = veiculoService.buscarPorTransportadoraId(id);
@@ -382,12 +391,11 @@ public class CargasController {
 
         Carga carga = cargaService.buscarPorId(id);
         if (carga != null) {
-            // Verificar se a carga pertence à empresa do usuário
             Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
-            if (usuarioLogado != null && usuarioLogado.getEmpresa() != null &&
-                    usuarioLogado.getEmpresa().equals(carga.getEmpresaCarga())) {
-                cargaService.deletar(id);
-            }
+           // if (usuarioLogado != null && usuarioLogado.getEmpresa() != null &&
+           //         usuarioLogado.getEmpresa().equals(carga.getEmpresaCarga())) {
+            cargaService.deletar(id);
+           // }
         }
 
         return "redirect:/cargas/listar";
