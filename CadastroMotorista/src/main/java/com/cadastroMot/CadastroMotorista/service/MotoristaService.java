@@ -91,4 +91,8 @@ public class MotoristaService {
     public Long contarFretesAtivosEStatus(Motorista motorista, TipoEstadoFrete status) {
         return freteService.contarFretesEStatus(motorista, TipoEstadoFrete.ATIVO);
     }
+
+    public void excluirPorId(Long id) {
+        motoristaRepository.deleteById(id);
+    }
 }

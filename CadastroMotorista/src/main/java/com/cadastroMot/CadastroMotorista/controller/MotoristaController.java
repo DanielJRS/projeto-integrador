@@ -22,7 +22,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/motorista")
-public class MotoristaController {
+public class  MotoristaController {
 
     private final MotoristaService motoristaService;
     private final CargaService cargaService;
@@ -134,9 +134,11 @@ public class MotoristaController {
     }
 
     @GetMapping("/detalhar/{id}")
-    public String detalharMotorista(@PathVariable Long id, Model model) {
+    public String detalharMotorista(@PathVariable Long id, Model model, HttpSession session) {
         Motorista motorista = motoristaService.buscarPorId(id); 
         model.addAttribute("motorista", motorista);
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        model.addAttribute("tipoUsuario", tipoUsuario);
         return "motoristas/detalhar-motorista";
     }
 
@@ -146,5 +148,49 @@ public class MotoristaController {
         model.addAttribute("motorista", motorista);
         model.addAttribute("edicao", true);
         return "motoristas/formulario-motorista";
+    }
+
+    @PostMapping("/excluir/{id}")
+    public String excluirMotorista(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
+        Object tipoUsuario = session.getAttribute("tipoUsuario");
+        if (tipoUsuario == null ||
+            !(tipoUsuario.toString().equals("ADMIN") || tipoUsuario.toString().equals("TRANSPORTADORA"))) {
+            redirectAttributes.addFlashAttribute("falha", "Apenas administradores ou transportadoras podem excluir motoristas.");
+            return "redirect:/dashboard/motoristas-listartodos";
+        }
+        try {
+            motoristaService.excluirPorId(id);
+            redirectAttributes.addFlashAttribute("mensagemSucesso", "Motorista excluído com sucesso!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("falha", "Não foi possível excluir o motorista. Verifique se há vínculos ativos.");
+        }
+        return "redirect:/dashboard/motoristas-listartodos";
+    }
+    @GetMapping("/gerenciarmotorista")
+    public String motorista(Model model, HttpSession session) {
+        Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
+
+        if (usuarioLogado == null || usuarioLogado.getTransportadora() == null) {
+            return "redirect:/login"; // ou alguma página de erro
+        }
+
+        Transportadora transportadora = usuarioLogado.getTransportadora();
+
+        // Envia a transportadora (empresa logada) para o model
+        model.addAttribute("empresaLogada", transportadora);
+
+        // Lista os motoristas vinculados à transportadora
+        List<Motorista> motoristas = motoristaService.listarPorTransportadora(transportadora);
+        model.addAttribute("motoristas", motoristas); // caso queira usar futuramente no thymeleaf
+
+        return "/transportadoras/gerenciarmotorista";
+    }
+
+    @GetMapping("/transp-novo")
+    public String formularioTransp (Model model, HttpSession session) {
+        Motorista motorista = new Motorista();
+
+        model.addAttribute("motorista", motorista);
+        return "motoristas/forms-motorista-transportadora";
     }
 }
