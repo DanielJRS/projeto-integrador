@@ -9,8 +9,7 @@
 <body>
 <div class="container">
     <div class="header">
-        <h1>🚛 Motoristas por Transportadora</h1>
-        <p>Gerencie e visualize os motoristas de cada transportadora</p>
+        <h1>Seus Motoristas</h1>
     </div>
 
     <div class="filters">
@@ -22,6 +21,7 @@
             <div>
                 <button id="btnLimpar" class="btn btn-secondary">🗑️ Limpar Filtros</button>
                 <a th:href="@{/motorista/transp-novo}" class="btn btn-primary">➕ Novo Motorista</a>
+                <button onclick="history.back()" class="btn btn-back">Voltar</button>
             </div>
         </div>
     </div>
@@ -56,63 +56,14 @@
                         <div class="cnh" th:text="'CNH: ' + ${motorista.cnh}">CNH: 123456</div>
                     </div>
                 </div>
-                <div class="motorista-details">
-                    <div class="detail-row">
-                        <span class="detail-label">Data de Nascimento:</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Status:</span>
-                        <span class="detail-value">
-                        </span>
-                    </div>
-                </div>
-
                 <div class="card-actions">
                     <a th:href="@{/motorista/detalhar/{id}(id=${motorista.id})}" class="btn btn-sm btn-primary">
                         Detalhar
-                    </a>
-                    <a class="btn-sm btn-delete" th:href="@{/motorista/deletar/{id}(id=${motorista.id})}">
-                        Remover
                     </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<script th:inline="javascript">
-    // Função para mostrar loading
-    function mostrarLoading() {
-        document.getElementById('loading').style.display = 'block';
-        document.getElementById('emptyState').style.display = 'none';
-        document.getElementById('motoristasContainer').style.display = 'none';
-        document.getElementById('stats').style.display = 'none';
-    }
-
-    // Função para esconder loading
-    function esconderLoading() {
-        document.getElementById('loading').style.display = 'none';
-    }
-
-    // Função para mostrar estado vazio
-    function mostrarEmptyState() {
-        document.getElementById('emptyState').style.display = 'block';
-        document.getElementById('motoristasContainer').style.display = 'none';
-        document.getElementById('stats').style.display = 'none';
-    }
-
-    // Função para formatar data
-    function formatarData(data) {
-        if (!data) return '';
-        return new Date(data).toLocaleDateString('pt-BR');
-    }
-
-    // Função para renderizar motoristas
-    function renderizarMotoristas(motoristas) {
-        const container = document.getElementById('motoristasContainer');
-        // Implementação da renderização aqui...
-    }
-</script>
-
 </body>
 </html>
