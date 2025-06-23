@@ -100,7 +100,10 @@ public class  MotoristaController {
             return "redirect:/login";
         }
 
-        Motorista motorista = usuarioLogado.getMotorista();
+        Long motoristaId = usuarioLogado.getMotorista().getId();
+
+        Motorista motorista = motoristaService.buscarPorId(motoristaId);
+
         model.addAttribute("motorista", motorista);
 
         List<Carga> cargas = cargaService.buscarCargaPorMotorista(usuarioLogado.getId());
@@ -109,12 +112,12 @@ public class  MotoristaController {
         List<Veiculo> veiculos = veiculoService.buscarPorMotoristaId(motorista.getId());
         model.addAttribute("veiculos", veiculos);
 
-        Long motoristaId = motorista.getId();
-        Motorista motoristaCompleto = motoristaService.buscarPorId(motoristaId);
+//        Long motoristaId = motorista.getId();
+//        Motorista motoristaCompleto = motoristaService.buscarPorId(motoristaId);
 
-        model.addAttribute("motorista", motoristaCompleto);
+        model.addAttribute("motorista", motorista);
 
-        List<Frete> fretes = freteService.buscarFretesPorMotorista(motoristaCompleto);
+        List<Frete> fretes = freteService.buscarFretesPorMotorista(motorista);
         model.addAttribute("fretes", fretes);
 
         Long numeroFretesAtivosMotorista = freteService.contarFretesEStatus(motorista, TipoEstadoFrete.ATIVO);
@@ -167,15 +170,13 @@ public class  MotoristaController {
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 
         if (usuarioLogado == null || usuarioLogado.getTransportadora() == null) {
-            return "redirect:/login"; // ou alguma página de erro
+            return "redirect:/login";
         }
 
         Transportadora transportadora = usuarioLogado.getTransportadora();
 
-        // Envia a transportadora (empresa logada) para o model
         model.addAttribute("empresaLogada", transportadora);
 
-        // Lista os motoristas vinculados à transportadora
         List<Motorista> motoristas = motoristaService.listarPorTransportadora(transportadora);
         model.addAttribute("motoristas", motoristas); // caso queira usar futuramente no thymeleaf
 
