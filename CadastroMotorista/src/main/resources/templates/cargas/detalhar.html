@@ -446,11 +446,11 @@
         </div>
     </div>
 
-    <label class="form-label">Veículo:</label>
-    <select class="form-select" name="transportadora">
-        <option value="">Selecione...</option>
-        <option th:each="veiculo : ${veiculos}" th:value="${veiculo.id}" th:text="${motorista.modelo}"></option>
-    </select>
+<!--    <label class="form-label">Veículo:</label>-->
+<!--    <select class="form-select" name="transportadora">-->
+<!--        <option value="">Selecione...</option>-->
+<!--        <option th:each="veiculo : ${veiculos}" th:value="${veiculo.id}" th:text="${motorista.modelo}"></option>-->
+<!--    </select>-->
 
     <div class="action-buttons">
         <a th:href="@{/aceitar-frete(cargaId=${carga.id})}"

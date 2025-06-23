@@ -129,9 +129,16 @@ public class CargaService {
             return cargaRepository.findAll();
         }
 
-        public Carga buscarPorId(Long id) {
-            return cargaRepository.findById(id).orElse(null);
+    @Transactional
+    public Carga buscarPorId(Long id) {
+        Carga carga = cargaRepository.findById(id).orElse(null);
+
+        if (carga != null && carga.getMotorista() != null) {
+            carga.getMotorista().getCargas().size();
         }
+
+        return carga;
+    }
 
         @Transactional
         public Carga salvar(Carga carga) {

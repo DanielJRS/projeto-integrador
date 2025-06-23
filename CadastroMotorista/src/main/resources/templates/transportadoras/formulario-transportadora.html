@@ -28,8 +28,6 @@
               method="post"
               enctype="multipart/form-data">
 
-
-            <!-- Dados de Acesso -->
             <div class="login-section">
                 <h5>Dados de Acesso ao Sistema</h5>
                 <div class="form-row">
@@ -54,7 +52,6 @@
                 </div>
             </div>
 
-            <!-- Informações da Empresa -->
             <h5 class="section-header">Informações da Empresa</h5>
 
             <div class="form-row">
@@ -98,7 +95,6 @@
                 </div>
             </div>
 
-            <!-- Endereço -->
             <h5 class="section-header">Endereço</h5>
 
             <div class="form-row single">
@@ -141,7 +137,6 @@
                 </div>
             </div>
 
-            <!-- Licenças e Registros -->
             <h5 class="section-header">Licenças e Registros</h5>
 
             <div class="form-row">
@@ -184,7 +179,6 @@
                 </div>
             </div>
 
-            <!-- Informações Operacionais -->
             <h5 class="section-header">Informações Operacionais</h5>
 
             <div class="form-row">
@@ -216,7 +210,6 @@
                 </div>
 
                 <div class="form-group">
-                    <!-- Espaço em branco para manter alinhamento -->
                 </div>
             </div>
 
@@ -230,7 +223,6 @@
                 </div>
             </div>
 
-            <!-- Checkboxes -->
             <div class="checkbox-group">
                 <input type="checkbox" class="form-check-input" id="rastreamentoVeiculos" th:field="*{rastreamentoVeiculos}" />
                 <label class="form-check-label" for="rastreamentoVeiculos">
@@ -247,7 +239,7 @@
 
             <div class="button-container">
                 <a th:if="${tipoUsuario == null}"
-                    th:href="@{/}" class="btn btn-secondary mb-3">
+                    th:href="@{/login}" class="btn btn-secondary mb-3">
                     <i class="fas fa-arrow-left me-2"></i>Voltar
                 </a>
                 <a th:if="${tipoUsuario != null and tipoUsuario.name() == 'ADMIN'}"

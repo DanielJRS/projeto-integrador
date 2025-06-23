@@ -139,7 +139,6 @@ public class CargasController {
         carga.setProduto(produto);
         carga.setEspecie(especie);
 
-        // Processar veículos
         List<String> selecionados = veiculo != null ? Arrays.asList(veiculo) : new ArrayList<>();
         carga.setVeiculosLeves(new ArrayList<>(selecionados.stream()
                 .filter(v -> List.of("Todos", "3/4", "HR", "Toco", "VLC").contains(v))
@@ -151,7 +150,6 @@ public class CargasController {
                 .filter(v -> List.of("Bi-trem", "Carreta", "Rodotrem", "Carreta LS").contains(v))
                 .toList()));
 
-        // Processar fretes (garantindo listas mutáveis)
         carga.setFretesFechados(freteFechado != null ? new ArrayList<>(Arrays.asList(freteFechado)) : new ArrayList<>());
         carga.setFretesAbertos(freteAberto != null ? new ArrayList<>(Arrays.asList(freteAberto)) : new ArrayList<>());
         carga.setFretesEspeciais(freteEspecial != null ? new ArrayList<>(Arrays.asList(freteEspecial)) : new ArrayList<>());

@@ -60,8 +60,15 @@ public class MotoristaService {
         return lista != null ? lista : List.of();
     }
 
+    @Transactional
     public Motorista buscarPorId(Long id) {
-        return motoristaRepository.findById(id).orElse(null);
+        Motorista motorista = motoristaRepository.findById(id).orElse(null);
+
+        if (motorista != null) {
+            motorista.getCargas().size();
+        }
+
+        return motorista;
     }
 
     public Motorista findByUsuario(Usuario usuario) {

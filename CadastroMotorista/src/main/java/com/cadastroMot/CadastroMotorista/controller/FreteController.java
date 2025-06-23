@@ -36,6 +36,7 @@ public class FreteController {
     @Autowired
     private CargaRepository cargaRepository;
 
+    @Transactional
     @GetMapping("/aceitar-frete")
     public String aceitarFrete(@RequestParam Long cargaId,
                                HttpSession session,
@@ -43,7 +44,13 @@ public class FreteController {
 
         Carga carga = cargaService.buscarPorId(cargaId);
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
-        Motorista motorista = motoristaService.buscarPorId(usuarioLogado.getId());
+
+        Long motoristaId = usuarioLogado.getMotorista().getId();
+
+        Motorista motorista = motoristaService.buscarPorId(motoristaId);
+
+        motorista.getCargas().size();
+
         Empresa empresa = carga.getEmpresaCarga();
 
         Frete frete = new Frete();

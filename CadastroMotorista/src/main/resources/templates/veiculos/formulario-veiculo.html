@@ -11,7 +11,7 @@
     <div class="content-container">
         <div class="form-container">
             <div class="page-title">
-                <h2 th:text="${edicao ?: false} ? 'Editar Veículo' : 'Cadastrar Novo Veículo'">Cadastrar Novo Veículo</h2>
+                <h2 th:text="${edicao ?: false} ? 'Editar Veículo' : 'Cadastrar Novo Veículo'">Cadastrar novo veículo</h2>
                 <p th:if="${!(edicao ?: false)}">Preencha os dados do veículo abaixo.</p>
             </div>
             <form th:action="@{${edicao ?: false} ? '/veiculos/editar/' + ${veiculo.id} : '/veiculos'}" th:object="${veiculo}" method="post">
