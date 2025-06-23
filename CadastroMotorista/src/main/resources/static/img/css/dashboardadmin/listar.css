@@ -199,7 +199,6 @@ body {
 .content-container, .container {
     max-width: 1800px;
     margin: 40px auto;
-    margin-left: var(--sidebar-width);
     padding: 0 20px;
 }
 
