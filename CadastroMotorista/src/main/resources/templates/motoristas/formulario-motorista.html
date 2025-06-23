@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Transportes - Cadastro de Motorista</title>
+    <title>Global Transportes - Cadastro de motorista</title>
     <script th:src="@{/img/js/motorista/formulario-motorista.js}" defer></script>
     <link rel="stylesheet" th:href="@{/img/css/motorista/formulario-motorista.css}">
 </head>
@@ -18,7 +18,7 @@
 
 <div class="content-container">
     <div class="page-title">
-        <h2 th:text="${edicao} ? 'Editar Motorista' : 'Cadastro de Motorista'">Cadastro de Motorista</h2>
+        <h2 th:text="${edicao} ? 'Editar Motorista' : 'Cadastro de Motorista'">Cadastro de motorista</h2>
         <p>Junte-se à nossa rede de motoristas profissionais</p>
     </div>
 
@@ -27,15 +27,13 @@
                 th:object="${motorista}" method="post" enctype="multipart/form-data">
             <input type="hidden" th:field="*{id}" />
 
-            <!-- Dados de Acesso -->
             <div class="login-section">
-                <h5>Dados de Acesso ao Sistema</h5>
+                <h5>Dados de acesso ao sistema</h5>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="email" class="form-label">E-mail de acesso:</label>
                         <input type="email" class="form-control" id="email" name="email"
                                placeholder="motorista@email.com" required />
-<!--                        <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>-->
                     </div>
 
                     <div class="form-group">
@@ -47,13 +45,11 @@
                                 <span id="iconSenha">👁️</span>
                             </button>
                         </div>
-<!--                        <span class="error" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></span>-->
                     </div>
                 </div>
             </div>
 
-            <!-- Dados Pessoais -->
-            <h5 class="section-header">Dados Pessoais</h5>
+            <h5 class="section-header">Dados pessoais</h5>
 
             <div class="form-row single">
                 <div class="form-group">
@@ -80,7 +76,6 @@
                 </div>
             </div>
 
-            <!-- Endereço -->
             <h5 class="section-header">Endereço</h5>
 
             <div class="form-row single">
@@ -115,8 +110,7 @@
                 </div>
             </div>
 
-            <!-- Documentação Profissional -->
-            <h5 class="section-header">Documentação Profissional</h5>
+            <h5 class="section-header">Documentação profissional</h5>
 
             <div class="form-row">
                 <div class="form-group">
@@ -134,8 +128,7 @@
                 </div>
             </div>
 
-            <!-- Upload de Foto -->
-            <h5 class="section-header">Documentos e Foto</h5>
+            <h5 class="section-header">Documentos e foto</h5>
 
             <div class="form-row single">
                 <div class="form-group">
@@ -152,7 +145,7 @@
 
             <div class="button-container">
                 <a th:if="${tipoUsuario == null}"
-                    th:href="@{/}" class="btn btn-secondary mb-3">
+                    th:href="@{/login}" class="btn btn-secondary mb-3">
                     <i class="fas fa-arrow-left me-2"></i>Voltar
                 </a>
                 <a th:if="${tipoUsuario != null and tipoUsuario.name() == 'ADMIN'}"

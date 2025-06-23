@@ -109,17 +109,13 @@ public class  MotoristaController {
         List<Veiculo> veiculos = veiculoService.buscarPorMotoristaId(motorista.getId());
         model.addAttribute("veiculos", veiculos);
 
-        Motorista motoristaLista = motoristaService.buscarPorId(usuarioLogado.getId());
+        Long motoristaId = motorista.getId();
+        Motorista motoristaCompleto = motoristaService.buscarPorId(motoristaId);
 
-        List<Frete> fretes = freteService.buscarFretesPorMotorista(motoristaLista);
+        model.addAttribute("motorista", motoristaCompleto);
+
+        List<Frete> fretes = freteService.buscarFretesPorMotorista(motoristaCompleto);
         model.addAttribute("fretes", fretes);
-        model.addAttribute("motoristaLista", motoristaLista);
-
-//        Long fretesAtivos = motoristaService.contarFretesAtivos(motorista);
-//        model.addAttribute("fretesAtivos", fretesAtivos);
-
-//        Long fretesAtivosStatus = freteService.contarFretesAtivosEStatus(motorista);
-//        model.addAttribute("fretesAtivosStatus", fretesAtivosStatus);
 
         Long numeroFretesAtivosMotorista = freteService.contarFretesEStatus(motorista, TipoEstadoFrete.ATIVO);
         model.addAttribute("fretesAtivosMotorista", numeroFretesAtivosMotorista);

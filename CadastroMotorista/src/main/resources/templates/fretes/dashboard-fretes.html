@@ -215,12 +215,11 @@
                             <i class="fas fa-check-circle icon"></i>
                             Finalizar entrega
                         </button>
-                        <a th:href="@{/motorista/dashboard}" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left icon"></i>
+<!--                        <a th:href="@{/motorista/dashboard}" class="btn btn-secondary">-->
+<!--                            <i class="fas fa-arrow-left icon"></i>-->
                         <a th:if="${TipoUsuario == T(com.cadastroMot.CadastroMotorista.domain.TipoUsuario).MOTORISTA}"
                            th:href="@{/motorista/dashboard}"
                            class="btn btn-secondary">
-                            <i data-lucide="arrow-left" class="icon"></i>
                             Voltar ao dashboard
                         </a>
                     </div>
