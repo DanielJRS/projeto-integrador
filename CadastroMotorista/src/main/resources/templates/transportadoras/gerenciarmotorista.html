@@ -9,21 +9,31 @@
 <body>
 <div class="container">
     <div class="header">
-        <h1>Seus Motoristas</h1>
+        <H1>Seus Motoristas</H1>
+        <h1 th:text ="${empresaLogada.nomeFantasia}"></h1>
     </div>
 
     <div class="filters">
-        <div class="filter-group">
-            <div class="form-group">
-                <label for="filtroNome">Filtrar por nome</label>
-                <input type="text" id="filtroNome" class="form-control" placeholder="Digite o nome do motorista...">
+        <form method="get" th:action="@{/dashboard/motoristas-listartodos}" class="filter-form">
+            <div class="filter-group">
+                <div class="form-group">
+                    <label for="nome">Filtrar por nome</label>
+                    <input type="text"
+                           id="nome"
+                           name="nome"
+                           class="form-control"
+                           placeholder="Digite o nome do motorista..."
+                           th:value="${nome}">
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-primary">🔍 Filtrar</button>
+                    <button type="button" id="btnLimpar" class="btn btn-secondary" onclick="limparFiltros()">🗑️ Limpar Filtros</button>
+                    <a th:href="@{/motorista/transp-novo}" class="btn btn-primary">➕ Novo Motorista</a>
+                    <button type="button" onclick="history.back()" class="btn btn-back">Voltar</button>
+                </div>
             </div>
-            <div>
-                <button id="btnLimpar" class="btn btn-secondary">🗑️ Limpar Filtros</button>
-                <a th:href="@{/motorista/transp-novo}" class="btn btn-primary">➕ Novo Motorista</a>
-                <button onclick="history.back()" class="btn btn-back">Voltar</button>
-            </div>
-        </div>
+        </form>
     </div>
 
     <div class="content">

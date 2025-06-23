@@ -184,7 +184,7 @@ public class  MotoristaController {
         model.addAttribute("empresaLogada", transportadora);
 
         List<Motorista> motoristas = motoristaService.listarPorTransportadora(transportadora);
-        model.addAttribute("motoristas", motoristas); // caso queira usar futuramente no thymeleaf
+        model.addAttribute("motoristas", motoristas);
 
         return "/transportadoras/gerenciarmotorista";
     }
