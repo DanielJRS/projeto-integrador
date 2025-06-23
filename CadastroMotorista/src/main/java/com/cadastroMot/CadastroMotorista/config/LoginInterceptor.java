@@ -16,7 +16,12 @@ public class LoginInterceptor implements HandlerInterceptor {
         String uri = request.getRequestURI();
         System.out.println("Interceptando URI: " + uri);
 
-        if (uri.equals("/login") ||
+        if      (
+                uri.equals("/aceitar-frete")||
+                uri.startsWith("/api/") ||
+                uri.startsWith("/swagger-ui/") ||
+                uri.startsWith("/v3/api-docs") ||
+                uri.equals("/login") ||
                 uri.equals("/") ||
                 uri.equals("/index") ||
                 uri.equals("/logout") ||
@@ -36,7 +41,8 @@ public class LoginInterceptor implements HandlerInterceptor {
                 uri.equals("/empresas/dashboard-empresa") ||
                 uri.equals("/transportadoras/dashboard-transportadora") ||
                 uri.equals("/veiculos/novo")||
-                uri.equals("/error")){
+                uri.equals("/error"))
+                 {
 
             System.out.println("Acesso permitido para: " + uri);
             return true;

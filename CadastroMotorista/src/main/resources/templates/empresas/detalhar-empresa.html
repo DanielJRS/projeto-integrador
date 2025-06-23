@@ -75,7 +75,7 @@
       </div>
       <div class="form-group">
         <label class="form-label">Data de Fundação:</label>
-        <p th:text="${#dates.format(empresa.dataFundacao, 'dd/MM/yyyy')}">01/01/2000</p>
+        <p th:text="${empresa.dataFundacao != null ? #temporals.format(empresa.dataFundacao, 'dd/MM/yyyy') : 'Data não informada'}">01/01/2000</p>
       </div>
     </div>
 

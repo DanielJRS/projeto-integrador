@@ -65,4 +65,60 @@ class CargaTest {
         assertEquals(Arrays.asList("FA1"), carga.getFretesAbertos());
         assertEquals(Arrays.asList("FE1"), carga.getFretesEspeciais());
     }
+
+    @Test
+    void testFalhaCarga() {
+        Carga carga = new Carga();
+        carga.setId(1L);
+        carga.setOrigemCidade("Porto Alegre");
+        carga.setOrigemEstado("RS");
+        carga.setDataColeta(LocalDate.of(2025, 6, 1));
+        carga.setDestinoCidade("São Paulo");
+        carga.setDestinoEstado("SP");
+        carga.setDataEntrega(LocalDate.of(2025, 6, 5));
+        carga.setProduto("Grãos");
+        carga.setEspecie("A");
+        carga.setVeiculo("Truck");
+        carga.setPreco(5000.0);
+        carga.setTipoCarga(TipoCarga.COMPLETA);
+        carga.setTipoEstadoCarga(TipoEstadoCarga.DISPONIVEL);
+        carga.setPossuiLona(true);
+        carga.setPesoTotal(12.5);
+        carga.setLimiteAltura(2.8);
+        carga.setVolume(30.0);
+
+        carga.setVeiculosLeves(Arrays.asList("VAN", "3/4"));
+        carga.setVeiculosMedios(Arrays.asList("Toco"));
+        carga.setVeiculosPesados(Arrays.asList("Bitrem"));
+        carga.setFretesFechados(Arrays.asList("FF1"));
+        carga.setFretesAbertos(Arrays.asList("FA1"));
+        carga.setFretesEspeciais(Arrays.asList("FE1"));
+
+        // Assertivas incorretas, vão falhar
+        assertEquals(2L, carga.getId()); // falha aqui
+        assertEquals("Porto Alegreeee", carga.getOrigemCidade());
+        assertEquals("SP", carga.getOrigemEstado());
+        assertEquals(LocalDate.of(2025, 7, 1), carga.getDataColeta());
+        assertEquals("Rio de Janeiro", carga.getDestinoCidade());
+        assertEquals("RJ", carga.getDestinoEstado());
+        assertEquals(LocalDate.of(2025, 7, 5), carga.getDataEntrega());
+        assertEquals("Café", carga.getProduto());
+        assertEquals("B", carga.getEspecie());
+        assertEquals("Caminhão", carga.getVeiculo());
+        assertEquals(6000.0, carga.getPreco());
+        assertEquals(TipoCarga.COMPLETA, carga.getTipoCarga());
+        assertEquals(TipoEstadoCarga.ANDAMENTO, carga.getTipoEstadoCarga());
+        assertFalse(carga.getPossuiLona());
+        assertEquals(15.0, carga.getPesoTotal());
+        assertEquals(3.0, carga.getLimiteAltura());
+        assertEquals(35.0, carga.getVolume());
+
+        assertEquals(Arrays.asList("Caminhão"), carga.getVeiculosLeves());
+        assertEquals(Arrays.asList("Bitrem"), carga.getVeiculosMedios());
+        assertEquals(Arrays.asList("Toco"), carga.getVeiculosPesados());
+        assertEquals(Arrays.asList("FA1"), carga.getFretesFechados());
+        assertEquals(Arrays.asList("FF1"), carga.getFretesAbertos());
+        assertEquals(Arrays.asList("FE2"), carga.getFretesEspeciais());
+    }
+
 }

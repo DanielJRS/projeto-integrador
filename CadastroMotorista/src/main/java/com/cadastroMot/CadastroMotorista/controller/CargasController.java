@@ -4,6 +4,7 @@ import  java.util.Collections;
 import com.cadastroMot.CadastroMotorista.domain.*;
 import com.cadastroMot.CadastroMotorista.service.CargaService;
 import com.cadastroMot.CadastroMotorista.service.UsuarioService;
+import com.cadastroMot.CadastroMotorista.service.VeiculoService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/cargas")
 public class CargasController {
+
+    @Autowired
+    private VeiculoService veiculoService;
 
     @Autowired
     private CargaService cargaService;
@@ -44,6 +48,7 @@ public class CargasController {
         model.addAttribute("cidades", cargaService.listarCidades());
         model.addAttribute("estados", cargaService.listarEstados());
         model.addAttribute("tiposCarga", TipoCarga.values());
+        model.addAttribute("TipoUsuario", usuarioLogado.getTipo());
 
         if ("ADMIN".equals(String.valueOf(tipoUsuario))) {
             return "cargas/novo";
@@ -134,7 +139,6 @@ public class CargasController {
         carga.setProduto(produto);
         carga.setEspecie(especie);
 
-        // Processar veículos
         List<String> selecionados = veiculo != null ? Arrays.asList(veiculo) : new ArrayList<>();
         carga.setVeiculosLeves(new ArrayList<>(selecionados.stream()
                 .filter(v -> List.of("Todos", "3/4", "HR", "Toco", "VLC").contains(v))
@@ -146,7 +150,6 @@ public class CargasController {
                 .filter(v -> List.of("Bi-trem", "Carreta", "Rodotrem", "Carreta LS").contains(v))
                 .toList()));
 
-        // Processar fretes (garantindo listas mutáveis)
         carga.setFretesFechados(freteFechado != null ? new ArrayList<>(Arrays.asList(freteFechado)) : new ArrayList<>());
         carga.setFretesAbertos(freteAberto != null ? new ArrayList<>(Arrays.asList(freteAberto)) : new ArrayList<>());
         carga.setFretesEspeciais(freteEspecial != null ? new ArrayList<>(Arrays.asList(freteEspecial)) : new ArrayList<>());
@@ -162,14 +165,23 @@ public class CargasController {
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 
 
-        if (usuarioLogado != null && tipoUsuario == TipoUsuario.EMPRESA) {
-            Empresa empresa = usuarioLogado.getEmpresa();
-            if (empresa != null) {
-                filtro.setEmpresa(empresa);
-            }
+        if (usuarioLogado == null) {
+            return "redirect:/login";
         }
 
+
+        if (tipoUsuario == TipoUsuario.EMPRESA) {
+            if (usuarioLogado.getEmpresa() == null) {
+                return "redirect:/login";
+            }
+
+
+            filtro.setEmpresa(usuarioLogado.getEmpresa());
+        }
+
+
         List<Carga> cargasFiltradas = cargaService.buscarComFiltro(filtro);
+
 
         model.addAttribute("cargas", cargasFiltradas);
         model.addAttribute("filtro", filtro != null ? filtro : new CargaFiltro());
@@ -197,10 +209,6 @@ public class CargasController {
 
 
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
-        if (usuarioLogado != null && usuarioLogado.getEmpresa() != null &&
-                !usuarioLogado.getEmpresa().equals(carga.getEmpresaCarga())) {
-            return "redirect:/cargas/listar";
-        }
 
 
         inicializarListasCarga(carga);
@@ -329,6 +337,7 @@ public class CargasController {
     @GetMapping("/detalhar/{id}")
     public String detalharCarga(@PathVariable Long id, Model model, HttpSession session) {
         Carga carga = cargaService.buscarPorId(id);
+
         if (carga == null) {
             return "redirect:/cargas/listar";
         }
@@ -337,14 +346,30 @@ public class CargasController {
         TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuario");
         if (tipoUsuario == TipoUsuario.EMPRESA) {
             Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
-            if (usuarioLogado != null && usuarioLogado.getEmpresa() != null &&
-                    !usuarioLogado.getEmpresa().equals(carga.getEmpresaCarga())) {
-                return "redirect:/cargas/listar";
-            }
         }
+
+        List<Veiculo> veiculos = veiculoService.buscarPorTransportadoraId(id);
+        model.addAttribute("veiculo", veiculos);
 
         model.addAttribute("carga", carga);
         return "cargas/detalhar";
+    }
+
+    @GetMapping("/detalhar-admin/{id}")
+    public String detalharCargaAdmin(@PathVariable Long id, Model model, HttpSession session) {
+        Carga carga = cargaService.buscarPorId(id);
+        if (carga == null) {
+            return "redirect:/cargas/listar";
+        }
+
+        TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuario");
+        if (tipoUsuario != TipoUsuario.ADMIN) {
+            return "redirect:/cargas/listar";
+        }
+
+        model.addAttribute("carga", carga);
+        model.addAttribute("tipoUsuario", tipoUsuario);
+        return "cargas/detalhar-cargas";
     }
 
     @GetMapping("/deletar/{id}")
@@ -357,12 +382,10 @@ public class CargasController {
 
         Carga carga = cargaService.buscarPorId(id);
         if (carga != null) {
-            // Verificar se a carga pertence à empresa do usuário
             Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
-            if (usuarioLogado != null && usuarioLogado.getEmpresa() != null &&
-                    usuarioLogado.getEmpresa().equals(carga.getEmpresaCarga())) {
-                cargaService.deletar(id);
-            }
+
+            cargaService.deletar(id);
+
         }
 
         return "redirect:/cargas/listar";

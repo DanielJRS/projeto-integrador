@@ -4,195 +4,191 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard de Motorista - Global Transportes</title>
-  <script th:src="@{/img/js/motorista/dashboard-motorista.js}" defer></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" th:href="@{/img/css/motorista/dashboard-motorista.css}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
+  <script th:src="@{/img/js/motorista/dashboard-motorista.js}" defer></script>
+
+  <style>
+
+  </style>
 </head>
 <body>
 
-<nav class="sidebar">
-  <div class="sidebar-header">
-    <div class="sidebar-logo">
-      <i data-lucide="truck"></i> Global Transportes
-    </div>
-  </div>
-  <div class="sidebar-menu">
-    <div class="sidebar-item">
-      <a th:href="@{/motorista}" class="sidebar-link">
-        <span class="sidebar-icon"><i data-lucide="home"></i></span>
-        <span class="sidebar-text">Dashboard</span>
-      </a>
-      <div class="sidebar-tooltip">Dashboard</div>
-    </div>
-    <div class="sidebar-item">
-      <a th:href="@{/cargas/listar}" class="sidebar-link">
-        <span class="sidebar-icon"><i data-lucide="search"></i></span>
-        <span class="sidebar-text">Explorar Cargas</span>
-      </a>
-      <div class="sidebar-tooltip">Explorar Cargas</div>
-    </div>
-    <div class="sidebar-item">
-      <a th:href="@{/veiculos/novo}" class="sidebar-link">
-        <span class="sidebar-icon"><i data-lucide="car"></i></span>
-        <span class="sidebar-text">Cadastrar Veículo</span>
-      </a>
-      <div class="sidebar-tooltip">Cadastrar Veículo</div>
-    </div>
-  </div>
-</nav>
-
-<div th:insert="~{shared-fragments/shared-header :: shared-header}"></div>
-
-<div class="dashboard-container">
-  <div class="dashboard-welcome">
-    <h2>
-      <i data-lucide="user-check"></i>
-      <span th:text="|Bem-vindo, ${motorista.nome}!|">Bem-vindo, Motorista!</span>
-    </h2>
-    <p>
-      <i data-lucide="map"></i>
-      Gerencie seus fretes de forma eficiente e acompanhe suas entregas em tempo real. Sua jornada começa aqui.
-    </p>
-    <div class="welcome-actions">
-      <a th:href="@{/motorista/cargas}" class="btn btn-primary">
-        <i data-lucide="search"></i> Explorar todas as cargas
-      </a>
-      <a th:href="@{/veiculos/novo}" class="btn btn-secondary">
-        <i data-lucide="car"></i> Cadastrar veículo
-      </a>
-    </div>
-  </div>
-
-  <div class="stats-grid">
-    <div class="stat-card stat-card-highlight">
-      <div class="stat-icon"><i data-lucide="truck"></i></div>
-      <div class="stat-content">
-        <div class="stat-number" th:text="${fretesAtivosMotorista ?: 0}">2</div>
-        <div class="stat-label">
-          <i data-lucide="play-circle"></i> Fretes ativos
-        </div>
-        <div class="stat-description">
-          <i data-lucide="clock"></i> Em andamento
-        </div>
+<div class="main-layout">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+         Global Transportes
       </div>
     </div>
-    <div class="stat-card stat-card-success">
-      <div class="stat-icon"><i data-lucide="check-circle"></i></div>
-      <div class="stat-content">
-        <div class="stat-number" th:text="${fretesFinalizados ?: 0}">0</div>
-        <div class="stat-label">
-          <i data-lucide="check-circle-2"></i> Fretes finalizados
-        </div>
-        <div class="stat-description">
-          <i data-lucide="thumbs-up"></i> Concluídos com sucesso
-        </div>
-      </div>
-    </div>
-    <div class="stat-card stat-card-highlight-cancelado">
-      <div class="stat-icon"><i data-lucide="x-circle"></i></div>
-      <div class="stat-content">
-        <div class="stat-number" th:text="${fretesCancelados ?: 0}">0</div>
-        <div class="stat-label">
-          <i data-lucide="x-circle"></i> Fretes cancelados
-        </div>
-        <div class="stat-description">
-          <i data-lucide="ban"></i> Cancelados
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <h2 class="section-title">
-    <i data-lucide="package"></i> Meus Fretes
-  </h2>
-  <div class="fretes-list">
-    <div th:if="${#lists.isEmpty(fretes)}" class="empty-state">
-      <div style="text-align: center; margin-bottom: 20px;">
-        <i data-lucide="inbox" style="width: 48px; height: 48px; color: #6b7280;"></i>
-      </div>
-      <p>
-        <i data-lucide="info"></i>
-        Você ainda não possui fretes atribuídos.
-      </p>
-      <p>
-        <i data-lucide="compass"></i>
-        Explore nossa lista de cargas disponíveis e comece sua próxima viagem!
-      </p>
-      <a th:href="@{/cargas/listar}" class="btn btn-primary">
-        <i data-lucide="truck"></i> Buscar Fretes Disponíveis
-      </a>
-    </div>
-
-    <div th:each="frete : ${fretes}" class="frete-item">
-      <div class="frete-info">
-        <div class="frete-origem-destino">
-          <i data-lucide="map-pin"></i>
-          <span th:text="|${frete.origemCidade} → ${frete.destinoCidade}|">Origem → Destino</span>
-        </div>
-        <div class="frete-detalhes">
-          <span th:if="${frete.produto != null}">
-            <i data-lucide="package"></i> <span th:text="${frete.produto}">Eletrônicos</span>
-          </span>
-          <span th:if="${frete.pesoTotal != null}">
-            <i data-lucide="weight"></i> <span th:text="|${frete.pesoTotal} kg|">1200 kg</span>
-          </span>
-        </div>
-      </div>
-      <div class="frete-acoes">
-        <a th:href="@{/frete/{id}(id=${frete.id})}" class="btn btn-primary">
-          <i data-lucide="clipboard"></i> Ver detalhes
+    <div class="sidebar-menu">
+      <div class="sidebar-item">
+        <a th:href="@{/cargas/listar}" class="sidebar-link">
+          <span class="sidebar-icon"><i class="fas fa-search"></i></span>
+          <span class="sidebar-text">Explorar cargas</span>
         </a>
+        <div class="sidebar-tooltip">Explorar cargas</div>
       </div>
-    </div>
-  </div>
-
-  <h2 class="section-title">
-    <i data-lucide="car"></i> Meus Veículos
-  </h2>
-  <div class="veiculos-list">
-    <div th:if="${#lists.isEmpty(veiculos)}" class="empty-state">
-      <div style="text-align: center; margin-bottom: 20px;">
-        <i data-lucide="car-front" style="width: 48px; height: 48px; color: #6b7280;"></i>
-      </div>
-      <p>
-        <i data-lucide="alert-circle"></i>
-        Você ainda não cadastrou veículos.
-      </p>
-      <p>
-        <i data-lucide="plus-circle"></i>
-        Cadastre seus veículos para poder aceitar fretes e começar a trabalhar!
-      </p>
-      <a th:href="@{/veiculos/novo}" class="btn btn-secondary">
-        <i data-lucide="car"></i> Cadastrar primeiro veículo
-      </a>
-    </div>
-
-    <div th:each="veiculo : ${veiculos}" class="veiculo-item">
-      <div class="veiculo-info">
-        <div class="veiculo-principal">
-          <span class="veiculo-placa">
-            <i data-lucide="hash"></i>
-            <span th:text="${veiculo.placa}">ABC-1234</span>
-          </span>
-          <span class="veiculo-modelo">
-            <i data-lucide="car"></i>
-            <span th:text="|${veiculo.marca} ${veiculo.modelo}|">Marca Modelo</span>
-          </span>
-        </div>
-        <div class="veiculo-detalhes">
-          <span>
-            <i data-lucide="weight"></i> Capacidade: <span th:text="|${veiculo.capacidadeCarga} kg|">1000 kg</span>
-          </span>
-          <span>
-            <i data-lucide="file-text"></i> Renavam: <span th:text="${veiculo.renavam}">123456789</span>
-          </span>
-        </div>
-      </div>
-      <div class="veiculo-acoes">
-        <a th:href="@{/veiculos/show/{id}(id=${veiculo.id})}" class="btn btn-primary">
-          <i data-lucide="clipboard"></i> Ver detalhes
+      <div class="sidebar-item">
+        <a th:href="@{/veiculos/novo}" class="sidebar-link">
+          <span class="sidebar-icon"><i class="fas fa-car"></i></span>
+          <span class="sidebar-text">Cadastrar veículo</span>
         </a>
+        <div class="sidebar-tooltip">Cadastrar veículo</div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="main-content">
+    <div th:insert="~{shared-fragments/shared-header :: shared-header}"></div>
+
+    <div class="dashboard-container">
+      <div class="dashboard-welcome">
+        <h2>
+          <i class="fas fa-user-trucker me-2"></i>
+          <span th:text="|Bem-vindo, ${motorista.nome}!|">Bem-vindo(a)</span>
+        </h2>
+        <p>
+
+          Gerencie seus fretes de forma eficiente e acompanhe suas entregas em tempo real. Sua jornada começa aqui.
+        </p>
+        <div class="welcome-actions">
+          <a th:href="@{/motorista/cargas}" class="btn btn-primary">
+            <i class="fas fa-search me-2"></i> Explorar todas as cargas
+          </a>
+          <a th:href="@{/veiculos/novo}" class="btn btn-secondary">
+            <i class="fas fa-car me-2"></i> Cadastrar veículo
+          </a>
+        </div>
+      </div>
+
+        <div class="stats-grid">
+          <div class="stat-card stat-card-highlight">
+            <i class="fas fa-truck me-2"></i>
+            <div class="stat-content">
+              <div class="stat-number" th:text="${fretesAtivosMotorista ?: 0}">2</div>
+              <div class="stat-label">
+                 Fretes ativos
+              </div>
+              <div class="stat-description">
+                 Em andamento
+              </div>
+            </div>
+          </div>
+          <div class="stat-card stat-card-success">
+            <i class="fas fa-check me-2"></i>
+            <div class="stat-content">
+              <div class="stat-number" th:text="${fretesFinalizados ?: 0}">5</div>
+              <div class="stat-label">
+                 Fretes finalizados
+              </div>
+            </div>
+          </div>
+          <div class="stat-card stat-card-highlight-cancelado">
+            <i class="fas fa-times me-2"></i>
+            <div class="stat-content" >
+              <div class="stat-number" th:text="${fretesCancelados ?: 0}">1</div>
+              <div class="stat-label">
+               Fretes cancelados
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-title">
+        <i class="fas fa-exclamation me-2"></i> Meus fretes
+      </h2>
+      <div class="fretes-list">
+        <div th:if="${#lists.isEmpty(fretes)}" class="empty-state">
+          <div style="text-align: center; margin-bottom: 20px;">
+            <i class="fas fa-inbox" style="font-size: 48px; color: #6b7280;"></i>
+          </div>
+          <p>
+            <i class="fas fa-info-circle me-2"></i>
+            Você ainda não possui fretes atribuídos.
+          </p>
+          <p>
+            <i class="fas fa-compass me-2"></i>
+            Explore nossa lista de cargas disponíveis e comece sua próxima viagem!
+          </p>
+          <a th:href="@{/cargas/listar}" class="btn btn-primary">
+            <i class="fas fa-truck me-2"></i> Buscar Fretes Disponíveis
+          </a>
+        </div>
+
+        <div th:each="frete : ${fretes}" class="frete-item">
+          <div class="frete-info">
+            <div class="frete-origem-destino">
+              <i class="fas fa-map-marker-alt me-2"></i>
+              <span th:text="|${frete.origemCidade} → ${frete.destinoCidade}|">São Paulo → Rio de Janeiro</span>
+            </div>
+            <div class="frete-detalhes">
+              <span th:if="${frete.produto != null}">
+                <i class="fas fa-box me-1"></i> <span th:text="${frete.produto}">Eletrônicos</span>
+              </span>
+              <span th:if="${frete.pesoTotal != null}">
+                <i class="fas fa-weight-hanging me-1"></i> <span th:text="|${frete.pesoTotal} kg|">1200 kg</span>
+              </span>
+            </div>
+          </div>
+          <div class="frete-acoes">
+            <a th:href="@{/frete/{id}(id=${frete.id})}" class="btn btn-primary">
+              <i class="fas fa-clipboard me-1"></i> Ver detalhes
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-title">
+        <i class="fas fa-car me-2"></i> Meus veículos
+      </h2>
+      <div class="veiculos-list">
+        <div th:if="${#lists.isEmpty(veiculos)}" class="empty-state">
+          <div style="text-align: center; margin-bottom: 20px;">
+            <i class="fas fa-car" style="font-size: 48px; color: #6b7280;"></i>
+          </div>
+          <p>
+
+            Você ainda não cadastrou veículos.
+          </p>
+          <p>
+
+            Cadastre seus veículos para poder aceitar fretes e começar a trabalhar!
+          </p>
+          <a th:href="@{/veiculos/novo}" class="btn btn-secondary">
+             Cadastrar primeiro veículo
+          </a>
+        </div>
+
+        <div th:each="veiculo : ${veiculos}" class="veiculo-item">
+          <div class="veiculo-info">
+            <div class="veiculo-principal">
+              <span class="veiculo-placa">
+                <i class="fas fa-hashtag me-1"></i>
+                <span th:text="${veiculo.placa}">ABC-1234</span>
+              </span>
+              <span class="veiculo-modelo">
+                <i class="fas fa-car me-1"></i>
+                <span th:text="|${veiculo.marca} ${veiculo.modelo}|">Marca Modelo</span>
+              </span>
+            </div>
+            <div class="veiculo-detalhes">
+              <span>
+                <i class="fas fa-weight-hanging me-1"></i> Capacidade: <span th:text="|${veiculo.capacidadeCarga} kg|">1000 kg</span>
+              </span>
+              <span>
+                <i class="fas fa-file-alt me-1"></i> Renavam: <span th:text="${veiculo.renavam}">123456789</span>
+              </span>
+            </div>
+          </div>
+          <div class="veiculo-acoes">
+            <a th:href="@{/veiculos/show/{id}(id=${veiculo.id})}" class="btn btn-primary">
+              <i class="fas fa-clipboard me-1"></i> Ver detalhes
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -200,25 +196,13 @@
 
 <footer>
   <p>
-    <i data-lucide="copyright"></i>
-    2024 Global Transportes.
-    <i data-lucide="shield-check"></i>
-    Conectando o Brasil com eficiência e segurança.
+    <i class="fas fa-copyright me-1"></i>
+    2024 Global Transportes. Conectando o Brasil com eficiência e segurança.
   </p>
 </footer>
 
 <script>
-  // Inicializa os ícones do Lucide após o carregamento da página
-  document.addEventListener('DOMContentLoaded', function() {
-    // Aguarda um pouco para garantir que o Lucide esteja carregado
-    setTimeout(() => {
-      if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-      } else {
-        console.error('Lucide não foi carregado corretamente');
-      }
-    }, 100);
-  });
+
 </script>
 </body>
 </html>

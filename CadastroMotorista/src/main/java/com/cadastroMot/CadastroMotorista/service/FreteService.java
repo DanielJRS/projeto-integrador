@@ -41,4 +41,8 @@ public class FreteService {
     public Long buscarFretesPorEmpresa(Empresa empresa, TipoEstadoFrete status){
         return freteRepository.countByEmpresaFreteAndStatus(empresa, status);
     }
+
+    public List<Frete> listarTodos() {
+        return freteRepository.findAll();
+    }
 }

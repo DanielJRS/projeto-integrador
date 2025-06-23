@@ -6,33 +6,40 @@
     <title>Detalhes do Frete - Global Transportes</title>
     <script th:src="@{/img/js/frete/dashboard-frete.js}" defer></script>
     <link rel="stylesheet" th:href="@{/img/css/frete/dashboard-fretes.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 <nav class="sidebar">
     <div class="sidebar-header">
-        <div class="sidebar-logo">Global Transportes</div>
+        <div class="sidebar-logo">
+             Global Transportes
+        </div>
     </div>
     <div class="sidebar-menu">
         <div class="sidebar-item">
-            <a th:href="@{/motorista}" class="sidebar-link">
-                <span class="sidebar-icon">🏠</span>
+            <a th:if="${TipoUsuario.name() == 'MOTORISTA'}" th:href="@{/motorista/dashboard}" class="sidebar-link">
+                <span class="sidebar-icon"></span>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+            <a th:if="${TipoUsuario.name() == 'TRANSPORTADORA'}" th:href="@{/transportadora/dashboard}" class="sidebar-link">
+                <span class="sidebar-icon"></span>
                 <span class="sidebar-text">Dashboard</span>
             </a>
             <div class="sidebar-tooltip">Dashboard</div>
         </div>
         <div class="sidebar-item">
             <a th:href="@{/cargas/listar}" class="sidebar-link">
-                <span class="sidebar-icon">🔍</span>
-                <span class="sidebar-text">Explorar Cargas</span>
+                <span class="sidebar-icon"></span>
+                <span class="sidebar-text">Explorar cargas</span>
             </a>
-            <div class="sidebar-tooltip">Explorar Cargas</div>
+            <div class="sidebar-tooltip">Explorar cargas</div>
         </div>
         <div class="sidebar-item">
             <a th:href="@{/veiculos/novo}" class="sidebar-link">
-                <span class="sidebar-icon">🚗</span>
-                <span class="sidebar-text">Cadastrar Veículo</span>
+                <span class="sidebar-icon"></span>
+                <span class="sidebar-text">Cadastrar veículo</span>
             </a>
-            <div class="sidebar-tooltip">Cadastrar Veículo</div>
+            <div class="sidebar-tooltip">Cadastrar veículo</div>
         </div>
     </div>
 </nav>
@@ -41,25 +48,30 @@
 
 <div class="dashboard-container">
     <div class="breadcrumb">
-        <a th:href="@{/motorista}">🏠 Dashboard</a>
-        <span class="breadcrumb-separator">›</span>
-        <span class="breadcrumb-current">📋 Detalhes do frete</span>
+        <i class="fas fa-home icon"></i>
+        <a th:href="@{/motorista}">Dashboard</a>
+        <i class="fas fa-chevron-right icon"></i>
+        <span class="breadcrumb-current">Detalhes do frete</span>
     </div>
 
     <div class="frete-detalhes-header">
         <div class="frete-title">
             <h1>
-                🚛 Frete
+                <i class="fas fa-truck icon"></i>
+                Frete
                 <span class="frete-numero" th:text="${frete.id}">001</span>
             </h1>
             <div class="frete-status" th:classappend="${frete.status == 'ATIVO' ? 'status-ativo' : 'status-finalizado'}">
-                <span th:if="${frete.status == 'ATIVO'}">🟢</span>
-                <span th:if="${frete.status != 'ATIVO'}">⚫</span>
+                <i class="fas fa-circle icon" th:if="${frete.status == 'ATIVO'}" style="color: #22c55e;"></i>
+                <i class="fas fa-circle icon" th:if="${frete.status != 'ATIVO'}" style="color: #6b7280;"></i>
                 <span th:text="${frete.status}">ATIVO</span>
             </div>
         </div>
         <div class="frete-valor-principal">
-            <span class="valor-label">Valor do frete</span>
+            <span class="valor-label">
+                <i class="fas fa-dollar-sign icon"></i>
+                Valor do frete
+            </span>
             <div class="valor-amount" th:text="|R$ ${frete.valor}|">R$ 2.450,00</div>
         </div>
     </div>
@@ -67,17 +79,28 @@
     <div class="frete-detalhes-grid">
         <div class="detalhes-card">
             <div class="card-header">
-                <h3>🗺️ Rota de transporte</h3>
+                <h3>
+                    <i class="fas fa-map-marker-alt icon"></i>
+                    Rota de transporte
+                </h3>
             </div>
             <div class="card-content">
                 <div class="origem-destino-container">
                     <div class="local-info">
-                        <div class="local-label">🏭 Origem</div>
+                        <div class="local-label">
+                            <i class="fas fa-play-circle icon"></i>
+                            Origem
+                        </div>
                         <div class="local-cidade" th:text="${frete.origemCidade}">São Paulo - SP</div>
                     </div>
-                    <div class="rota-separator">➤</div>
+                    <div class="rota-separator">
+                        <i class="fas fa-arrow-right" style="width: 24px; height: 24px;"></i>
+                    </div>
                     <div class="local-info">
-                        <div class="local-label">🏢 Destino</div>
+                        <div class="local-label">
+                            <i class="fas fa-map-marker-alt icon"></i>
+                            Destino
+                        </div>
                         <div class="local-cidade" th:text="${frete.destinoCidade}">Rio de Janeiro - RJ</div>
                     </div>
                 </div>
@@ -86,20 +109,32 @@
 
         <div class="detalhes-card">
             <div class="card-header">
-                <h3>Especificações da carga</h3>
+                <h3>
+                    <i class="fas fa-box icon"></i>
+                    Especificações da carga
+                </h3>
             </div>
             <div class="card-content">
                 <div class="info-grid">
                     <div class="info-item">
-                        <span class="info-label">Produto</span>
+                        <span class="info-label">
+                            <i class="fas fa-cube icon"></i>
+                            Produto
+                        </span>
                         <span class="info-value" th:text="${frete.produto}">Computador</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Peso total</span>
+                        <span class="info-label">
+                            <i class="fas fa-weight-hanging icon"></i>
+                            Peso total
+                        </span>
                         <span class="info-value" th:text="|${frete.pesoTotal} kg|">1.200 kg</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Avaliação da carga</span>
+                        <span class="info-label">
+                            <i class="fas fa-dollar-sign icon"></i>
+                            Avaliação da carga
+                        </span>
                         <span class="info-value" th:text="|R$ ${#numbers.formatDecimal(frete.valorCarga, 1, 2)}|">300 reais</span>
                     </div>
                 </div>
@@ -108,24 +143,39 @@
 
         <div class="detalhes-card" style="grid-column: 1 / -1;">
             <div class="card-header">
-                <h3>Informações do contratante</h3>
+                <h3>
+                    <i class="fas fa-building icon"></i>
+                    Informações do contratante
+                </h3>
             </div>
             <div class="card-content">
                 <div class="info-grid">
                     <div class="info-item">
-                        <span class="info-label">Razão Social</span>
+                        <span class="info-label">
+                            <i class="fas fa-industry icon"></i>
+                            Razão Social
+                        </span>
                         <span class="info-value" th:text="${frete.nomeFantasia}">Empresa ABC Ltda</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Telefone de Contato</span>
+                        <span class="info-label">
+                            <i class="fas fa-phone icon"></i>
+                            Telefone de Contato
+                        </span>
                         <span class="info-value" th:text="${frete.telefone}">+55 11 99999-9999</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">E-mail Corporativo</span>
+                        <span class="info-label">
+                            <i class="fas fa-envelope icon"></i>
+                            E-mail Corporativo
+                        </span>
                         <span class="info-value" th:text="${frete.email}">contato@empresaabc.com</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">CNPJ</span>
+                        <span class="info-label">
+                            <i class="fas fa-file-alt icon"></i>
+                            CNPJ
+                        </span>
                         <span class="info-value" th:text="${frete.cnpj}">12.345.678/0001-90</span>
                     </div>
                 </div>
@@ -134,26 +184,42 @@
 
         <div class="detalhes-card" style="grid-column: 1 / -1;">
             <div class="card-header">
-                <h3>Centro de controle do frete</h3>
+                <h3>
+                    <i class="fas fa-cogs icon"></i>
+                    Centro de controle do frete
+                </h3>
             </div>
             <div class="card-content">
                 <div class="acoes-container">
                     <div class="acoes-info">
+                        <h4>
+                            <i class="fas fa-tachometer-alt icon"></i>
+                            Painel de gerenciamento
+                        </h4>
                         <h4>Painel de gerenciamento</h4>
                         <p>Utilize as opções ao lado para gerenciar o status do seu frete de forma eficiente e segura.</p>
                         <div class="status-atual">
-                            <strong>Status atual:</strong>
+                            <strong>
+                                <i class="fas fa-info-circle icon"></i>
+                                Status atual:
+                            </strong>
                             <span class="status-badge" th:classappend="${frete.status == 'ATIVO' ? 'status-ativo' : 'status-pendente'}" th:text="${frete.status}">ATIVO</span>
                         </div>
                     </div>
                     <div class="acoes-buttons">
                         <button class="btn btn-danger" th:if="${frete.status.toString() == 'ATIVO'}" onclick="confirmarCancelamento()">
+                            <i class="fas fa-times-circle icon"></i>
                             Cancelar frete
                         </button>
                         <button class="btn btn-success" th:if="${frete.status.toString() == 'ATIVO'}" onclick="return confirmarFinalizacao()">
+                            <i class="fas fa-check-circle icon"></i>
                             Finalizar entrega
                         </button>
-                        <a th:href="@{/dashboard}" class="btn btn-secondary">
+<!--                        <a th:href="@{/motorista/dashboard}" class="btn btn-secondary">-->
+<!--                            <i class="fas fa-arrow-left icon"></i>-->
+                        <a th:if="${TipoUsuario == T(com.cadastroMot.CadastroMotorista.domain.TipoUsuario).MOTORISTA}"
+                           th:href="@{/motorista/dashboard}"
+                           class="btn btn-secondary">
                             Voltar ao dashboard
                         </a>
                     </div>
@@ -166,18 +232,33 @@
 <div class="modal" id="cancelarModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>⚠️ Confirmar cancelamento do frete</h3>
+            <h3>
+                <i class="fas fa-exclamation-triangle icon" style="color: #ef4444;"></i>
+                Confirmar cancelamento do frete
+            </h3>
             <button class="modal-close" onclick="fecharModal()">&times;</button>
         </div>
         <div class="modal-body">
-            <p><strong>⚠️ Atenção!</strong> Você está prestes a cancelar este frete.</p>
+            <p>
+                <strong>
+                    <i class="fas fa-exclamation-circle icon" style="color: #f59e0b;"></i>
+                    Atenção!
+                </strong>
+                Você está prestes a cancelar este frete.
+            </p>
             <p>Esta ação é <strong>irreversível</strong> e pode impactar sua avaliação como motorista.</p>
             <p>Tem certeza que deseja prosseguir com o cancelamento?</p>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="fecharModal()">❌ Não, manter frete</button>
+            <button class="btn btn-secondary" onclick="fecharModal()">
+                <i class="fas fa-shield-alt icon"></i>
+                Não, manter frete
+            </button>
             <form th:action="@{/frete/{id}/cancelar-frete(id=${frete.id})}" method="post" style="display: inline;">
-                <button type="submit" class="btn btn-danger">✅ Sim, cancelar frete</button>
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-times-circle icon"></i>
+                    Sim, cancelar frete
+                </button>
             </form>
         </div>
     </div>
@@ -187,25 +268,64 @@
 <div class="modal" id="finalizarModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>✅ Confirmar finalização da entrega</h3>
+            <h3>
+                <i class="fas fa-check-circle icon" style="color: #22c55e;"></i>
+                Confirmar finalização da entrega
+            </h3>
             <button class="modal-close" onclick="fecharModal()">&times;</button>
         </div>
         <div class="modal-body">
-            <p><strong>🎉 Parabéns!</strong> Você está finalizando mais uma entrega.</p>
+            <p>
+                <strong>
+                    <i class="fas fa-trophy icon" style="color: #22c55e;"></i>
+                    Parabéns!
+                </strong>
+                Você está finalizando mais uma entrega.
+            </p>
             <p>Confirme que a carga foi <strong>entregue com sucesso</strong> no destino correto.</p>
             <p>O frete será marcado como <strong>FINALIZADO.</strong></p>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="fecharModal()">❌ Ainda não</button>
+            <button class="btn btn-secondary" onclick="fecharModal()">
+                <i class="fas fa-clock icon"></i>
+                Ainda não
+            </button>
             <form th:action="@{/frete/{id}/finalizar-frete(id=${frete.id})}" method="post" style="display: inline;">
-                <button type="submit" class="btn btn-success">✅ Confirmar entrega</button>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-check-circle icon"></i>
+                    Confirmar entrega
+                </button>
             </form>
         </div>
     </div>
 </div>
 
 <footer>
-    <p>&copy; 2024 Global Transportes. Conectando o Brasil com eficiência e segurança.</p>
+    <p>
+        <i class="fas fa-copyright"></i>
+        2024 Global Transportes. Conectando o Brasil com eficiência e segurança.
+    </p>
 </footer>
+    <p>
+        <i class="icon-copyright"></i>
+        2024 Global Transportes. Conectando o Brasil com eficiência e segurança.
+    </p>
+</footer>
+
+<script>
+    // Suas funções JavaScript existentes aqui
+    function confirmarCancelamento() {
+        document.getElementById('cancelarModal').style.display = 'flex';
+    }
+
+    function confirmarFinalizacao() {
+        document.getElementById('finalizarModal').style.display = 'flex';
+    }
+
+    function fecharModal() {
+        document.getElementById('cancelarModal').style.display = 'none';
+        document.getElementById('finalizarModal').style.display = 'none';
+    }
+</script>
 </body>
 </html>

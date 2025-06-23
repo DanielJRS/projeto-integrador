@@ -22,7 +22,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/motorista")
-public class MotoristaController {
+public class  MotoristaController {
 
     private final MotoristaService motoristaService;
     private final CargaService cargaService;
@@ -106,7 +106,10 @@ public class MotoristaController {
             return "redirect:/login";
         }
 
-        Motorista motorista = usuarioLogado.getMotorista();
+        Long motoristaId = usuarioLogado.getMotorista().getId();
+
+        Motorista motorista = motoristaService.buscarPorId(motoristaId);
+
         model.addAttribute("motorista", motorista);
 
         List<Carga> cargas = cargaService.buscarCargaPorMotorista(usuarioLogado.getId());
@@ -115,17 +118,13 @@ public class MotoristaController {
         List<Veiculo> veiculos = veiculoService.buscarPorMotoristaId(motorista.getId());
         model.addAttribute("veiculos", veiculos);
 
-        Motorista motoristaLista = motoristaService.buscarPorId(usuarioLogado.getId());
+//        Long motoristaId = motorista.getId();
+//        Motorista motoristaCompleto = motoristaService.buscarPorId(motoristaId);
 
-        List<Frete> fretes = freteService.buscarFretesPorMotorista(motoristaLista);
+        model.addAttribute("motorista", motorista);
+
+        List<Frete> fretes = freteService.buscarFretesPorMotorista(motorista);
         model.addAttribute("fretes", fretes);
-        model.addAttribute("motoristaLista", motoristaLista);
-
-//        Long fretesAtivos = motoristaService.contarFretesAtivos(motorista);
-//        model.addAttribute("fretesAtivos", fretesAtivos);
-
-//        Long fretesAtivosStatus = freteService.contarFretesAtivosEStatus(motorista);
-//        model.addAttribute("fretesAtivosStatus", fretesAtivosStatus);
 
         Long numeroFretesAtivosMotorista = freteService.contarFretesEStatus(motorista, TipoEstadoFrete.ATIVO);
         model.addAttribute("fretesAtivosMotorista", numeroFretesAtivosMotorista);
