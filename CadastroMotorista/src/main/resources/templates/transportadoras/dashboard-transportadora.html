@@ -28,20 +28,6 @@
         </div>
 
         <div class="sidebar-item">
-
-
-            <a th:href="@{/motorista/gerenciarmotorista}" class="sidebar-link">
-                <span class="sidebar-icon">
-                    <i class="fas fa-user-plus"></i>
-                </span>
-                <span class="sidebar-text">Gerenciar Motoristas
-
-                </span>
-            </a>
-            <div class="sidebar-tooltip">Cadastrar Motorista</div>
-        </div>
-
-        <div class="sidebar-item">
             <a th:href="@{/veiculos/novo}" class="sidebar-link">
                 <span class="sidebar-icon">
                     <i class="fas fa-truck-moving"></i>
@@ -52,43 +38,13 @@
         </div>
 
         <div class="sidebar-item">
-            <a th:href="@{/transportadora/fretes}" class="sidebar-link">
+            <a th:href="@{/cargas/listar}" class="sidebar-link">
                 <span class="sidebar-icon">
                     <i class="fas fa-box"></i>
                 </span>
                 <span class="sidebar-text">Fretes</span>
             </a>
-            <div class="sidebar-tooltip">Fretes</div>
-        </div>
-
-        <div class="sidebar-item">
-            <a th:href="@{/transportadora/fretes/andamento}" class="sidebar-link">
-                <span class="sidebar-icon">
-                    <i class="fas fa-route"></i>
-                </span>
-                <span class="sidebar-text">Fretes em Andamento</span>
-            </a>
-            <div class="sidebar-tooltip">Fretes em Andamento</div>
-        </div>
-
-        <div class="sidebar-item">
-            <a th:href="@{/transportadora/relatorios}" class="sidebar-link">
-                <span class="sidebar-icon">
-                    <i class="fas fa-chart-bar"></i>
-                </span>
-                <span class="sidebar-text">Relatórios</span>
-            </a>
-            <div class="sidebar-tooltip">Relatórios</div>
-        </div>
-
-        <div class="sidebar-item">
-            <a th:href="@{/transportadora/motoristas}" class="sidebar-link">
-                <span class="sidebar-icon">
-                    <i class="fas fa-users"></i>
-                </span>
-                <span class="sidebar-text">Meus Motoristas</span>
-            </a>
-            <div class="sidebar-tooltip">Meus Motoristas</div>
+            <div class="sidebar-tooltip">Cargas</div>
         </div>
 
         <div class="sidebar-item">
@@ -99,16 +55,6 @@
                 <span class="sidebar-text">Minha Frota</span>
             </a>
             <div class="sidebar-tooltip">Minha Frota</div>
-        </div>
-
-        <div class="sidebar-item">
-            <a th:href="@{/transportadora/perfil}" class="sidebar-link">
-                <span class="sidebar-icon">
-                    <i class="fas fa-cog"></i>
-                </span>
-                <span class="sidebar-text">Configurações</span>
-            </a>
-            <div class="sidebar-tooltip">Configurações</div>
         </div>
     </div>
 </nav>
@@ -195,7 +141,7 @@
             <p>
                 Adicione novos motoristas à sua equipe e expanda sua capacidade operacional.
             </p>
-            <a th:href="@{/transportadora/motoristas/novo}" class="btn btn-primary">
+            <a th:href="@{/transportadora/motorista/novo}" class="btn btn-primary">
                 <i class="fas fa-user me-2"></i> Cadastrar Motorista
             </a>
         </div>
@@ -222,29 +168,14 @@
             </span>
             <h3>
 
-                Gerenciar Fretes
+                Buscar cargas
             </h3>
             <p>
 
-                Visualize todos os fretes, atribua motoristas e acompanhe o progresso das entregas.
+                Visualize todos as cargas, atribua motoristas e acompanhe o progresso das entregas.
             </p>
             <a th:href="@{/transportadora/fretes}" class="btn btn-secondary">
-                <i class="fas fa-clipboard me-2"></i> Ver Fretes
-            </a>
-        </div>
-
-        <div class="action-card">
-            <span class="action-card-icon">
-                <i class="fas fa-route"></i>
-            </span>
-            <h3>
-                Fretes em Andamento
-            </h3>
-            <p>
-                Monitore fretes ativos e acompanhe entregas em tempo real.
-            </p>
-            <a th:href="@{/transportadora/fretes/andamento}" class="btn btn-secondary">
-                <i class="fas fa-truck me-2"></i> Ver Andamento
+                <i class="fas fa-clipboard me-2"></i> Ver cargas
             </a>
         </div>
     </div>

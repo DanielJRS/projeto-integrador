@@ -1,1 +1,6 @@
-Repositório criado com foco no registro de alterações do projeto integrador. Projeto: Global Transportes.
+## Projeto: Global Transportes - Grupo 3 - ADS
+
+### Tecnologias
+- Backend: Spring Boot + JPA + PostgreSQL
+- Frontend: Thymeleaf
+- Gerenciamento: Swagger + pgAdmin

@@ -49,12 +49,18 @@ public class  MotoristaController {
 
     @PostMapping("/salvar")
     public String salvar(Motorista motorista,
-                         @RequestParam("arquivoFoto") MultipartFile arquivoFoto,
-                         @RequestParam("email") String email,
-                         @RequestParam("senha") String senha,
-                         RedirectAttributes redirectAttributes) throws IOException {
-
+                         @RequestParam(required = false) MultipartFile arquivoFoto,
+                         @RequestParam(required = false) String email,
+                         @RequestParam(required = false) String senha,
+                         RedirectAttributes redirectAttributes, HttpSession session) throws IOException {
+        Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
         try {
+
+            if(usuarioLogado != null && usuarioLogado.getTipo() == TipoUsuario.TRANSPORTADORA){
+                motorista.setTransportadoraMotorista(usuarioLogado.getTransportadora());
+                Motorista motoristaSalvo = motoristaService.salvar(motorista);
+                return "redirect:/transportadora/dashboard";
+            }
 
             if (!arquivoFoto.isEmpty()) {
                 motorista.setFoto(arquivoFoto.getBytes());
@@ -178,7 +184,7 @@ public class  MotoristaController {
         model.addAttribute("empresaLogada", transportadora);
 
         List<Motorista> motoristas = motoristaService.listarPorTransportadora(transportadora);
-        model.addAttribute("motoristas", motoristas); // caso queira usar futuramente no thymeleaf
+        model.addAttribute("motoristas", motoristas);
 
         return "/transportadoras/gerenciarmotorista";
     }

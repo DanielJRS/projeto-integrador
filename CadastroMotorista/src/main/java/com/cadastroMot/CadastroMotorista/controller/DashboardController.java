@@ -58,12 +58,14 @@ public class DashboardController {
         long cargaCount = cargaService.listarTodos().size();
         long transpCount = transportadoraService.listarTodos().size();
         long empresaCount = empresaService.listarTodos().size();
+        long freteCount = freteService.listarTodos().size();
 
         model.addAttribute("driverCount", driverCount);
         model.addAttribute("vehicleCount", vehicleCount);
         model.addAttribute("cargaCount", cargaCount);
         model.addAttribute("transpCount", transpCount);
         model.addAttribute("empresaCount", empresaCount);
+        model.addAttribute("freteCount", freteCount);
 
 
         return "dashboard/index";
